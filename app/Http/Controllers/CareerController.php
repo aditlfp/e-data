@@ -20,6 +20,12 @@ class CareerController extends Controller
         $career = CareerResource::collection($careers);
         return Inertia::render('CareerPage/IndexCareer', compact('career'));
     }
+    public function show($id)
+    {
+        $career = Career::with(['employe'])->findOrFail($id);
+        
+        return Inertia::render('CareerPage/IndexCareer', compact('career'));
+    }
 
     public function create()
     {

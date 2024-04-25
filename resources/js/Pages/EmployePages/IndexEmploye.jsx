@@ -137,7 +137,7 @@ function IndexEmploye(props) {
                       <div className="flex flex-col gap-y-1">
                         {/* Edit */}
                         <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-left transition-all ease-in-out duration-150"
+                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                           data-tip="Edit"
                         >
                           <button
@@ -150,7 +150,7 @@ function IndexEmploye(props) {
                         {/* End Edit */}
                         {/* delete */}
                         <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-left transition-all ease-in-out duration-150"
+                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                           data-tip="Delete"
                         >
                           <button
@@ -165,7 +165,7 @@ function IndexEmploye(props) {
 
                       <div className="flex flex-col gap-y-1">
                         <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-right transition-all ease-in-out duration-150"
+                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                           data-tip="Details"
                         >
                           <button
@@ -176,7 +176,7 @@ function IndexEmploye(props) {
                           </button>
                         </div>
                         <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-right transition-all ease-in-out duration-150"
+                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                           data-tip="Career"
                         >
                           <button
@@ -188,19 +188,7 @@ function IndexEmploye(props) {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center items-center mt-1">
-                      <div
-                        className="hover:tooltip hover:tooltip-open hover:tooltip-right transition-all ease-in-out duration-150"
-                        data-tip="Career"
-                      >
-                        <button
-                          onClick={() => createCareer(emplo.id)}
-                          className="btn btn-xs w-[3.9rem] rounded-sm hover:text-orange-500 border-0 text-white bg-orange-500"
-                        >
-                          <BiSolidUserBadge />
-                        </button>
-                      </div>
-                    </div>
+                   
                   </td>
                 )}
               </tr>

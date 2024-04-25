@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('no_ktp')->nullable();
             $table->foreignIdFor(Client::class);
             $table->string('img')->nullable();
-            $table->string('no_ktp')->nullable();
             $table->string('img_ktp_dpn')->nullable();
             $table->string('img_ktp_bkg')->nullable();
             $table->string('jenis_bpjs')->nullable();

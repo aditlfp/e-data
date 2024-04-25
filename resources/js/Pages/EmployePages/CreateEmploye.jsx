@@ -24,7 +24,7 @@ function CreateEmploye(props) {
     }));
   };
 
-  const { data, setData, post, get, processing, errors } = useForm({
+  const { data, setData, post, get, processing, errors, reset } = useForm({
     user_id: "",
     name: "",
     ttl: "",
@@ -47,9 +47,14 @@ function CreateEmploye(props) {
     post(route("employes.store"), {
       data,
       onSuccess: () =>
+        {reset('user_id', 'client_id', 
+        'file_bpjs_kesehatan', 'img', 
+        'img_ktp_dpn', 'jenis_bpjs', 'name', 
+        'nik', 'no_bpjs_kesehatan', 'no_bpjs_ketenaga', 
+        'no_kk', 'no_ktp', 'ttl'),
         toast.success("Berhasil Menambahkan Data !", {
           theme: "colored",
-        }),
+        })}
     });
   };
   const cancel = (e) => {

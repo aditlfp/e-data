@@ -57,14 +57,19 @@ function CreateCareer(props) {
     e.preventDefault();
     post(route("store.career"), {
       data,
-      onSuccess: () =>
+      onSuccess: () => {
         toast.success("Berhasil Menambahkan Data !", {
           theme: "colored",
-        }),
+        });
+        get(route("careers.show", props.employes.data[0].id));
+      },
     });
   };
 
-  const addInput = () => {};
+  const btnCancel = () => {
+    get(route("careers.show", props.employes.data[0].id));
+  };
+
   return (
     <AdminLayout>
       <Head title="Karir - Create" />
@@ -154,6 +159,11 @@ function CreateCareer(props) {
                     name="jenjang_karir"
                     type="text"
                     value={data.jenjang_karir[index]}
+                    placeholder={`Jenjang Karir ${
+                      props.employes.data[0].user_id
+                        ? props.employes.data[0].user.nama_lengkap
+                        : props.employes.data[0].name
+                    }`}
                     onChange={(e) => {
                       let newData = [...data.jenjang_karir];
                       newData[index] = e.target.value;
@@ -202,12 +212,21 @@ function CreateCareer(props) {
               </button>
             </div>
           </div>
-          <button
-            type="submit"
-            className="btn btn-sm rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
-          >
-            Save
-          </button>
+          <div className="flex gap-x-1">
+            <button
+              type="submit"
+              className="btn btn-sm w-full rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              onClick={() => btnCancel()}
+              className="btn btn-sm rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </AdminLayout>

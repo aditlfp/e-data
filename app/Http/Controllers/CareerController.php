@@ -10,6 +10,7 @@ use App\Models\Employe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CareerController extends Controller
@@ -22,9 +23,9 @@ class CareerController extends Controller
     }
     public function show($id)
     {
-        $career = Career::with(['employe'])->findOrFail($id);
-        
-        return Inertia::render('CareerPage/IndexCareer', compact('career'));
+        $career = Career::with(['employe'])->where('employe_id', $id)->first();
+        $employe = Employe::findOrFail($id);
+        return Inertia::render('CareerPage/IndexCareer', compact('career', 'employe'));
     }
 
     public function create()
@@ -127,7 +128,7 @@ class CareerController extends Controller
 
         try {
            $career->create($careers);
-           return redirect()->back();
+           return to_route('careers.show', $request->employe_id);
         } catch (\Illuminate\Database\QueryException $e) {
             Log::error($e);
             return $e;
@@ -150,6 +151,60 @@ class CareerController extends Controller
             'file_sk_kontrak' => $request->file_sk_kontrak,
             'leader'  => $request->leader
         ];
+
+        $skKontrak = [];
+        $leader = [];
+
+        if($request->hasFile('file_sk_kontrak'))
+        {   
+            if($request->old_file_sk)
+            {
+                foreach ($request->old_file_sk as $keys) {
+                    Storage::disk('public')->delete('sk_kontrak/' . $keys);
+                }
+            }
+            foreach ($request->file('file_sk_kontrak') as $sk) {
+                if($sk != null) {
+
+                    $extensions = $sk->getClientOriginalExtension();
+                    $randomName = mt_rand(1, 9999999);
+                    $rename = 'file_sk' . $randomName . '.' . $extensions;
+                    $path = public_path('storage/file_sk/' . $rename);
+                    $sk->storeAs('sk_kontrak', $rename, 'public');
+                    $skKontrak[] = $rename;
+                }
+                $careers['file_sk_kontrak'] = $skKontrak; 
+            }
+        }
+        if($request->hasFile('mulai_masuk'))
+        {
+            if($request->old_mulai_masuk)
+            {
+                Storage::disk('public')->delete('sk_kontrak/' . $request->old_mulai_masuk);
+            }
+            $careers['mulai_masuk'] =  UploadSK($request, 'mulai_masuk'); 
+        }
+        if($request->hasFile('leader'))
+        {
+            if($request->old_file_leader)
+            {
+                foreach ($request->old_file_leader as $keys) {
+                    Storage::disk('public')->delete('sk_kontrak/' . $keys);
+                }
+            }
+            foreach ($request->file('leader') as $sk) {
+                if($sk != null) {
+
+                    $extensions = $sk->getClientOriginalExtension();
+                    $randomName = mt_rand(1, 9999999);
+                    $rename = 'sk_leader' . $randomName . '.' . $extensions;
+                    $path = public_path('storage/file_sk/' . $rename);
+                    $sk->storeAs('sk_kontrak', $rename, 'public');
+                    $leader[] = $rename;
+                }
+                $careers['leader'] = $leader; 
+            }
+        }
 
         try {
             $career->update($careers);

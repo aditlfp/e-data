@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ttl')->nullable();
             $table->string('nik')->nullable();
             $table->string('no_kk')->nullable();
+            $table->string('no_ktp')->nullable();
             $table->foreignIdFor(Client::class);
             $table->string('img')->nullable();
             $table->string('img_ktp_dpn')->nullable();

@@ -7,6 +7,7 @@ import {
   BiSolidExtension,
   BiSolidFileFind,
   BiSolidTrash,
+  BiSolidUserBadge,
 } from "react-icons/bi";
 import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
@@ -185,6 +186,19 @@ function IndexEmploye(props) {
                             <BiSolidExtension />
                           </button>
                         </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center mt-1">
+                      <div
+                        className="hover:tooltip hover:tooltip-open hover:tooltip-right transition-all ease-in-out duration-150"
+                        data-tip="Career"
+                      >
+                        <button
+                          onClick={() => createCareer(emplo.id)}
+                          className="btn btn-xs w-[3.9rem] rounded-sm hover:text-orange-500 border-0 text-white bg-orange-500"
+                        >
+                          <BiSolidUserBadge />
+                        </button>
                       </div>
                     </div>
                   </td>

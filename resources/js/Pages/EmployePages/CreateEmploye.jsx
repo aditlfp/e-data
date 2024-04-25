@@ -152,6 +152,7 @@ function CreateEmploye(props) {
 
                 <input
                   type="file"
+                  accept=".png,.jpg,.jpeg,*"
                   name="img_ktp_dpn"
                   onChange={(e) => setData("img_ktp_dpn", e.target.files[0])}
                   className="file-input file-input-sm rounded-sm file-input-bordered"
@@ -200,6 +201,7 @@ function CreateEmploye(props) {
               <input
                 type="file"
                 name="img"
+                accept=".png,.jpg,.jpeg,*"
                 onChange={(e) => setData("img", e.target.files[0])}
                 className="file-input file-input-sm rounded-sm file-input-bordered"
               />
@@ -227,6 +229,7 @@ function CreateEmploye(props) {
               <input
                 type="file"
                 name="file_bpjs_kesehatan"
+                accept=".pdf,*"
                 onChange={(e) =>
                   setData("file_bpjs_kesehatan", e.target.files[0])
                 }
@@ -316,6 +319,7 @@ function CreateEmploye(props) {
               <input
                 type="file"
                 name="file_bpjs_ketenaga"
+                accept=".pdf,*"
                 onChange={(e) =>
                   setData("file_bpjs_ketenaga", e.target.files[0])
                 }

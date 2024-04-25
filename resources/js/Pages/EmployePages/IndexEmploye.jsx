@@ -72,7 +72,7 @@ function IndexEmploye(props) {
   };
 
   const createCareer = (id) => {
-    get(route("careers.index", id));
+    get(route("careers.show", id));
   };
 
   return (

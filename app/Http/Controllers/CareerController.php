@@ -137,13 +137,14 @@ class CareerController extends Controller
 
     public function edit($id)
     {
-        $career = Career::findOrFail($id);
+        $career = Career::with('employe')->firstWhere('employe_id', $id);
         return Inertia::render('CareerPage/EditCareer', compact('career'));
     }
 
     public function update(Request $request, $id)
     {
         $career = Career::findOrFail($id);
+        
         $careers = [
             'employe_id' => $request->employe_id,
             'mulai_masuk' => $request->mulai_masuk,
@@ -154,6 +155,12 @@ class CareerController extends Controller
 
         $skKontrak = [];
         $leader = [];
+
+        if ($request->jenjang_karir != []) {
+            $careers['jenjang_karir'] = $request->jenjang_karir;
+        }else{
+            $careers['jenjang_karir'] = $career->jenjang_karir;
+        }
 
         if($request->hasFile('file_sk_kontrak'))
         {   
@@ -175,7 +182,10 @@ class CareerController extends Controller
                 }
                 $careers['file_sk_kontrak'] = $skKontrak; 
             }
+        } else {
+            $careers['file_sk_kontrak'] = $career->file_sk_kontrak;
         }
+
         if($request->hasFile('mulai_masuk'))
         {
             if($request->old_mulai_masuk)
@@ -206,9 +216,11 @@ class CareerController extends Controller
             }
         }
 
+        // dd($request->all(), $careers);
+
         try {
             $career->update($careers);
-            return to_route('careers.index');
+            return redirect()->back();
         } catch (\Illuminate\Database\QueryException $e) {
             Log::error($e);
             return $e;

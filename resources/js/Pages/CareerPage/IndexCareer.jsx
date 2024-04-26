@@ -12,6 +12,10 @@ function IndexCareer(props) {
     // alert(id);
     get(route("create.career", id));
   };
+  const editCareer = (id) => {
+    // alert(id);
+    get(route("careers.edit", id));
+  };
 
   const back = () => {
     get(route("employes.index"));
@@ -32,7 +36,7 @@ function IndexCareer(props) {
             {props?.career ? (
               <button
                 type="button"
-                onClick={() => createCareer(props?.employe?.id)}
+                onClick={() => editCareer(props?.employe?.id)}
                 className="btn btn-sm btn-circle mr-5 text-gray-600 hover:text-white bg-yellow-400 hover:bg-yellow-500 border-0"
               >
                 <BiSolidCog className="text-xl" />

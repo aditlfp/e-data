@@ -8,6 +8,8 @@ import {
   BiSolidFileFind,
   BiSolidTrash,
   BiSolidUserBadge,
+  BiSortDown,
+  BiSortUp,
 } from "react-icons/bi";
 import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
@@ -15,6 +17,8 @@ import Paginate from "@/Components/Paginate";
 import _ from "lodash";
 
 function IndexEmploye(props) {
+  const [sortOrder, setSortOrder] = useState(false);
+
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,6 +63,32 @@ function IndexEmploye(props) {
     setModal(!modal);
   };
 
+  const sortSearchResults = () => {
+    const sortedResults = [...searchResults];
+    sortOrder
+      ? sortedResults.sort((a, b) => a.name.localeCompare(b.name))
+      : sortedResults.sort((a, b) => b.name.localeCompare(a.name));
+
+    setSearchResults(sortedResults);
+  };
+
+  useEffect(() => {
+    sortSearchResults();
+  }, [sortOrder]);
+
+  const toggleSortOrder = () => {
+    setSortOrder(!sortOrder);
+  };
+
+  // const toggleSortOrder = () => {
+  //   setSortOrder(!sortOrder);
+  //   const sortedByNikAsc = [...searchResults].sort((a, b) => a.nik - b.nik);
+  //   const sortedByNikDesc = [...searchResults].sort((a, b) => b.nik - a.nik);
+  //   setSearchResults(sortOrder ? sortedByNikAsc : sortedByNikDesc);
+  // };
+
+  // Sort by NIK in descending order
+
   const createEmploye = () => {
     get(route("employes.create"));
   };
@@ -100,7 +130,20 @@ function IndexEmploye(props) {
       <table className="table table-zebra table-xs my-5">
         <thead>
           <tr className="bg-orange-600 text-white capitalize">
-            <th className="border-x-[1px] border-orange-300">NIK</th>
+            <th className="border-x-[1px] border-orange-300 flex">
+              {sortOrder == false ? (
+                <BiSortUp
+                  className="text-lg hover:cursor-pointer"
+                  onClick={toggleSortOrder}
+                />
+              ) : (
+                <BiSortDown
+                  className="text-lg hover:cursor-pointer"
+                  onClick={toggleSortOrder}
+                />
+              )}
+              NIK
+            </th>
             <th className="border-x-[1px] border-orange-300">Foto Profile</th>
             <th className="border-x-[1px] border-orange-300">Nama</th>
             <th className="border-x-[1px] border-orange-300">TTL</th>
@@ -188,7 +231,6 @@ function IndexEmploye(props) {
                         </div>
                       </div>
                     </div>
-                   
                   </td>
                 )}
               </tr>

@@ -1,15 +1,21 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import React from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
+import { BiSolidDownload } from "react-icons/bi";
 
 function ShowEmploye(props) {
+  const { get } = useForm({});
   const url = new URL(window.location.href);
 
   if (url.href.includes("employes")) {
     url.searchParams.delete("id");
   }
   const newUrlEmploye = props.ziggy.location == url?.href ? url.href : "";
+
+  const karirRoute = (id) => {
+    get(route("careers.show", id));
+  };
 
   return (
     <AdminLayout>
@@ -24,7 +30,10 @@ function ShowEmploye(props) {
           >
             Profile
           </button>
-          <button className="bg-orange-300 w-full ml-4 btn btn-sm flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 mb-2 py-2 px-3 rounded-sm justify-center text-sm cursor-pointer">
+          <button
+            onClick={() => karirRoute(props.employe.id)}
+            className="bg-orange-300 w-full ml-4 btn btn-sm flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 mb-2 py-2 px-3 rounded-sm justify-center text-sm cursor-pointer"
+          >
             Karir
           </button>
         </div>
@@ -135,7 +144,7 @@ function ShowEmploye(props) {
                       </td>
                     </tr>
                     <tr>
-                      <td className="font-medium">File BPJS Kesehatan</td>
+                      <td className="font-medium">BPJS Kesehatan</td>
                       <td>
                         <a
                           disabled={
@@ -147,17 +156,20 @@ function ShowEmploye(props) {
                                 props.employe.file_bpjs_kesehatan
                               : "#"
                           }
-                          className={`btn btn-xs rounded-sm bg-orange-300 hover:bg-orange-400 `}
+                          className={
+                            "btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"
+                          }
                           download={
                             props.employe.file_bpjs_kesehatan ? true : undefined
                           }
                         >
+                          <BiSolidDownload className="text-lg " />
                           Download
                         </a>
                       </td>
                     </tr>
                     <tr>
-                      <td className="font-medium">File BPJS Ketenagakerjaan</td>
+                      <td className="font-medium">BPJS Ketenaga kerjaan</td>
                       <td>
                         <a
                           disabled={
@@ -169,11 +181,12 @@ function ShowEmploye(props) {
                                 props.employe.file_bpjs_ketenaga
                               : "#"
                           }
-                          className={`${"btn btn-xs rounded-sm bg-orange-300 hover:bg-orange-400"}`}
+                          className={`${"btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"}`}
                           download={
                             props.employe.file_bpjs_ketenaga ? true : undefined
                           }
                         >
+                          <BiSolidDownload className="text-lg " />
                           Download
                         </a>
                       </td>
@@ -183,8 +196,11 @@ function ShowEmploye(props) {
               </div>
             </div>
             <div className="flex gap-4 drop-shadow-md mt-2">
-              <span>
-                <p className="text-sm text-center font-semibold">KTP Depan</p>
+              <span
+                className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
+                data-tip="Click To Download"
+              >
+                <p className="text-sm text-center font-semibold">Foto KTP</p>
                 <a
                   href={`/storage/images/${props.employe.img_ktp_dpn}`}
                   download

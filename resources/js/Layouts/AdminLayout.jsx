@@ -1,3 +1,4 @@
+import Footer from "@/Components/Footer";
 import Sidebar from "@/Pages/Admin/Component/Sidebar";
 import React from "react";
 import { BiExtension } from "react-icons/bi";
@@ -29,6 +30,7 @@ function AdminLayout({ children, overflow }) {
           {children}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

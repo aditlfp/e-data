@@ -1,6 +1,12 @@
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
+import { BiSolidLockOpenAlt } from "react-icons/bi";
 
 function Sidebar({ link, value, children }) {
+  const { post } = useForm({});
+
+  const signOut = () => {
+    post(route("logout"));
+  };
   return (
     <>
       <div className="bg-orange-100 min-h-screen w-52 justify-start items-start px-3">
@@ -14,6 +20,14 @@ function Sidebar({ link, value, children }) {
           <div className="text-lg">{children}</div>
           {value}
         </Link>
+        <button
+          type="button"
+          onClick={() => signOut()}
+          className="btn btn-sm rounded-sm text-red-900 bg-red-400 hover:bg-red-500 w-full hover:text-white"
+        >
+          <BiSolidLockOpenAlt />
+          Sign Out
+        </button>
       </div>
     </>
   );

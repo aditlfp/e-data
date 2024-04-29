@@ -23,9 +23,9 @@ class CareerRequest extends FormRequest
     {
         return [
             'employe_id' => ['required'],
-            'mulai_masuk' => ['nullable'],
-            'jenjang_karir' => ['nullable'],
-            'file_sk_kontrak' => ['nullable'],
+            'mulai_masuk' => ['required'],
+            'jenjang_karir' => ['required'],
+            'file_sk_kontrak' => ['required'],
             'leader'  => ['nullable']
         ];
     }

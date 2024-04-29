@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('employes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->string('ttl')->nullable();
-            $table->string('nik')->nullable();
-            $table->string('no_kk')->nullable();
-            $table->string('no_ktp')->nullable();
+            $table->string('nik');
+            $table->string('no_kk');
+            $table->string('no_ktp');
             $table->foreignIdFor(Client::class);
-            $table->string('img')->nullable();
+            $table->string('img');
             $table->string('img_ktp_dpn')->nullable();
             $table->string('img_ktp_bkg')->nullable();
             $table->string('jenis_bpjs')->nullable();

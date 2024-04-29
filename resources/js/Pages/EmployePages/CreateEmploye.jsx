@@ -46,15 +46,26 @@ function CreateEmploye(props) {
     // Handle form submission
     post(route("employes.store"), {
       data,
-      onSuccess: () =>
-        {reset('user_id', 'client_id', 
-        'file_bpjs_kesehatan', 'img', 
-        'img_ktp_dpn', 'jenis_bpjs', 'name', 
-        'nik', 'no_bpjs_kesehatan', 'no_bpjs_ketenaga', 
-        'no_kk', 'no_ktp', 'ttl'),
-        toast.success("Berhasil Menambahkan Data !", {
-          theme: "colored",
-        })}
+      onSuccess: () => {
+        reset(
+          "user_id",
+          "client_id",
+          "file_bpjs_kesehatan",
+          "img",
+          "img_ktp_dpn",
+          "jenis_bpjs",
+          "name",
+          "nik",
+          "no_bpjs_kesehatan",
+          "no_bpjs_ketenaga",
+          "no_kk",
+          "no_ktp",
+          "ttl"
+        ),
+          toast.success("Berhasil Menambahkan Data !", {
+            theme: "colored",
+          });
+      },
     });
   };
   const cancel = (e) => {
@@ -72,14 +83,24 @@ function CreateEmploye(props) {
           className="gap-4 mt-10 grid grid-flow-cols grid-cols-4 "
         >
           <div className="form-control">
-            <span className="label-text">Masukkan Nama : </span>
+            <span className="label-text required">Masukkan Nama : </span>
             <input
+              list="users"
+              id="browser"
               name="name"
               value={data.name}
+              required
               onChange={(e) => setData("name", e.target.value)}
               placeholder="Nama"
               className="input input-sm rounded-sm input-bordered"
             />
+
+            <datalist id="users" className="dark:text-white">
+              {props.users?.map((user, key) => {
+                return <option value={user.nama_lengkap} key={key} id={key} />;
+              })}
+            </datalist>
+
             {errors.name && <span className="text-red-500">{errors.name}</span>}
           </div>
 
@@ -96,10 +117,11 @@ function CreateEmploye(props) {
           </div>
 
           <div className="form-control">
-            <span className="label-text">Masukkan NIK : </span>
+            <span className="label-text required">Masukkan NIK : </span>
             <input
               name="nik"
               value={data.nik}
+              required
               onChange={(e) => setData("nik", e.target.value)}
               placeholder="NIK"
               className="input input-sm rounded-sm input-bordered"
@@ -108,10 +130,11 @@ function CreateEmploye(props) {
           </div>
 
           <div className="form-control">
-            <span className="label-text">Masukkan No KK : </span>
+            <span className="label-text required">Masukkan No KK : </span>
             <input
               name="no_kk"
               value={data.no_kk}
+              required
               onChange={(e) => setData("no_kk", e.target.value)}
               placeholder="Nomor KK"
               className="input input-sm rounded-sm input-bordered"
@@ -123,11 +146,12 @@ function CreateEmploye(props) {
 
           <div className="flex flex-col">
             <div className="form-control">
-              <span className="label-text">Masukkan No KTP : </span>
+              <span className="label-text required">Masukkan No KTP : </span>
 
               <input
                 name="no_ktp"
                 value={data.no_ktp}
+                required
                 onChange={(e) => setData("no_ktp", e.target.value)}
                 placeholder="Nomor KTP"
                 className="input input-sm rounded-sm input-bordered"
@@ -167,9 +191,10 @@ function CreateEmploye(props) {
           </div>
           <div className="flex flex-col">
             <div className="form-control">
-              <span className="label-text">Pilih Mitra* : </span>
+              <span className="label-text required">Pilih Mitra : </span>
               <select
                 defaultValue={0}
+                required
                 onChange={(e) => setData("client_id", e.target.value)}
                 className="select select-bordered select-sm text-sm rounded-sm"
               >
@@ -202,14 +227,16 @@ function CreateEmploye(props) {
                   </label>
                 </div>
               )}
-              <span className="label-text">Foto : </span>
+              <span className="label-text required">Foto Profile : </span>
               <input
                 type="file"
                 name="img"
+                required
                 accept=".png,.jpg,.jpeg,*"
                 onChange={(e) => setData("img", e.target.files[0])}
                 className="file-input file-input-sm rounded-sm file-input-bordered"
               />
+              {errors.img && <span className="text-red-500">{errors.img}</span>}
             </div>
           </div>
           <div className="flex flex-col gap-y-1">

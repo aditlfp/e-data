@@ -13,8 +13,6 @@ function CreateCareer(props) {
     leader: [],
   });
 
-  console.log(data);
-
   const [datas, setDatas] = useState();
   const [click, setClick] = useState([1]);
   const [clickLeader, setClickLeader] = useState([1]);
@@ -83,15 +81,18 @@ function CreateCareer(props) {
         >
           <div className="flex flex-col">
             <div className="form-control">
-              <span className="label-text">Nama Employes : </span>
+              <span className="label-text required">Nama Employes : </span>
               <input
                 name="name"
                 disabled
+                required
                 value={datas?.user_id ? datas.user?.nama_lengkap : datas?.name}
                 placeholder="Nama"
                 className="input input-sm rounded-sm input-bordered"
               />
-              {/* {errors.name && <span className="text-red-500">{errors.name}</span>} */}
+              {errors.name && (
+                <span className="text-red-500">{errors.name}</span>
+              )}
             </div>
             <div className="form-control">
               {arrayLeader.map((next, prev) => {
@@ -138,11 +139,12 @@ function CreateCareer(props) {
           </div>
 
           <div className="form-control">
-            <span className="label-text">Mulai Masuk : </span>
+            <span className="label-text required">Mulai Masuk : </span>
             <input
               name="mulai_masuk"
               type="file"
               accept=".pdf"
+              required
               onChange={(e) => setData("mulai_masuk", e.target.files[0])}
               className="file-input file-input-sm rounded-sm input-bordered"
             />
@@ -154,10 +156,11 @@ function CreateCareer(props) {
             {arrayLooping.map((number, index) => {
               return (
                 <div className="flex flex-col gap-1" key={number}>
-                  <span className="label-text">Jenjang Karir*: </span>
+                  <span className="label-text required">Jenjang Karir : </span>
                   <input
                     name="jenjang_karir"
                     type="text"
+                    required
                     value={data.jenjang_karir[index]}
                     placeholder={`Jenjang Karir ${
                       props.employes.data[0].user_id
@@ -174,11 +177,12 @@ function CreateCareer(props) {
                   {errors.jenjang_karir && (
                     <span className="text-red-500">{errors.jenjang_karir}</span>
                   )}
-                  <span className="label-text">File SK* : </span>
+                  <span className="label-text required">File SK : </span>
                   <input
                     name="file_sk_kontrak[]"
                     type="file"
                     accept=".pdf"
+                    required
                     onChange={(e) => {
                       let newData = [...data.file_sk_kontrak];
                       newData[index] = e.target.files[0];

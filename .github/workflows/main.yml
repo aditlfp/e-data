@@ -34,12 +34,10 @@ jobs:
       run: zip -r main.zip .
     - name: Upload to Hosting
       uses: appleboy/ftp-action@master
-        with:
+      with:
         host: ${{ secrets.FTP_SERVER }}
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 21
         local: "main.zip"
         remote: "/home/sacpocom/data-center.sac-po.com/sac/main.zip"
-        bye
-        EOF

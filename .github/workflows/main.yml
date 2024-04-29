@@ -15,9 +15,6 @@ jobs:
       with:
         fetch-depth: 10
 
-    - name: Copy .gitignore
-      run: cp .gitignore .gitignore_temp
-
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:

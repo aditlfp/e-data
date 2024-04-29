@@ -1,0 +1,30 @@
+# Direktori dan file yang diabaikan
+vendor/
+node_modules/
+build/
+dist/
+.cache/
+.env
+.env.local
+.env.*.local
+.cache/
+coverage/
+*.log
+*.log.*
+logs/
+
+# Dependency management
+/yarn.lock
+/package-lock.json
+
+# IDE / Editor files
+.idea/
+.vscode/
+.DS_Store
+
+# Sistem Operasi
+Thumbs.db
+.DS_Store
+
+
+

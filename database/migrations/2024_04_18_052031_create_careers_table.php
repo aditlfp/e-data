@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employe::class);
-            $table->string('mulai_masuk')->nullable();
-            $table->string('jenjang_karir')->nullable();
-            $table->string('file_sk_kontrak')->nullable();
+            $table->string('mulai_masuk');
+            $table->string('jenjang_karir');
+            $table->string('file_sk_kontrak');
             $table->string('leader')->nullable();
             $table->timestamps();
         });

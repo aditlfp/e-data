@@ -31,7 +31,7 @@ jobs:
 
         ftp -inv ${{ secrets.FTP_SERVER }} <<EOF
         user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
-        cd /home/sacpocom/data-center.sac-po.com
+        cd /home/sacpocom/data-center.sac-po.com/sac
         mput *
         bye
         EOF

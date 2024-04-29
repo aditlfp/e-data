@@ -13,7 +13,10 @@ jobs:
     - name: Checkout repository@v2.1.0
       uses: actions/checkout@v2.1.0
       with:
-        fetch-depth: 2
+        fetch-depth: 10
+
+    - name: Copy .gitignore
+      run: cp .gitignore .gitignore_temp
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -28,8 +31,7 @@ jobs:
     - name: Install dependencies, build assets, and deploy
       run: |
         sudo apt-get install ftp -y
-        composer install --no-dev --optimize-autoloader
-        npm install && npm run build
+        npm run build
 
     - name: Compress files
       run: zip -r main.zip .

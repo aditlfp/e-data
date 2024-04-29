@@ -30,10 +30,18 @@ jobs:
         sudo apt-get install ftp -y
         composer install --no-dev --optimize-autoloader
         npm install && npm run build
-
-        ftp -inv ${{ secrets.FTP_SERVER }} <<EOF
-        user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
-        cd home/sacpocom/data-center.sac-po.com/sac
-        mput *
+    - name: Compress files
+      run: zip -r main.zip .
+    - name: Upload to Hosting
+      uses: appleboy/ftp-action@master
+    - name: Upload to Hosting
+      uses: appleboy/ftp-action@master
+        with:
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 21
+        local: "main.zip"
+        remote: "/home/sacpocom/data-center.sac-po.com/sac/main.zip"
         bye
         EOF

@@ -1,0 +1,32 @@
+name: Deploy to Jagoan Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies, build assets, and deploy
+      run: |
+        sudo apt-get install ftp -y
+        composer install --no-dev --optimize-autoloader
+        npm install && npm run build
+
+        ftp -inv ${{ secrets.FTP_SERVER }} <<EOF
+        user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
+        cd /path/to/www.example.com
+        put -r *
+        bye
+        EOF

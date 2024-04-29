@@ -1,4 +1,5 @@
 # Direktori dan file yang diabaikan
+vendor/
 node_modules/
 build/
 dist/

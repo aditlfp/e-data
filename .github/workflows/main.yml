@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-    - uses: actions/checkout@v2.1.0
+    - name: Checkout repository@v2.1.0
+      uses: actions/checkout@v2.1.0
       with:
         fetch-depth: 2
 

@@ -34,8 +34,6 @@ jobs:
       run: zip -r main.zip .
     - name: Upload to Hosting
       uses: appleboy/ftp-action@master
-    - name: Upload to Hosting
-      uses: appleboy/ftp-action@master
         with:
         host: ${{ secrets.FTP_SERVER }}
         user: ${{ secrets.FTP_USERNAME }}

@@ -4,7 +4,8 @@ import React from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import { BiSolidCog, BiSolidDownload, BiSolidFilePdf } from "react-icons/bi";
 
-function IndexCareer(props) {
+function ShowEmployeCareer(props) {
+  console.log(props.datas);
   const { get } = useForm({});
 
   const createCareer = (id) => {
@@ -20,7 +21,7 @@ function IndexCareer(props) {
     get(route("employes.index"));
   };
   return (
-    <AdminLayout>
+    <>
       <Head title="Karir show - Karir" />
       <HeadNavigation title={"Karir show - Karir"} />
       <div className="my-10 bg-orange-100 min-h-screen min-w-full rounded-sm">
@@ -28,14 +29,14 @@ function IndexCareer(props) {
           <div className="flex justify-between">
             <p className="text-xl ml-5 underline font-bold capitalize">
               Riwayat Karir{" "}
-              {props?.employe?.user_id
-                ? props.employe.user.nama_lengkap
-                : props.employe.name}
+              {props.datas?.employe?.user_id
+                ? props.datas.employe.user.nama_lengkap
+                : props.datas.employe.name}
             </p>
-            {props?.career ? (
+            {props.datas?.career ? (
               <button
                 type="button"
-                onClick={() => editCareer(props?.employe?.id)}
+                onClick={() => editCareer(props.datas?.employe?.id)}
                 className="btn btn-sm btn-circle mr-5 text-gray-600 hover:text-white bg-yellow-400 hover:bg-yellow-500 border-0"
               >
                 <BiSolidCog className="text-xl" />
@@ -43,14 +44,14 @@ function IndexCareer(props) {
             ) : (
               <button
                 type="button"
-                onClick={() => createCareer(props?.employe?.id)}
+                onClick={() => createCareer(props.datas?.employe?.id)}
                 className="btn btn-sm rounded-sm mr-5 bg-blue-300 hover:bg-blue-400 border-0"
               >
                 + Tambahkan Karir
               </button>
             )}
           </div>
-          {props.career ? (
+          {props.datas.career ? (
             <div className="mt-10">
               <p className="font-semibold text-lg">~ Jenjang Karir</p>
               <ul className="steps steps-vertical text-sm">
@@ -58,14 +59,15 @@ function IndexCareer(props) {
                   <div className="flex flex-col justify-start items-start py-3 gap-y-1 capitalize font-semibold">
                     <p>Mulai Masuk</p>
                     <a
-                      disabled={props.career.mulai_masuk ? false : true}
+                      disabled={props.datas.career.mulai_masuk ? false : true}
                       href={
-                        props.career.mulai_masuk
-                          ? "/storage/sk_kontrak/" + props.career.mulai_masuk
+                        props.datas.career.mulai_masuk
+                          ? "/storage/sk_kontrak/" +
+                            props.datas.career.mulai_masuk
                           : "#"
                       }
                       className={`${"btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"}`}
-                      // download={props.career.leader ? true : undefined}
+                      // download={props.datas.career.leader ? true : undefined}
                       target="_blank"
                     >
                       <BiSolidDownload className="text-lg " />
@@ -74,21 +76,24 @@ function IndexCareer(props) {
                   </div>
                 </li>
 
-                {props.career.jenjang_karir.length > 0 &&
-                  props.career.jenjang_karir.map((names, index) => {
+                {props.datas.career.jenjang_karir.length > 0 &&
+                  props.datas.career.jenjang_karir.map((names, index) => {
                     return (
-                      <li className="step step-primary ml-5 capitalize font-semibold">
+                      <li
+                        key={index}
+                        className="step step-primary ml-5 capitalize font-semibold"
+                      >
                         <div className="flex flex-col justify-start items-start py-3 gap-y-1">
                           <p>{names}</p>
                           <a
                             href={
-                              props.career.file_sk_kontrak[index]
+                              props.datas.career.file_sk_kontrak[index]
                                 ? "/storage/sk_kontrak/" +
-                                  props.career.file_sk_kontrak[index]
+                                  props.datas.career.file_sk_kontrak[index]
                                 : "#"
                             }
                             className={`${"btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"}`}
-                            // download={props.career.leader ? true : undefined}
+                            // download={props.datas.career.leader ? true : undefined}
                             target="_blank"
                           >
                             <BiSolidDownload className="text-lg " />
@@ -101,14 +106,14 @@ function IndexCareer(props) {
 
                 <li className="step step-primary ml-5">
                   <a
-                    disabled={props.career.leader ? false : true}
+                    disabled={props.datas.career.leader ? false : true}
                     href={
-                      props.career.leader
-                        ? "/storage/sk_kontrak/" + props.career.leader
+                      props.datas.career.leader
+                        ? "/storage/sk_kontrak/" + props.datas.career.leader
                         : "#"
                     }
                     className={`${"btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"}`}
-                    // download={props.career.leader ? true : undefined}
+                    // download={props.datas.career.leader ? true : undefined}
                     target="_blank"
                   >
                     <BiSolidDownload className="text-lg " />
@@ -120,24 +125,17 @@ function IndexCareer(props) {
           ) : (
             <div className="text-center bg-gray-100 flex justify-center p-36 rounded-sm m-5">
               <span className="italic text-sm">
-                {props?.employe?.user_id
-                  ? props.employe.user.nama_lengkap
-                  : props.employe.name}{" "}
+                {props.datas?.employe?.user_id
+                  ? props.datas.employe.user.nama_lengkap
+                  : props.datas.employe.name}{" "}
                 Belum Memiliki Riwayat Karir
               </span>
             </div>
           )}
-          <button
-            type="button"
-            onClick={() => back()}
-            className="btn btn-sm rounded-sm bg-red-600 hover:text-red-900 text-white hover:bg-red-500"
-          >
-            Kembali
-          </button>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 }
 
-export default IndexCareer;
+export default ShowEmployeCareer;

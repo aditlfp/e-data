@@ -28,6 +28,11 @@ class CareerController extends Controller
         return Inertia::render('CareerPage/IndexCareer', compact('career', 'employe'));
     }
 
+    public function show_employe()
+    {
+        return Inertia::render('CareerPage/ShowEmployeCareer');
+    }
+
     public function create()
     {
         $employes = Employe::all();

@@ -83,23 +83,11 @@ function EditCareer(props) {
         },
       }
     );
-
-    // patch(route("careers.update", props.career.id), {
-    //   data,
-    //   onSuccess: () => {
-    //     toast.success("Berhasil Menambahkan Data !", {
-    //       theme: "colored",
-    //     });
-    //     get(route("careers.show", props.employes.data[0].id));
-    //   },
-    // });
   };
 
   const btnCancel = () => {
     get(route("careers.show", props.career.employe_id));
   };
-
-  // console.log(props, data, datas);
 
   return (
     <AdminLayout>
@@ -228,6 +216,7 @@ function EditCareer(props) {
                         <input
                           name="jenjang_karir"
                           type="text"
+                          disabled
                           value={props.career.jenjang_karir[i]}
                           placeholder={`Jenjang Karir ${
                             props.employes?.user_id
@@ -236,11 +225,10 @@ function EditCareer(props) {
                           }`}
                           onChange={(e) => {
                             let newData = [...data.jenjang_karir];
-                            newData[index] = e.target.value;
+                            newData[i] = e.target.value;
                             setData("jenjang_karir", newData);
                           }}
-                          disabled
-                          className="file-input file-input-sm rounded-sm input-bordered input-disabled"
+                          className="file-input file-input-sm rounded-sm input-bordered"
                         />
                         <a
                           href={`/storage/sk_kontrak/${led}`}
@@ -264,9 +252,9 @@ function EditCareer(props) {
                     type="text"
                     value={data.jenjang_karir[index]}
                     placeholder={`Jenjang Karir ${
-                      props.employes?.user_id
-                        ? props.employes.user.nama_lengkap
-                        : props.employes?.name
+                      props.career.employe?.user_id
+                        ? props.career.employe.user.nama_lengkap
+                        : props.career.employe?.name
                     }`}
                     onChange={(e) => {
                       let newData = [...data.jenjang_karir];
@@ -318,6 +306,7 @@ function EditCareer(props) {
           </div>
           <div className="flex gap-x-1">
             <button
+              disabled={processing}
               type="submit"
               className="btn btn-sm w-full rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
             >

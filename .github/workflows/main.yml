@@ -41,4 +41,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         remote-dir: /home/sacpocom/data-center.sac-po.com/sac
-        exclude: "*.php" 
+        exclude: "*.php, vendor/, node_modules/, .git/" 

@@ -77,7 +77,7 @@ function CreateCareer(props) {
         <form
           onSubmit={submit}
           encType="multipart/form-data"
-          className="gap-4 mt-10 grid grid-flow-cols grid-cols-3"
+          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-3"
         >
           <div className="flex flex-col">
             <div className="form-control">
@@ -219,14 +219,14 @@ function CreateCareer(props) {
           <div className="flex gap-x-1">
             <button
               type="submit"
-              className="btn btn-sm w-full rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
+              className="btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
             >
               Save
             </button>
             <button
               type="button"
               onClick={() => btnCancel()}
-              className="btn btn-sm rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
+              className="btn btn-sm w-1/2 rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
             >
               Cancel
             </button>

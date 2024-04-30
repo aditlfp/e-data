@@ -109,7 +109,7 @@ function IndexEmploye(props) {
     <AdminLayout overflow={modal ? "overflow-hidden" : "overflow-auto"}>
       <Head title="Employe - Home" />
       <HeadNavigation title={"Employe - Home"} />
-      <div className="flex justify-end gap-x-2 items-center">
+      <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
         <div>
           <input
             type="text"
@@ -127,123 +127,131 @@ function IndexEmploye(props) {
         </button>
       </div>
 
-      <table className="table table-zebra table-xs my-5">
-        <thead>
-          <tr className="bg-orange-600 text-white capitalize">
-            <th className="border-x-[1px] border-orange-300 flex">
-              {sortOrder == false ? (
-                <BiSortUp
-                  className="text-lg hover:cursor-pointer"
-                  onClick={toggleSortOrder}
-                />
-              ) : (
-                <BiSortDown
-                  className="text-lg hover:cursor-pointer"
-                  onClick={toggleSortOrder}
-                />
-              )}
-              NIK
-            </th>
-            <th className="border-x-[1px] border-orange-300">Foto Profile</th>
-            <th className="border-x-[1px] border-orange-300">Nama</th>
-            <th className="border-x-[1px] border-orange-300">TTL</th>
-            <th className="border-x-[1px] border-orange-300">No. KK</th>
-            <th className="border-x-[1px] border-orange-300">No. KTP</th>
-            <th className="border-x-[1px] border-orange-300">Mitra</th>
-            {props.auth.user.role_id == 2 && (
-              <th className="border-x-[1px] border-orange-300">Aksi</th>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {searchResults.length > 0 ? (
-            searchResults.map((emplo, index) => (
-              <tr key={index} className="border-[1px] border-orange-300 ">
-                <td className="border-[1px] border-orange-300">{emplo.nik}</td>
-                <td className="border-[1px] border-orange-300">
-                  <img src={`/storage/images/${emplo.img}`} width={100} />
-                </td>
-                <td className="border-[1px] border-orange-300">{emplo.name}</td>
-                <td className="border-[1px] border-orange-300">{emplo.ttl}</td>
-                <td className="border-[1px] border-orange-300">
-                  {emplo.no_kk}
-                </td>
-                <td className="border-[1px] border-orange-300">
-                  {emplo.no_ktp}
-                </td>
-                <td className="border-[1px] border-orange-300">
-                  {emplo.client.name}
-                </td>
-                {props.auth.user.role_id == 2 && (
-                  <td className="border-[1px] border-orange-300">
-                    <div className="flex justify-center gap-x-1 items-center">
-                      <div className="flex flex-col gap-y-1">
-                        {/* Edit */}
-                        <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
-                          data-tip="Edit"
-                        >
-                          <button
-                            onClick={() => editEmploye(emplo.id)}
-                            className="btn btn-xs rounded-sm hover:text-yellow-500 border-0 text-white bg-yellow-500"
-                          >
-                            <BiSolidCog />
-                          </button>
-                        </div>
-                        {/* End Edit */}
-                        {/* delete */}
-                        <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
-                          data-tip="Delete"
-                        >
-                          <button
-                            onClick={() => handleDelete(emplo.id)}
-                            className="btn btn-xs rounded-sm hover:text-red-500 border-0 text-white bg-red-500"
-                          >
-                            <BiSolidTrash />
-                          </button>
-                        </div>
-                        {/* End Delete */}
-                      </div>
-
-                      <div className="flex flex-col gap-y-1">
-                        <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
-                          data-tip="Details"
-                        >
-                          <button
-                            onClick={() => showEmploye(emplo.id)}
-                            className="btn btn-xs rounded-sm hover:text-blue-500 border-0 text-white bg-blue-500"
-                          >
-                            <BiSolidFileFind />
-                          </button>
-                        </div>
-                        <div
-                          className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
-                          data-tip="Career"
-                        >
-                          <button
-                            onClick={() => createCareer(emplo.id)}
-                            className="btn btn-xs rounded-sm hover:text-green-500 border-0 text-white bg-green-500"
-                          >
-                            <BiSolidExtension />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
+      <div className="overflow-scroll sm:overflow-hidden max-h-[50svh]">
+        <table className="table table-zebra  table-xs my-5">
+          <thead>
+            <tr className="bg-orange-600 text-white capitalize">
+              <th className="border-x-[1px] border-orange-300 flex">
+                {sortOrder == false ? (
+                  <BiSortUp
+                    className="text-lg hover:cursor-pointer"
+                    onClick={toggleSortOrder}
+                  />
+                ) : (
+                  <BiSortDown
+                    className="text-lg hover:cursor-pointer"
+                    onClick={toggleSortOrder}
+                  />
                 )}
-              </tr>
-            ))
-          ) : (
-            <>
-              <tr className="border-[1px] text-center border-orange-300">
-                <td colSpan={8}>Data Belum Tersedia</td>
-              </tr>
-            </>
-          )}
-        </tbody>
-      </table>
+                NIK
+              </th>
+              <th className="border-x-[1px] border-orange-300">Foto Profile</th>
+              <th className="border-x-[1px] border-orange-300">Nama</th>
+              <th className="border-x-[1px] border-orange-300">TTL</th>
+              <th className="border-x-[1px] border-orange-300">No. KK</th>
+              <th className="border-x-[1px] border-orange-300">No. KTP</th>
+              <th className="border-x-[1px] border-orange-300">Mitra</th>
+              {props.auth.user.role_id == 2 && (
+                <th className="border-x-[1px] border-orange-300">Aksi</th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {searchResults.length > 0 ? (
+              searchResults.map((emplo, index) => (
+                <tr key={index} className="border-[1px] border-orange-300 ">
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.nik}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    <img src={`/storage/images/${emplo.img}`} width={100} />
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.name}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.ttl}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.no_kk}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.no_ktp}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {emplo.client.name}
+                  </td>
+                  {props.auth.user.role_id == 2 && (
+                    <td className="border-[1px] border-orange-300">
+                      <div className="flex justify-center gap-x-1 items-center">
+                        <div className="flex flex-col gap-y-1">
+                          {/* Edit */}
+                          <div
+                            className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
+                            data-tip="Edit"
+                          >
+                            <button
+                              onClick={() => editEmploye(emplo.id)}
+                              className="btn btn-xs rounded-sm hover:text-yellow-500 border-0 text-white bg-yellow-500"
+                            >
+                              <BiSolidCog />
+                            </button>
+                          </div>
+                          {/* End Edit */}
+                          {/* delete */}
+                          <div
+                            className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
+                            data-tip="Delete"
+                          >
+                            <button
+                              onClick={() => handleDelete(emplo.id)}
+                              className="btn btn-xs rounded-sm hover:text-red-500 border-0 text-white bg-red-500"
+                            >
+                              <BiSolidTrash />
+                            </button>
+                          </div>
+                          {/* End Delete */}
+                        </div>
+
+                        <div className="flex flex-col gap-y-1">
+                          <div
+                            className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
+                            data-tip="Details"
+                          >
+                            <button
+                              onClick={() => showEmploye(emplo.id)}
+                              className="btn btn-xs rounded-sm hover:text-blue-500 border-0 text-white bg-blue-500"
+                            >
+                              <BiSolidFileFind />
+                            </button>
+                          </div>
+                          <div
+                            className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
+                            data-tip="Career"
+                          >
+                            <button
+                              onClick={() => createCareer(emplo.id)}
+                              className="btn btn-xs rounded-sm hover:text-green-500 border-0 text-white bg-green-500"
+                            >
+                              <BiSolidExtension />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ))
+            ) : (
+              <>
+                <tr className="border-[1px] text-center border-orange-300">
+                  <td colSpan={8}>Data Belum Tersedia</td>
+                </tr>
+              </>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <Paginate meta={props.employe.meta}></Paginate>
       {modal && (

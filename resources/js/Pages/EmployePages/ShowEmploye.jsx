@@ -25,8 +25,8 @@ function ShowEmploye(props) {
       <Head title="Employe - Details" />
       <HeadNavigation title={"Employe - Details"} />
       {/* SideBar Menu Employe-Careen */}
-      <div className="bg-orange-100  flex gap-x-2 w-full h-full mt-5 rounded-sm">
-        <div className="my-10 w-1/6 pr-10 border-r-2 border-orange-400/50">
+      <div className="bg-orange-100 flex gap-x-2 w-full h-full mt-5 rounded-sm">
+        <div className="my-10 sm:w-1/6 pr-10 border-r-2 hidden sm:block border-orange-400/50">
           <button
             disabled={nowUrl == "employeRoute"}
             onClick={() => employeRoute()}
@@ -42,7 +42,8 @@ function ShowEmploye(props) {
             Karir
           </button>
         </div>
-        <div className="w-5/6 mb-2 mt-10">
+
+        <div className="sm:w-5/6 w-full mb-2 mt-10">
           <div className="my-3 flex justify-end mx-10">
             <Link
               href={route("employes.index")}
@@ -51,18 +52,18 @@ function ShowEmploye(props) {
               Kembali
             </Link>
           </div>
-          <div className=" mx-10">
+          <div className="mx-4 sm:mx-10">
             {showKarir == false ? (
               <>
-                <div className="grid grid-cols-2 gap-y-5 gap-x-2 items-center justify-center py-2 px-1 bg-orange-300/20 rounded-sm drop-shadow-md">
-                  <div className="relative flex justify-center items-center w-full">
+                <div className="sm:grid sm:grid-cols-2 flex flex-col gap-y-5 gap-x-2 items-center justify-center py-2 px-1 bg-orange-300/20 rounded-sm drop-shadow-md">
+                  <div className="relative flex justify-center items-center w-full my-32 sm:my-0">
                     {props.employe.img && (
                       <>
                         <p className="capitalize text-center font-bold top-[-125px] inset-0 absolute z-50">
                           Profile{" "}
                           {props.employe.name ? props.employe.name : "kosong"}
                         </p>
-                        <div className="absolute bg-orange-400/70 p-2 drop-shadow-md rounded-full w-48 h-48 flex items-center justify-center">
+                        <div className="absolute bg-orange-400/70 p-2 drop-shadow-md rounded-full w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center">
                           <img
                             src={
                               props.employe.img
@@ -77,7 +78,7 @@ function ShowEmploye(props) {
                       </>
                     )}
                   </div>
-                  <div className="flex flex-col w-full pr-10 bg-orange-400/10 p-2 rounded-sm">
+                  <div className="flex flex-col w-full pr-10 bg-orange-400/10 p-2 rounded-sm sm:text-base text-sm">
                     <table>
                       <thead>
                         <tr className="flex flex-col"></tr>
@@ -214,7 +215,7 @@ function ShowEmploye(props) {
                     </table>
                   </div>
                 </div>
-                <div className="flex gap-4 drop-shadow-md mt-2">
+                <div className="flex sm:justify-start justify-center gap-4 drop-shadow-md mt-2">
                   <span
                     className="hover:tooltip hover:tooltip-open hover:tooltip-top transition-all ease-in-out duration-150"
                     data-tip="Click To Download"

@@ -127,7 +127,7 @@ function IndexEmploye(props) {
         </button>
       </div>
 
-      <div className="overflow-x-scroll">
+      <div className="overflow-scroll sm:overflow-hidden max-h-[50svh]">
         <table className="table table-zebra  table-xs my-5">
           <thead>
             <tr className="bg-orange-600 text-white capitalize">

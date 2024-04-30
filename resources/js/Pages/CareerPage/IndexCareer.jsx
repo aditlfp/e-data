@@ -25,7 +25,22 @@ function IndexCareer(props) {
       <HeadNavigation title={"Karir show - Karir"} />
       <div className="my-10 bg-orange-100 min-h-screen min-w-full rounded-sm">
         <div className="p-5">
-          <div className="flex justify-between">
+          <div className="my-3 flex justify-end">
+            <button
+              type="button"
+              onClick={() => back()}
+              className="btn btn-sm rounded-sm bg-red-600 hover:text-red-900 text-white hover:bg-red-500"
+            >
+              Kembali
+            </button>
+          </div>
+          <div
+            className={
+              props?.career
+                ? "flex flex-row justify-between "
+                : "flex flex-col sm:flex-row sm:justify-between gap-2 "
+            }
+          >
             <p className="text-xl ml-5 underline font-bold capitalize">
               Riwayat Karir{" "}
               {props?.employe?.user_id
@@ -41,13 +56,15 @@ function IndexCareer(props) {
                 <BiSolidCog className="text-xl" />
               </button>
             ) : (
-              <button
-                type="button"
-                onClick={() => createCareer(props?.employe?.id)}
-                className="btn btn-sm rounded-sm mr-5 bg-blue-300 hover:bg-blue-400 border-0"
-              >
-                + Tambahkan Karir
-              </button>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => createCareer(props?.employe?.id)}
+                  className="btn btn-sm w-fit rounded-sm mr-5 bg-blue-300 hover:bg-blue-400 border-0"
+                >
+                  + Tambahkan Karir
+                </button>
+              </div>
             )}
           </div>
           {props.career ? (
@@ -118,7 +135,7 @@ function IndexCareer(props) {
               </ul>
             </div>
           ) : (
-            <div className="text-center bg-gray-100 flex justify-center p-36 rounded-sm m-5">
+            <div className="text-center bg-gray-100 flex justify-center py-14 sm:p-36 rounded-sm m-5">
               <span className="italic text-sm">
                 {props?.employe?.user_id
                   ? props.employe.user.nama_lengkap
@@ -127,13 +144,6 @@ function IndexCareer(props) {
               </span>
             </div>
           )}
-          <button
-            type="button"
-            onClick={() => back()}
-            className="btn btn-sm rounded-sm bg-red-600 hover:text-red-900 text-white hover:bg-red-500"
-          >
-            Kembali
-          </button>
         </div>
       </div>
     </AdminLayout>

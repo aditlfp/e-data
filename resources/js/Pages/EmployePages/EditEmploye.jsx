@@ -96,7 +96,7 @@ function EditEmploye(props) {
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
-          className="gap-4 mt-10 grid grid-flow-cols grid-cols-4"
+          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-4"
         >
           <div className="form-control">
             <span className="label-text">Masukkan Nama : </span>
@@ -174,6 +174,7 @@ function EditEmploye(props) {
                       src={`${props.ziggy.url}/storage/images/${props.employe.img_ktp_dpn}`}
                       alt="Image Preview"
                       style={{ maxWidth: "245px" }}
+                      width={150}
                       className="rounded-sm drop-shadow-md"
                     />
                   ) : (
@@ -186,7 +187,7 @@ function EditEmploye(props) {
                   )}
                 </label>
               </div>
-              <div className="form-control">
+              <div className="form-control mt-2">
                 <span className="label-text">Foto KTP (Depan) : </span>
 
                 <input
@@ -221,7 +222,7 @@ function EditEmploye(props) {
                 <span className="text-red-500">{errors.client_id}</span>
               )}
             </div>
-            <div className="form-control">
+            <div className="form-control mt-2">
               <div className="mt-2">
                 <label
                   htmlFor="img"
@@ -232,6 +233,7 @@ function EditEmploye(props) {
                       src={`${props.ziggy.url}/storage/images/${props.employe.img}`}
                       alt="Image Preview"
                       style={{ maxWidth: "245px" }}
+                      width={150}
                       className="rounded-sm drop-shadow-md"
                     />
                   ) : (
@@ -239,6 +241,7 @@ function EditEmploye(props) {
                       src={URL.createObjectURL(newImg)}
                       alt="Image Preview"
                       style={{ maxWidth: "245px" }}
+                      width={150}
                       className="rounded-sm drop-shadow-md"
                     />
                   )}
@@ -271,7 +274,7 @@ function EditEmploye(props) {
                 <span className="text-red-500">{errors.no_bpjs_kesehatan}</span>
               )}
             </div>
-            <div className="form-control">
+            <div className="form-control mt-2">
               <span className="label-text">File BPJS Kesehatan : </span>
 
               <input
@@ -292,7 +295,7 @@ function EditEmploye(props) {
           </div>
 
           {/* BPJS */}
-          <div className="flex flex-col gap-y-1">
+          <div className="flex flex-col gap-y-2">
             <div className="form-control">
               <span className="label-text">No BPJS Ketenaga Kerjaan : </span>
 
@@ -381,20 +384,22 @@ function EditEmploye(props) {
           </div>
           {/* BPJS */}
 
-          <button
-            type="submit"
-            disabled={processing}
-            className="btn btn-sm rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
-          >
-            Simpan
-          </button>
-          <button
-            type="button"
-            onClick={(e) => cancel(e)}
-            className="btn btn-sm rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
-          >
-            Cancel
-          </button>
+          <div className="flex gap-2 w-full my-10 sm:my-0">
+            <button
+              type="submit"
+              disabled={processing}
+              className="btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
+            >
+              Simpan
+            </button>
+            <button
+              type="button"
+              onClick={(e) => cancel(e)}
+              className="btn btn-sm w-1/2 rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </AdminLayout>

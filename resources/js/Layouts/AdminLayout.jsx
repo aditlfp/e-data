@@ -1,15 +1,38 @@
 import Footer from "@/Components/Footer";
 import Sidebar from "@/Pages/Admin/Component/Sidebar";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiChevronsLeft, BiChevronsRight, BiExtension } from "react-icons/bi";
 import { ToastContainer } from "react-toastify";
 
 function AdminLayout({ children, overflow }) {
   const [open, setOpen] = useState(true);
+  const [isSm, setIsSm] = useState(window.screen.width);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsSm(window.innerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isSm >= 640) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [isSm]);
+
   const openSideBar = () => {
     setOpen(!open);
   };
+  // console.log(isSm, open);
   return (
     <>
       <div
@@ -19,22 +42,23 @@ function AdminLayout({ children, overflow }) {
       >
         <AnimatePresence>
           <motion.div
-            initial={{ left: "0" }}
-            animate={{ left: 0, width: open ? "100%" : "0%" }}
+            initial={{ width: "0%" }}
+            animate={{ width: !open ? "0%" : "100%" }}
             transition={{ duration: 0.15, transition: { ease: "easeInOut" } }}
             className={`flex items-center fixed z-10 `}
           >
             <motion.div
+              initial={{ translateX: "-100%" }}
               animate={{
-                opacity: open ? 1 : 0,
+                opacity: !open ? 0 : 1,
 
-                translateX: open ? "0%" : "-100%",
+                translateX: !open ? "-100%" : "0%",
               }}
               transition={{
                 duration: 0.3,
                 transition: { ease: "easeIn" },
               }}
-              className="relative"
+              className={"relative"}
             >
               <Sidebar
                 link={"employes.index"}
@@ -45,15 +69,16 @@ function AdminLayout({ children, overflow }) {
               </Sidebar>
             </motion.div>
             <motion.div
+              initial={{ translateX: "-338%" }}
               animate={{
-                translateX: open ? "0%" : "-280%",
+                translateX: !open ? "-338%" : "0%",
               }}
               transition={{
                 duration: 0.3,
                 transition: { ease: "easeInOut" },
               }}
               onClick={() => openSideBar()}
-              className="bg-orange-50  z-10 sm:hidden py-6 pl-2 pr-4 rounded-r-full text-center text-2xl"
+              className="bg-orange-50 z-10 sm:hidden py-6 pl-1 pr-3 rounded-r-full text-center text-2xl"
             >
               <BiChevronsLeft
                 className={`transition-all duration-300 ${

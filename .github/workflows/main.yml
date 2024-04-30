@@ -31,7 +31,8 @@ jobs:
         npm run build
 
     - name: Compress files
-      run: zip -j main.zip ./*.zip
+      run: |
+        zip -j main.zip $(ls | grep '\.zip$')
       
     - name: Upload to Hosting
       uses: SamKirkland/FTP-Deploy-Action@4.1.0

@@ -31,6 +31,9 @@ jobs:
     - name: Compress files
       run: zip -r main.zip .
 
+    - name: Change file permissions
+      run: chmod 644 main.zip
+
     - name: Upload to Hosting
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
@@ -39,3 +42,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         remote-dir: /home/sacpocom/data-center.sac-po.com/sac
+        debug: true

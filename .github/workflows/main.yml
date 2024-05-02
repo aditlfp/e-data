@@ -30,9 +30,6 @@ jobs:
         sudo apt-get install ftp -y
         npm run build
 
-    - name: Compress files
-      run: zip -r main.zip .
-
     - name: FTP Deploy
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5      
       with:

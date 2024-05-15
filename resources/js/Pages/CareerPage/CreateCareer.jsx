@@ -8,6 +8,7 @@ function CreateCareer(props) {
   const { data, setData, post, get, processing, errors } = useForm({
     employe_id: props.employes.data[0].id,
     mulai_masuk: "",
+    sk_mulai_masuk: "",
     jenjang_karir: [],
     file_sk_kontrak: [],
     leader: [],
@@ -142,21 +143,33 @@ function CreateCareer(props) {
             <span className="label-text required">Mulai Masuk : </span>
             <input
               name="mulai_masuk"
-              type="file"
-              accept=".pdf"
+              type="date"
               required
-              onChange={(e) => setData("mulai_masuk", e.target.files[0])}
-              className="file-input file-input-sm rounded-sm input-bordered"
+              onChange={(e) => setData("mulai_masuk", e.target.value)}
+              className="input input-sm rounded-sm input-bordered"
             />
             {errors.mulai_masuk && (
               <span className="text-red-500">{errors.mulai_masuk}</span>
+            )}
+            <span className="label-text">SK Mulai Masuk : </span>
+            <input
+              name="sk_mulai_masuk"
+              type="file"
+              accept=".pdf"
+              onChange={(e) => setData("sk_mulai_masuk", e.target.files[0])}
+              className="file-input file-input-sm rounded-sm input-bordered"
+            />
+            {errors.sk_mulai_masuk && (
+              <span className="text-red-500">{errors.sk_mulai_masuk}</span>
             )}
           </div>
           <div className="form-control" id="parent">
             {arrayLooping.map((number, index) => {
               return (
                 <div className="flex flex-col gap-1" key={number}>
-                  <span className="label-text required">Jenjang Karir : </span>
+                  <span className="label-text required">
+                    Riwayat Jenjang Karir :{" "}
+                  </span>
                   <input
                     name="jenjang_karir"
                     type="text"

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable();
             $table->string('name');
             $table->string('ttl')->nullable();
-            $table->string('nik');
+            $table->string('nik')->nullable();
             $table->string('no_kk');
             $table->string('no_ktp');
             $table->foreignIdFor(Client::class);

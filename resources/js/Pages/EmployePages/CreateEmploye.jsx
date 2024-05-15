@@ -117,11 +117,10 @@ function CreateEmploye(props) {
           </div>
 
           <div className="form-control">
-            <span className="label-text required">Masukkan NIK : </span>
+            <span className="label-text">Masukkan NIK : </span>
             <input
               name="nik"
               value={data.nik}
-              required
               onChange={(e) => setData("nik", e.target.value)}
               placeholder="NIK"
               className="input input-sm rounded-sm input-bordered"

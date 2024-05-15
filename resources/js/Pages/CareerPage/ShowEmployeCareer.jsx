@@ -71,7 +71,7 @@ function ShowEmployeCareer(props) {
                       target="_blank"
                     >
                       <BiSolidDownload className="text-lg " />
-                      Berkas
+                      SK Masuk
                     </a>
                   </div>
                 </li>

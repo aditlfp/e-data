@@ -8,7 +8,8 @@ function EditCareer(props) {
   const { data, setData, put, get, processing, errors } = useForm({
     employe_id: props.career.employe_id,
     mulai_masuk: "",
-    old_mulai_masuk: props.career.mulai_masuk,
+    sk_mulai_masuk: "",
+    old_sk_mulai_masuk: props.career.sk_mulai_masuk,
     jenjang_karir: [],
     file_sk_kontrak: [],
     old_file_sk: props.career.file_sk_kontrak,
@@ -67,7 +68,8 @@ function EditCareer(props) {
         _method: "patch",
         employe_id: props.career.employe_id,
         mulai_masuk: data.mulai_masuk,
-        old_mulai_masuk: props.career.mulai_masuk,
+        sk_mulai_masuk: data.sk_mulai_masuk,
+        old_sk_mulai_masuk: props.career.sk_mulai_masuk,
         jenjang_karir: data.jenjang_karir,
         file_sk_kontrak: data.file_sk_kontrak,
         old_file_sk: props.career.file_sk_kontrak,
@@ -177,13 +179,13 @@ function EditCareer(props) {
           </div>
 
           <div className="form-control">
-            {props.career.mulai_masuk == data.mulai_masuk && (
+            {props.career.sk_mulai_masuk == data.sk_mulai_masuk && (
               <div>
                 <span className="label-text">Prev. Mulai Masuk : </span>
                 <div className="flex flex-col gap-2 my-4">
-                  {data.mulai_masuk && (
+                  {data.sk_mulai_masuk && (
                     <a
-                      href={`/storage/sk_kontrak/${data.mulai_masuk}`}
+                      href={`/storage/sk_kontrak/${data.sk_mulai_masuk}`}
                       target="_blank"
                       className="btn btn-sm mr-5 text-gray-800 hover:text-white bg-green-400 hover:bg-green-500 border-0"
                     >
@@ -195,16 +197,27 @@ function EditCareer(props) {
             )}
             <span className="label-text">Mulai Masuk : </span>
             <input
-              name="mulai_masuk"
+              name="sk_mulai_masuk"
               type="file"
               accept=".pdf"
-              onChange={(e) => setData("mulai_masuk", e.target.files[0])}
+              onChange={(e) => setData("sk_mulai_masuk", e.target.files[0])}
               className="file-input file-input-sm rounded-sm input-bordered"
+            />
+            {errors.sk_mulai_masuk && (
+              <span className="text-red-500">{errors.sk_mulai_masuk}</span>
+            )}
+            <span className="label-text">Mulai Masuk : </span>
+            <input
+              name="mulai_masuk"
+              type="date"
+              onChange={(e) => setData("mulai_masuk", e.target.value)}
+              className="input input-sm rounded-sm input-bordered"
             />
             {errors.mulai_masuk && (
               <span className="text-red-500">{errors.mulai_masuk}</span>
             )}
           </div>
+
           <div className="form-control" id="parent">
             <div>
               {data.file_sk_kontrak.length == 0 && (

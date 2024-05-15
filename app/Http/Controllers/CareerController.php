@@ -52,6 +52,7 @@ class CareerController extends Controller
         $careers = [
             'employe_id' => $request->employe_id,
             'mulai_masuk' => $request->mulai_masuk,
+            'sk_mulai_masuk' => $request->sk_mulai_masuk,
             'jenjang_karir' => $request->jenjang_karir,
             'file_sk_kontrak' => $request->file_sk_kontrak,
             'leader'  => $request->leader
@@ -88,6 +89,7 @@ class CareerController extends Controller
         $careers = [
             'employe_id' => $request->employe_id,
             'mulai_masuk' => $request->mulai_masuk,
+            'sk_mulai_masuk' => $request->sk_mulai_masuk,
             'jenjang_karir' => $request->jenjang_karir,
             'file_sk_kontrak' => $request->file_sk_kontrak,
             'leader'  => $request->leader
@@ -111,9 +113,9 @@ class CareerController extends Controller
                 $careers['file_sk_kontrak'] = $skKontrak; 
             }
         }
-        if($request->hasFile('mulai_masuk'))
+        if($request->hasFile('sk_mulai_masuk'))
         {
-            $careers['mulai_masuk'] =  UploadSK($request, 'mulai_masuk'); 
+            $careers['sk_mulai_masuk'] =  UploadSK($request, 'sk_mulai_masuk'); 
         }
         if($request->hasFile('leader'))
         {
@@ -191,13 +193,13 @@ class CareerController extends Controller
             $careers['file_sk_kontrak'] = $career->file_sk_kontrak;
         }
 
-        if($request->hasFile('mulai_masuk'))
+        if($request->hasFile('sk_mulai_masuk'))
         {
-            if($request->old_mulai_masuk)
+            if($request->old_sk_mulai_masuk)
             {
-                Storage::disk('public')->delete('sk_kontrak/' . $request->old_mulai_masuk);
+                Storage::disk('public')->delete('sk_kontrak/' . $request->old_sk_mulai_masuk);
             }
-            $careers['mulai_masuk'] =  UploadSK($request, 'mulai_masuk'); 
+            $careers['sk_mulai_masuk'] =  UploadSK($request, 'sk_mulai_masuk'); 
         }
         if($request->hasFile('leader'))
         {

@@ -16,6 +16,7 @@ class Career extends Model
     protected $fillable = [
         'employe_id',
         'mulai_masuk',
+        'sk_mulai_masuk',
         'jenjang_karir',
         'file_sk_kontrak',
         'leader'

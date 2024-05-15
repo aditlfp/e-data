@@ -2,6 +2,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
+import NoImage from "../../../../public/image/no-image.jpg";
 import {
   BiSolidCog,
   BiSolidExtension,
@@ -161,10 +162,14 @@ function IndexEmploye(props) {
               searchResults.map((emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
                   <td className="border-[1px] border-orange-300">
-                    {emplo.nik}
+                    {emplo.nik ? emplo.nik : "~ NIK KOSONG ~"}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    <img src={`/storage/images/${emplo.img}`} width={100} />
+                    {emplo.img ? (
+                      <img src={`/storage/images/${emplo.img}`} width={100} />
+                    ) : (
+                      <img src={NoImage} width={100} />
+                    )}
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.name}

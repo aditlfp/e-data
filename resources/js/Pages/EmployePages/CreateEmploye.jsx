@@ -32,7 +32,7 @@ function CreateEmploye(props) {
     no_kk: "",
     no_ktp: "",
     client_id: "",
-    img: "",
+    img: null,
     img_ktp_dpn: "",
     jenis_bpjs: [],
     no_bpjs_kesehatan: "",
@@ -228,11 +228,10 @@ function CreateEmploye(props) {
                   </label>
                 </div>
               )}
-              <span className="label-text required">Foto Profile : </span>
+              <span className="label-text">Foto Profile : </span>
               <input
                 type="file"
                 name="img"
-                required
                 accept=".png,.jpg,.jpeg,*"
                 onChange={(e) => setData("img", e.target.files[0])}
                 className="file-input file-input-sm rounded-sm file-input-bordered"

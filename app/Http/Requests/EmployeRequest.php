@@ -29,7 +29,7 @@ class EmployeRequest extends FormRequest
             'no_kk' => ['required'],
             'no_ktp' => ['required'],
             'client_id' => ['required'],
-            'img' => ['required'],
+            'img' => ['nullable'],
             'img_ktp_dpn' => ['nullable'],
             'img_ktp_bkg' => ['nullable'],
             'jenis_bpjs' => ['nullable'],

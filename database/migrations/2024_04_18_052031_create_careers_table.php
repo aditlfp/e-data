@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Employe::class);
             $table->string('mulai_masuk');
+            $table->string('sk_mulai_masuk')->nullable();
             $table->string('jenjang_karir');
             $table->string('file_sk_kontrak');
             $table->string('leader')->nullable();

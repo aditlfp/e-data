@@ -52,6 +52,7 @@ class EmployeController extends Controller
             'file_bpjs_kesehatan' => $request->file_bpjs_kesehatan,
             'file_bpjs_ketenaga' => $request->file_bpjs_ketenaga,
         ];
+
         if($employe)
         {
             if($request->hasFile('img'))

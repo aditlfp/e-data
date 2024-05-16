@@ -28,11 +28,10 @@ function CreateEmploye(props) {
     user_id: "",
     name: "",
     ttl: "",
-    nik: "",
     no_kk: "",
     no_ktp: "",
     client_id: "",
-    img: "",
+    img: null,
     img_ktp_dpn: "",
     jenis_bpjs: [],
     no_bpjs_kesehatan: "",
@@ -55,7 +54,6 @@ function CreateEmploye(props) {
           "img_ktp_dpn",
           "jenis_bpjs",
           "name",
-          "nik",
           "no_bpjs_kesehatan",
           "no_bpjs_ketenaga",
           "no_kk",
@@ -80,7 +78,7 @@ function CreateEmploye(props) {
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"
-          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-4  "
+          className="gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-3  "
         >
           <div className="form-control">
             <span className="label-text required">Masukkan Nama : </span>
@@ -114,19 +112,6 @@ function CreateEmploye(props) {
               className="input input-sm rounded-sm input-bordered"
             />
             {errors.ttl && <span className="text-red-500">{errors.ttl}</span>}
-          </div>
-
-          <div className="form-control">
-            <span className="label-text required">Masukkan NIK : </span>
-            <input
-              name="nik"
-              value={data.nik}
-              required
-              onChange={(e) => setData("nik", e.target.value)}
-              placeholder="NIK"
-              className="input input-sm rounded-sm input-bordered"
-            />
-            {errors.nik && <span className="text-red-500">{errors.nik}</span>}
           </div>
 
           <div className="form-control">
@@ -229,11 +214,10 @@ function CreateEmploye(props) {
                   </label>
                 </div>
               )}
-              <span className="label-text required">Foto Profile : </span>
+              <span className="label-text">Foto Profile : </span>
               <input
                 type="file"
                 name="img"
-                required
                 accept=".png,.jpg,.jpeg,*"
                 onChange={(e) => setData("img", e.target.files[0])}
                 className="file-input file-input-sm rounded-sm file-input-bordered"
@@ -291,6 +275,39 @@ function CreateEmploye(props) {
                 className="input input-sm rounded-sm input-bordered"
               />
             </div>
+
+            <div className="form-control">
+              <span className="label-text">File BPJS Ketenaga Kerjaan : </span>
+
+              <input
+                type="file"
+                name="file_bpjs_ketenaga"
+                accept=".pdf,*"
+                onChange={(e) =>
+                  setData("file_bpjs_ketenaga", e.target.files[0])
+                }
+                className="file-input file-input-sm rounded-sm file-input-bordered"
+              />
+            </div>
+            <div className="flex gap-2 w-full my-10 sm:my-0">
+              <button
+                type="submit"
+                disabled={processing}
+                className="btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
+              >
+                Simpan
+              </button>
+              <button
+                type="button"
+                onClick={(e) => cancel(e)}
+                className="btn btn-sm w-[10.5rem] rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+
+          <div className="form-control">
             <span className="label-text">Jenis BPJS : </span>
             <div className="grid grid-flow-col grid-cols-1">
               <div className=" bg-white rounded-sm outline-2 outline-lime-100">
@@ -347,38 +364,8 @@ function CreateEmploye(props) {
                 </label>
               </div>
             </div>
-            <div className="form-control">
-              <span className="label-text">File BPJS Ketenaga Kerjaan : </span>
-
-              <input
-                type="file"
-                name="file_bpjs_ketenaga"
-                accept=".pdf,*"
-                onChange={(e) =>
-                  setData("file_bpjs_ketenaga", e.target.files[0])
-                }
-                className="file-input file-input-sm rounded-sm file-input-bordered"
-              />
-            </div>
           </div>
           {/* BPJS */}
-
-          <div className="flex gap-2 w-full my-10 sm:my-0">
-            <button
-              type="submit"
-              disabled={processing}
-              className="btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150"
-            >
-              Simpan
-            </button>
-            <button
-              type="button"
-              onClick={(e) => cancel(e)}
-              className="btn btn-sm w-1/2 rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150"
-            >
-              Cancel
-            </button>
-          </div>
         </form>
       </div>
     </AdminLayout>

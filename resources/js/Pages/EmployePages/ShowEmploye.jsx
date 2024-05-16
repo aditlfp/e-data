@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import { BiSolidDownload } from "react-icons/bi";
 import ShowEmployeCareer from "../CareerPage/ShowEmployeCareer";
+import NoImage from "../../../../public/image/no-image.jpg";
 
 function ShowEmploye(props) {
   const { get } = useForm({});
@@ -66,9 +67,10 @@ function ShowEmploye(props) {
                         <div className="absolute bg-orange-400/70 p-2 drop-shadow-md rounded-full w-36 h-36 sm:w-48 sm:h-48 flex items-center justify-center">
                           <img
                             src={
-                              props.employe.img
+                              props.employe.img != "" ||
+                              props.employe.img != null
                                 ? `/storage/images/${props.employe.img}`
-                                : "/image/no-image.jpg"
+                                : `${NoImage}`
                             }
                             alt="Profile IMG"
                             width={150}
@@ -120,7 +122,10 @@ function ShowEmploye(props) {
                         <tr>
                           <td className="font-medium">NIK</td>
                           <td>
-                            : {props.employe.nik ? props.employe.nik : "kosong"}
+                            :{" "}
+                            {props.employe.nik
+                              ? props.employe.nik
+                              : "~ NIK KOSONG ~"}
                           </td>
                         </tr>
                         <tr>

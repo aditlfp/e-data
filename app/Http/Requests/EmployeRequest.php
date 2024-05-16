@@ -23,13 +23,13 @@ class EmployeRequest extends FormRequest
     {
         return [
             'user_id' => ['nullable'],
-            'name' => ['required'],
+            'name' => ['required', 'unique:employes,name'],
             'ttl' => ['nullable'],
-            'nik' => ['required'],
+            'nik' => ['nullable'],
             'no_kk' => ['required'],
             'no_ktp' => ['required'],
             'client_id' => ['required'],
-            'img' => ['required'],
+            'img' => ['nullable'],
             'img_ktp_dpn' => ['nullable'],
             'img_ktp_bkg' => ['nullable'],
             'jenis_bpjs' => ['nullable'],

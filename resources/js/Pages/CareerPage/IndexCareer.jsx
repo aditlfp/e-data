@@ -74,11 +74,12 @@ function IndexCareer(props) {
                 <li className="step step-primary ml-5">
                   <div className="flex flex-col justify-start items-start py-3 gap-y-1 capitalize font-semibold">
                     <p>Mulai Masuk</p>
+                    <span>{props.career.mulai_masuk}</span>
                     <a
-                      disabled={props.career.mulai_masuk ? false : true}
+                      disabled={props.career.sk_mulai_masuk ? false : true}
                       href={
-                        props.career.mulai_masuk
-                          ? "/storage/sk_kontrak/" + props.career.mulai_masuk
+                        props.career.sk_mulai_masuk
+                          ? "/storage/sk_kontrak/" + props.career.sk_mulai_masuk
                           : "#"
                       }
                       className={`${"btn btn-xs hover:text-white text-green-900 rounded-sm bg-green-500 border-0 hover:bg-green-600"}`}
@@ -86,7 +87,7 @@ function IndexCareer(props) {
                       target="_blank"
                     >
                       <BiSolidDownload className="text-lg " />
-                      Berkas
+                      SK Masuk
                     </a>
                   </div>
                 </li>

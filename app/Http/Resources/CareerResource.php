@@ -19,6 +19,7 @@ class CareerResource extends JsonResource
             'id' => $this->id,
             'employe_id' => $this->employe_id,
             'mulai_masuk' => $this->mulai_masuk,
+            'sk_mulai_masuk' => $this->sk_mulai_masuk,
             'jenjang_karir' => $this->jenjang_karir,
             'file_sk_kontrak' => $this->file_sk_kontrak,
             'leader'  => $this->leader,

@@ -27,7 +27,6 @@ function EditEmploye(props) {
     user_id: props.employe.user_id,
     name: props.employe.name,
     ttl: props.employe.ttl,
-    nik: props.employe.nik,
     no_kk: props.employe.no_kk,
     no_ktp: props.employe.no_ktp,
     client_id: props.employe.client_id,
@@ -38,14 +37,18 @@ function EditEmploye(props) {
     img_ktp_dpn: "",
     file_bpjs_kesehatan: "",
     file_bpjs_ketenaga: "",
-    oldimage: props.employe.img,
-    oldktp: props.employe.img_ktp_dpn,
-    oldFileBpjs: props.employe.file_bpjs_kesehatan,
-    oldKetenaga: props.employe.file_bpjs_ketenaga,
+    oldimage: props.employe.img ? props.employe.img : "",
+    oldktp: props.employe.img_ktp_dpn ? props.employe.img_ktp_dpn : "",
+    oldFileBpjs: props.employe.file_bpjs_kesehatan
+      ? props.employe.file_bpjs_kesehatan
+      : "",
+    oldKetenaga: props.employe.file_bpjs_ketenaga
+      ? props.employe.file_bpjs_ketenaga
+      : "",
   });
 
   const updatedJenisBpjs = Object.keys(jenisBpjs).reduce((acc, key) => {
-    acc[key] = data.jenis_bpjs.includes(key);
+    acc[key] = data.jenis_bpjs?.includes(key);
     return acc;
   }, {});
 
@@ -62,7 +65,6 @@ function EditEmploye(props) {
       user_id: data.user_id,
       name: data.name,
       ttl: data.ttl,
-      nik: data.nik,
       no_kk: data.no_kk,
       no_ktp: data.no_ktp,
       client_id: data.client_id,
@@ -178,12 +180,14 @@ function EditEmploye(props) {
                       className="rounded-sm drop-shadow-md"
                     />
                   ) : (
-                    <img
-                      src={URL.createObjectURL(newKtp)}
-                      alt="Image Preview"
-                      style={{ maxWidth: "245px" }}
-                      className="rounded-sm drop-shadow-md"
-                    />
+                    newKtp && (
+                      <img
+                        src={URL.createObjectURL(newKtp)}
+                        alt="Image Preview"
+                        style={{ maxWidth: "245px" }}
+                        className="rounded-sm drop-shadow-md"
+                      />
+                    )
                   )}
                 </label>
               </div>
@@ -237,13 +241,15 @@ function EditEmploye(props) {
                       className="rounded-sm drop-shadow-md"
                     />
                   ) : (
-                    <img
-                      src={URL.createObjectURL(newImg)}
-                      alt="Image Preview"
-                      style={{ maxWidth: "245px" }}
-                      width={150}
-                      className="rounded-sm drop-shadow-md"
-                    />
+                    newImg && (
+                      <img
+                        src={URL.createObjectURL(newImg)}
+                        alt="Image Preview"
+                        style={{ maxWidth: "245px" }}
+                        width={150}
+                        className="rounded-sm drop-shadow-md"
+                      />
+                    )
                   )}
                 </label>
               </div>

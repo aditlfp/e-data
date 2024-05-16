@@ -18,11 +18,11 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable();
             $table->string('name');
             $table->string('ttl')->nullable();
-            $table->string('nik');
+            $table->string('nik')->nullable();
             $table->string('no_kk');
             $table->string('no_ktp');
             $table->foreignIdFor(Client::class);
-            $table->string('img');
+            $table->string('img')->nullable();
             $table->string('img_ktp_dpn')->nullable();
             $table->string('img_ktp_bkg')->nullable();
             $table->string('jenis_bpjs')->nullable();

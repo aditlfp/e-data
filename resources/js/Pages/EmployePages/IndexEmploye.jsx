@@ -1,7 +1,8 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
+import NoImage from "../../../../public/image/no-image.jpg";
 import {
   BiSolidCog,
   BiSolidExtension,
@@ -18,7 +19,6 @@ import _ from "lodash";
 
 function IndexEmploye(props) {
   const [sortOrder, setSortOrder] = useState(false);
-
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,7 +37,7 @@ function IndexEmploye(props) {
   const debouncedSearch = _.debounce((term) => {
     const results = props.employe.data.filter((emplo) => {
       return (
-        emplo.nik.includes(term) ||
+        emplo.no_ktp.includes(term) ||
         emplo.name.toLowerCase().includes(term.toLowerCase())
       );
     });
@@ -55,10 +55,18 @@ function IndexEmploye(props) {
 
   const confirmDelete = (id) => {
     destroy(route(`employes.destroy`, id), {
-      onSuccess: () =>
+      onSuccess: () => {
         toast.warning("Berhasil Menghapus Data Karyawan!", {
           theme: "colored",
-        }),
+        });
+
+        setTimeout(() => {
+          get(route("employes.index"), {
+            replace: true, // Replace the current page
+            preserveScroll: true, // Preserve the current scroll position
+          });
+        }, 2000);
+      },
     });
     setModal(!modal);
   };
@@ -127,10 +135,11 @@ function IndexEmploye(props) {
         </button>
       </div>
 
-      <div className="overflow-scroll sm:overflow-hidden max-h-[50svh]">
+      <div className="overflow-hidden">
         <table className="table table-zebra  table-xs my-5">
           <thead>
             <tr className="bg-orange-600 text-white capitalize">
+              <th className="border-x-[1px] border-orange-300">Foto Profile</th>
               <th className="border-x-[1px] border-orange-300 flex">
                 {sortOrder == false ? (
                   <BiSortUp
@@ -143,10 +152,8 @@ function IndexEmploye(props) {
                     onClick={toggleSortOrder}
                   />
                 )}
-                NIK
+                Nama
               </th>
-              <th className="border-x-[1px] border-orange-300">Foto Profile</th>
-              <th className="border-x-[1px] border-orange-300">Nama</th>
               <th className="border-x-[1px] border-orange-300">TTL</th>
               <th className="border-x-[1px] border-orange-300">No. KK</th>
               <th className="border-x-[1px] border-orange-300">No. KTP</th>
@@ -161,10 +168,11 @@ function IndexEmploye(props) {
               searchResults.map((emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
                   <td className="border-[1px] border-orange-300">
-                    {emplo.nik}
-                  </td>
-                  <td className="border-[1px] border-orange-300">
-                    <img src={`/storage/images/${emplo.img}`} width={100} />
+                    {emplo.img ? (
+                      <img src={`/storage/images/${emplo.img}`} width={100} />
+                    ) : (
+                      <img src={NoImage} width={100} />
+                    )}
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.name}

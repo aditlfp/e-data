@@ -23,7 +23,7 @@
     "/build/assets/DeleteUserForm-ChEnN-Yb.js"
   ],
   "resources/js/Components/Paginate.jsx": [
-    "/build/assets/IndexEmploye-BOGS2YFT.js"
+    "/build/assets/IndexEmploye-CGEqUNSE.js"
   ],
   "resources/js/Components/PrimaryButton.jsx": [
     "/build/assets/PrimaryButton-BVytxmEe.js"
@@ -89,13 +89,13 @@
     "/build/assets/Dashboard-DRrP6Lmh.js"
   ],
   "resources/js/Pages/EmployePages/CreateEmploye.jsx": [
-    "/build/assets/CreateEmploye-BhOE--Be.js"
+    "/build/assets/CreateEmploye-DEGQjzso.js"
   ],
   "resources/js/Pages/EmployePages/EditEmploye.jsx": [
-    "/build/assets/EditEmploye-BGdRTMCY.js"
+    "/build/assets/EditEmploye-DEf1s19u.js"
   ],
   "resources/js/Pages/EmployePages/IndexEmploye.jsx": [
-    "/build/assets/IndexEmploye-BOGS2YFT.js"
+    "/build/assets/IndexEmploye-CGEqUNSE.js"
   ],
   "resources/js/Pages/EmployePages/ShowEmploye.jsx": [
     "/build/assets/ShowEmploye-B7f7IC3E.js"

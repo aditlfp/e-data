@@ -1,5 +1,5 @@
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BeIvTlxI.js";
+import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
 import { useForm, Head, Link } from "@inertiajs/react";
 import React, { useState } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";

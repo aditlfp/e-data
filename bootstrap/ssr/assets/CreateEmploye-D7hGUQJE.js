@@ -1,14 +1,14 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BeIvTlxI.js";
+import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
 import { useState } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
-import { useForm, Head, router } from "@inertiajs/react";
+import { useForm, Head } from "@inertiajs/react";
 import { toast } from "react-toastify";
 import "./Sidebar-BZBlB_YE.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
-function EditEmploye(props) {
-  var _a;
+function CreateEmploye(props) {
+  var _a, _b;
   const [jenisBpjs, setJenisBpjs] = useState({
     jkk: false,
     jkm: false,
@@ -23,58 +23,43 @@ function EditEmploye(props) {
       jenis_bpjs: checked ? [...data2.jenis_bpjs, name] : data2.jenis_bpjs.filter((item) => item !== name)
     }));
   };
-  const { data, setData, put, processing, errors } = useForm({
-    user_id: props.employe.user_id,
-    name: props.employe.name,
-    ttl: props.employe.ttl,
-    no_kk: props.employe.no_kk,
-    no_ktp: props.employe.no_ktp,
-    client_id: props.employe.client_id,
-    jenis_bpjs: props.employe.jenis_bpjs,
-    no_bpjs_kesehatan: props.employe.no_bpjs_kesehatan,
-    no_bpjs_ketenaga: props.employe.no_bpjs_ketenaga,
-    img: "",
+  const { data, setData, post, get, processing, errors, reset } = useForm({
+    user_id: "",
+    name: "",
+    ttl: "",
+    no_kk: "",
+    no_ktp: "",
+    client_id: "",
+    img: null,
     img_ktp_dpn: "",
+    jenis_bpjs: [],
+    no_bpjs_kesehatan: "",
     file_bpjs_kesehatan: "",
-    file_bpjs_ketenaga: "",
-    oldimage: props.employe.img ? props.employe.img : "",
-    oldktp: props.employe.img_ktp_dpn ? props.employe.img_ktp_dpn : "",
-    oldFileBpjs: props.employe.file_bpjs_kesehatan ? props.employe.file_bpjs_kesehatan : "",
-    oldKetenaga: props.employe.file_bpjs_ketenaga ? props.employe.file_bpjs_ketenaga : ""
+    no_bpjs_ketenaga: "",
+    file_bpjs_ketenaga: ""
   });
-  const updatedJenisBpjs = Object.keys(jenisBpjs).reduce((acc, key) => {
-    var _a2;
-    acc[key] = (_a2 = data.jenis_bpjs) == null ? void 0 : _a2.includes(key);
-    return acc;
-  }, {});
-  const [newImg, setNewImg] = useState(null);
-  const [newKtp, setNewKtp] = useState(null);
-  const [newBpjs, setNewBpjs] = useState(null);
-  const [newKetenaga, setNewKetenaga] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.post(route("employes.update", props.employe.id), {
-      _method: "PATCH",
-      user_id: data.user_id,
-      name: data.name,
-      ttl: data.ttl,
-      no_kk: data.no_kk,
-      no_ktp: data.no_ktp,
-      client_id: data.client_id,
-      jenis_bpjs: data.jenis_bpjs,
-      no_bpjs_kesehatan: data.no_bpjs_kesehatan,
-      no_bpjs_ketenaga: data.no_bpjs_ketenaga,
-      img: newImg,
-      img_ktp_dpn: newKtp,
-      file_bpjs_kesehatan: newBpjs,
-      file_bpjs_ketenaga: newKetenaga,
-      oldimage: data.oldimage,
-      oldktp: data.oldktp,
-      oldFileBpjs: data.oldFileBpjs,
-      oldKetenaga: data.oldKetenaga,
-      onSuccess: () => toast.success("Berhasil Menambahkan Data !", {
-        theme: "colored"
-      })
+    post(route("employes.store"), {
+      data,
+      onSuccess: () => {
+        reset(
+          "user_id",
+          "client_id",
+          "file_bpjs_kesehatan",
+          "img",
+          "img_ktp_dpn",
+          "jenis_bpjs",
+          "name",
+          "no_bpjs_kesehatan",
+          "no_bpjs_ketenaga",
+          "no_kk",
+          "no_ktp",
+          "ttl"
+        ), toast.success("Berhasil Menambahkan Data !", {
+          theme: "colored"
+        });
+      }
     });
   };
   const cancel = (e) => {
@@ -82,27 +67,33 @@ function EditEmploye(props) {
     window.location.href = route("employes.index");
   };
   return /* @__PURE__ */ jsxs(AdminLayout, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Employe - Update" }),
-    /* @__PURE__ */ jsx(HeadNavigation, { title: "Employe - Update" }),
+    /* @__PURE__ */ jsx(Head, { title: "Employe - Create" }),
+    /* @__PURE__ */ jsx(HeadNavigation, { title: "Employe - Create" }),
     /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsxs(
       "form",
       {
         onSubmit: handleSubmit,
         encType: "multipart/form-data",
-        className: "gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-4",
+        className: "gap-4 mt-10 flex flex-col sm:grid sm:grid-flow-cols sm:grid-cols-3  ",
         children: [
           /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-            /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan Nama : " }),
+            /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Masukkan Nama : " }),
             /* @__PURE__ */ jsx(
               "input",
               {
+                list: "users",
+                id: "browser",
                 name: "name",
                 value: data.name,
+                required: true,
                 onChange: (e) => setData("name", e.target.value),
                 placeholder: "Nama",
                 className: "input input-sm rounded-sm input-bordered"
               }
             ),
+            /* @__PURE__ */ jsx("datalist", { id: "users", className: "dark:text-white", children: (_a = props.users) == null ? void 0 : _a.map((user, key) => {
+              return /* @__PURE__ */ jsx("option", { value: user.nama_lengkap, id: key }, key);
+            }) }),
             errors.name && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.name })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
@@ -120,26 +111,13 @@ function EditEmploye(props) {
             errors.ttl && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.ttl })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-            /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan NIK : " }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                name: "nik",
-                value: data.nik,
-                onChange: (e) => setData("nik", e.target.value),
-                placeholder: "NIK",
-                className: "input input-sm rounded-sm input-bordered"
-              }
-            ),
-            errors.nik && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nik })
-          ] }),
-          /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-            /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan No KK : " }),
+            /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Masukkan No KK : " }),
             /* @__PURE__ */ jsx(
               "input",
               {
                 name: "no_kk",
                 value: data.no_kk,
+                required: true,
                 onChange: (e) => setData("no_kk", e.target.value),
                 placeholder: "Nomor KK",
                 className: "input input-sm rounded-sm input-bordered"
@@ -149,12 +127,13 @@ function EditEmploye(props) {
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan No KTP : " }),
+              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Masukkan No KTP : " }),
               /* @__PURE__ */ jsx(
                 "input",
                 {
                   name: "no_ktp",
                   value: data.no_ktp,
+                  required: true,
                   onChange: (e) => setData("no_ktp", e.target.value),
                   placeholder: "Nomor KTP",
                   className: "input input-sm rounded-sm input-bordered"
@@ -163,26 +142,18 @@ function EditEmploye(props) {
               errors.no_ktp && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.no_ktp })
             ] }),
             /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
-              /* @__PURE__ */ jsx("div", { className: "mt-2", children: /* @__PURE__ */ jsx(
+              data.img_ktp_dpn && /* @__PURE__ */ jsx("div", { className: "mt-2", children: /* @__PURE__ */ jsx(
                 "label",
                 {
                   htmlFor: "img_ktp_dpn",
                   className: "flex justify-center items-center rounded-sm ",
-                  children: props.employe.img_ktp_dpn ? /* @__PURE__ */ jsx(
+                  children: /* @__PURE__ */ jsx(
                     "img",
                     {
-                      src: `${props.ziggy.url}/storage/images/${props.employe.img_ktp_dpn}`,
+                      src: URL.createObjectURL(data.img_ktp_dpn),
                       alt: "Image Preview",
                       style: { maxWidth: "245px" },
                       width: 150,
-                      className: "rounded-sm drop-shadow-md"
-                    }
-                  ) : newKtp && /* @__PURE__ */ jsx(
-                    "img",
-                    {
-                      src: URL.createObjectURL(newKtp),
-                      alt: "Image Preview",
-                      style: { maxWidth: "245px" },
                       className: "rounded-sm drop-shadow-md"
                     }
                   )
@@ -194,10 +165,9 @@ function EditEmploye(props) {
                   "input",
                   {
                     type: "file",
+                    accept: ".png,.jpg,.jpeg,*",
                     name: "img_ktp_dpn",
-                    onChange: (e) => {
-                      setNewKtp(e.target.files[0]);
-                    },
+                    onChange: (e) => setData("img_ktp_dpn", e.target.files[0]),
                     className: "file-input file-input-sm rounded-sm file-input-bordered"
                   }
                 )
@@ -206,40 +176,32 @@ function EditEmploye(props) {
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [
             /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text", children: "Pilih Mitra* : " }),
+              /* @__PURE__ */ jsx("span", { className: "label-text required", children: "Pilih Mitra : " }),
               /* @__PURE__ */ jsxs(
                 "select",
                 {
-                  defaultValue: data.client_id,
+                  defaultValue: 0,
+                  required: true,
                   onChange: (e) => setData("client_id", e.target.value),
                   className: "select select-bordered select-sm text-sm rounded-sm",
                   children: [
                     /* @__PURE__ */ jsx("option", { value: 0, disabled: true, children: "Pilih Mitra" }),
-                    (_a = props == null ? void 0 : props.clients) == null ? void 0 : _a.map((client, index) => /* @__PURE__ */ jsx("option", { value: client.id, children: client.name }, index))
+                    (_b = props == null ? void 0 : props.clients) == null ? void 0 : _b.map((client, index) => /* @__PURE__ */ jsx("option", { value: client.id, children: client.name }, index))
                   ]
                 }
               ),
               errors.client_id && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.client_id })
             ] }),
             /* @__PURE__ */ jsxs("div", { className: "form-control mt-2", children: [
-              /* @__PURE__ */ jsx("div", { className: "mt-2", children: /* @__PURE__ */ jsx(
+              data.img && /* @__PURE__ */ jsx("div", { className: "mt-2", children: /* @__PURE__ */ jsx(
                 "label",
                 {
                   htmlFor: "img",
                   className: "flex justify-center items-center rounded-sm ",
-                  children: props.employe.img ? /* @__PURE__ */ jsx(
+                  children: /* @__PURE__ */ jsx(
                     "img",
                     {
-                      src: `${props.ziggy.url}/storage/images/${props.employe.img}`,
-                      alt: "Image Preview",
-                      style: { maxWidth: "245px" },
-                      width: 150,
-                      className: "rounded-sm drop-shadow-md"
-                    }
-                  ) : newImg && /* @__PURE__ */ jsx(
-                    "img",
-                    {
-                      src: URL.createObjectURL(newImg),
+                      src: URL.createObjectURL(data.img),
                       alt: "Image Preview",
                       style: { maxWidth: "245px" },
                       width: 150,
@@ -248,18 +210,18 @@ function EditEmploye(props) {
                   )
                 }
               ) }),
-              /* @__PURE__ */ jsx("span", { className: "label-text", children: "Foto : " }),
+              /* @__PURE__ */ jsx("span", { className: "label-text", children: "Foto Profile : " }),
               /* @__PURE__ */ jsx(
                 "input",
                 {
                   type: "file",
                   name: "img",
-                  onChange: (e) => {
-                    setNewImg(e.target.files[0]);
-                  },
+                  accept: ".png,.jpg,.jpeg,*",
+                  onChange: (e) => setData("img", e.target.files[0]),
                   className: "file-input file-input-sm rounded-sm file-input-bordered"
                 }
-              )
+              ),
+              errors.img && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.img })
             ] })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-y-1", children: [
@@ -284,11 +246,9 @@ function EditEmploye(props) {
                 "input",
                 {
                   type: "file",
-                  accept: ".pdf",
                   name: "file_bpjs_kesehatan",
-                  onChange: (e) => {
-                    setNewBpjs(e.target.files[0]);
-                  },
+                  accept: ".pdf,*",
+                  onChange: (e) => setData("file_bpjs_kesehatan", e.target.files[0]),
                   className: "file-input file-input-sm rounded-sm file-input-bordered"
                 }
               ),
@@ -310,6 +270,41 @@ function EditEmploye(props) {
                 }
               )
             ] }),
+            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
+              /* @__PURE__ */ jsx("span", { className: "label-text", children: "File BPJS Ketenaga Kerjaan : " }),
+              /* @__PURE__ */ jsx(
+                "input",
+                {
+                  type: "file",
+                  name: "file_bpjs_ketenaga",
+                  accept: ".pdf,*",
+                  onChange: (e) => setData("file_bpjs_ketenaga", e.target.files[0]),
+                  className: "file-input file-input-sm rounded-sm file-input-bordered"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxs("div", { className: "flex gap-2 w-full my-10 sm:my-0", children: [
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  type: "submit",
+                  disabled: processing,
+                  className: "btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150",
+                  children: "Simpan"
+                }
+              ),
+              /* @__PURE__ */ jsx(
+                "button",
+                {
+                  type: "button",
+                  onClick: (e) => cancel(e),
+                  className: "btn btn-sm w-[10.5rem] rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150",
+                  children: "Cancel"
+                }
+              )
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
             /* @__PURE__ */ jsx("span", { className: "label-text", children: "Jenis BPJS : " }),
             /* @__PURE__ */ jsx("div", { className: "grid grid-flow-col grid-cols-1", children: /* @__PURE__ */ jsxs("div", { className: " bg-white rounded-sm outline-2 outline-lime-100", children: [
               /* @__PURE__ */ jsxs("label", { className: "label cursor-pointer", children: [
@@ -318,7 +313,6 @@ function EditEmploye(props) {
                   "input",
                   {
                     name: "jkk",
-                    defaultChecked: updatedJenisBpjs.jkk,
                     chacked: jenisBpjs.jkk,
                     onChange: handleCheckboxChange,
                     type: "checkbox",
@@ -333,7 +327,6 @@ function EditEmploye(props) {
                   {
                     type: "checkbox",
                     name: "jkm",
-                    defaultChecked: updatedJenisBpjs.jkm,
                     chacked: jenisBpjs.jkm,
                     onChange: handleCheckboxChange,
                     className: "checkbox checkbox-sm rounded-sm"
@@ -347,7 +340,6 @@ function EditEmploye(props) {
                   {
                     type: "checkbox",
                     name: "jht",
-                    defaultChecked: updatedJenisBpjs.jht,
                     chacked: jenisBpjs.jht,
                     onChange: handleCheckboxChange,
                     className: "checkbox checkbox-sm rounded-sm"
@@ -361,7 +353,6 @@ function EditEmploye(props) {
                   {
                     type: "checkbox",
                     name: "jp",
-                    defaultChecked: updatedJenisBpjs.jp,
                     chacked: jenisBpjs.jp,
                     onChange: handleCheckboxChange,
                     className: "checkbox checkbox-sm rounded-sm"
@@ -375,48 +366,13 @@ function EditEmploye(props) {
                   {
                     type: "checkbox",
                     name: "jkp",
-                    defaultChecked: updatedJenisBpjs.jkp,
                     chacked: jenisBpjs.jkp,
                     onChange: handleCheckboxChange,
                     className: "checkbox checkbox-sm rounded-sm"
                   }
                 )
               ] })
-            ] }) }),
-            /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-              /* @__PURE__ */ jsx("span", { className: "label-text", children: "File BPJS Ketenaga Kerjaan : " }),
-              /* @__PURE__ */ jsx(
-                "input",
-                {
-                  type: "file",
-                  name: "file_bpjs_ketenaga",
-                  onChange: (e) => {
-                    setNewKetenaga(e.target.files[0]);
-                  },
-                  className: "file-input file-input-sm rounded-sm file-input-bordered"
-                }
-              )
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxs("div", { className: "flex gap-2 w-full my-10 sm:my-0", children: [
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                type: "submit",
-                disabled: processing,
-                className: "btn btn-sm w-1/2 rounded-sm bg-orange-400 hover:bg-orange-600 hover:text-white transition-all ease-in-out duration-150",
-                children: "Simpan"
-              }
-            ),
-            /* @__PURE__ */ jsx(
-              "button",
-              {
-                type: "button",
-                onClick: (e) => cancel(e),
-                className: "btn btn-sm w-1/2 rounded-sm bg-red-400 hover:bg-red-600 hover:text-white transition-all ease-in-out duration-150",
-                children: "Cancel"
-              }
-            )
+            ] }) })
           ] })
         ]
       }
@@ -424,5 +380,5 @@ function EditEmploye(props) {
   ] });
 }
 export {
-  EditEmploye as default
+  CreateEmploye as default
 };

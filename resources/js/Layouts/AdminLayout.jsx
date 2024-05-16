@@ -43,7 +43,7 @@ function AdminLayout({ children, overflow }) {
         <AnimatePresence>
           <motion.div
             initial={{ width: "0%" }}
-            animate={{ width: !open ? "0%" : "15%" }}
+            animate={{ width: !open ? "0%" : "12%" }}
             transition={{ duration: 0.15, transition: { ease: "easeInOut" } }}
             className={`flex items-center fixed z-10 `}
           >

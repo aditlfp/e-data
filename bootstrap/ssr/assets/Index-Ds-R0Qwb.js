@@ -1,5 +1,5 @@
 import { jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BeIvTlxI.js";
+import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
 import "react";
 import "./Sidebar-BZBlB_YE.js";
 import "@inertiajs/react";

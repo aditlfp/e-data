@@ -19,7 +19,7 @@ class EmployeController extends Controller
     public function index()
     {
         
-        $employes = DB::table('employes')->paginate(25);
+        $employes = DB::table('employes')->get();
         $employe = EmployeResource::collection($employes);
         return Inertia::render('EmployePages/IndexEmploye', compact('employe'));
     }

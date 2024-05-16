@@ -1,5 +1,5 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-BeIvTlxI.js";
+import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
 import { useForm, Head } from "@inertiajs/react";
 import "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";

@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as Authenticated } from "./AuthenticatedLayout-B-8mkO6V.js";
+import { A as Authenticated } from "./AuthenticatedLayout-BwgaERF5.js";
 import { Head } from "@inertiajs/react";
-import "./AdminLayout-BeIvTlxI.js";
+import "./AdminLayout-B1z_bIYh.js";
 import "react";
 import "./Sidebar-BZBlB_YE.js";
 import "react-icons/bi/index.esm.js";

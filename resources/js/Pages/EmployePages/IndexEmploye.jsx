@@ -16,6 +16,7 @@ import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
 import Paginate from "@/Components/Paginate";
 import _ from "lodash";
+import ReactPaginate from "react-paginate";
 
 function IndexEmploye(props) {
   const [sortOrder, setSortOrder] = useState(false);
@@ -26,6 +27,9 @@ function IndexEmploye(props) {
   const { delete: destroy, get } = useForm({
     id: "",
   });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const employeesPerPage = 10;
 
   const handleDelete = (id) => {
     setModal(true);
@@ -34,23 +38,29 @@ function IndexEmploye(props) {
     // setDataModal(id);
   };
 
-  const debouncedSearch = _.debounce((term) => {
-    const results = props.employe.data.filter((emplo) => {
-      return (
-        emplo.no_ktp.includes(term) ||
-        emplo.name.toLowerCase().includes(term.toLowerCase())
-      );
-    });
-    setSearchResults(results);
-  }, 300);
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
-    debouncedSearch(e.target.value);
   };
 
   const closeModal = () => {
     setModal(!modal);
+  };
+
+  // Filter employees based on search query
+  const filteredEmployees = props.employe.data.filter((employee) =>
+    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Get current employees to display
+  const offset = currentPage * employeesPerPage;
+  const currentEmployees = filteredEmployees.slice(
+    offset,
+    offset + employeesPerPage
+  );
+  const pageCount = Math.ceil(filteredEmployees.length / employeesPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
   const confirmDelete = (id) => {
@@ -121,9 +131,9 @@ function IndexEmploye(props) {
         <div>
           <input
             type="text"
-            value={searchTerm}
-            onChange={handleSearch}
-            placeholder="Cari berdasarkan NIK atau Nama"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Cari berdasarkan KTP atau Nama"
             className="input input-sm rounded-sm input-bordered"
           />
         </div>
@@ -164,8 +174,8 @@ function IndexEmploye(props) {
             </tr>
           </thead>
           <tbody>
-            {searchResults.length > 0 ? (
-              searchResults.map((emplo, index) => (
+            {currentEmployees.length > 0 ? (
+              currentEmployees.map((emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
                   <td className="border-[1px] border-orange-300">
                     {emplo.img ? (
@@ -261,7 +271,24 @@ function IndexEmploye(props) {
         </table>
       </div>
 
-      <Paginate meta={props.employe.meta}></Paginate>
+      {/* <Paginate meta={props.employe.meta}></Paginate> */}
+      <ReactPaginate
+        containerClassName="join shadow-md mb-10"
+        previousLinkClassName="join-item btn btn-sm rounded-sm bg-orange-600 hover:bg-orange-800 text-white"
+        pageLinkClassName="join-item btn btn-sm disabled:bg-orange-300 disabled:text-white rounded-sm bg-orange-600 hover:bg-orange-800 text-white"
+        nextLinkClassName="join-item btn btn-sm rounded-sm bg-orange-600 hover:bg-orange-800 text-white"
+        previousLabel={"Previous"}
+        breakLinkClassName="join-item rounded-sm btn btn-sm btn-disabled disabled:bg-orange-300 disabled:text-white"
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={pageCount}
+        marginPagesDisplayed={0}
+        pageRangeDisplayed={4}
+        onPageChange={handlePageClick}
+        // containerClassName={"pagination"}
+        activeClassName={"active"}
+        renderOnZeroPageCount={0}
+      />
       {modal && (
         <Modal>
           <div className="flex flex-col">

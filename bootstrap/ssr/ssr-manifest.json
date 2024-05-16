@@ -11,7 +11,7 @@
     "/build/assets/DeleteUserForm-ChEnN-Yb.js"
   ],
   "resources/js/Components/Footer.jsx": [
-    "/build/assets/AdminLayout-BeIvTlxI.js"
+    "/build/assets/AdminLayout-B1z_bIYh.js"
   ],
   "resources/js/Components/InputError.jsx": [
     "/build/assets/TextInput-DqQN-yCl.js"
@@ -21,9 +21,6 @@
   ],
   "resources/js/Components/Modal.jsx": [
     "/build/assets/DeleteUserForm-ChEnN-Yb.js"
-  ],
-  "resources/js/Components/Paginate.jsx": [
-    "/build/assets/IndexEmploye-CGEqUNSE.js"
   ],
   "resources/js/Components/PrimaryButton.jsx": [
     "/build/assets/PrimaryButton-BVytxmEe.js"
@@ -35,10 +32,10 @@
     "/build/assets/TextInput-DqQN-yCl.js"
   ],
   "resources/js/Layouts/AdminLayout.jsx": [
-    "/build/assets/AdminLayout-BeIvTlxI.js"
+    "/build/assets/AdminLayout-B1z_bIYh.js"
   ],
   "resources/js/Layouts/AuthenticatedLayout.jsx": [
-    "/build/assets/AuthenticatedLayout-B-8mkO6V.js"
+    "/build/assets/AuthenticatedLayout-BwgaERF5.js"
   ],
   "resources/js/Layouts/GuestLayout.jsx": [
     "/build/assets/GuestLayout-6C--fd8Y.js"
@@ -53,7 +50,7 @@
     "/build/assets/Sidebar-BZBlB_YE.js"
   ],
   "resources/js/Pages/Admin/Dashboard/Index.jsx": [
-    "/build/assets/Index-BzH4b9Ce.js"
+    "/build/assets/Index-Ds-R0Qwb.js"
   ],
   "resources/js/Pages/Auth/ConfirmPassword.jsx": [
     "/build/assets/ConfirmPassword-e_A4S8Kn.js"
@@ -74,34 +71,34 @@
     "/build/assets/VerifyEmail-Bm-yC4Ut.js"
   ],
   "resources/js/Pages/CareerPage/CreateCareer.jsx": [
-    "/build/assets/CreateCareer-BpWB59u1.js"
+    "/build/assets/CreateCareer-BMbMShw0.js"
   ],
   "resources/js/Pages/CareerPage/EditCareer.jsx": [
-    "/build/assets/EditCareer-K-AKEn1Y.js"
+    "/build/assets/EditCareer-7Y_m6sm8.js"
   ],
   "resources/js/Pages/CareerPage/IndexCareer.jsx": [
-    "/build/assets/IndexCareer-Lz2haOg1.js"
+    "/build/assets/IndexCareer-C-q24eVw.js"
   ],
   "resources/js/Pages/CareerPage/ShowEmployeCareer.jsx": [
     "/build/assets/ShowEmployeCareer-CQuEBZPv.js"
   ],
   "resources/js/Pages/Dashboard.jsx": [
-    "/build/assets/Dashboard-DRrP6Lmh.js"
+    "/build/assets/Dashboard-bKmBzw1Q.js"
   ],
   "resources/js/Pages/EmployePages/CreateEmploye.jsx": [
-    "/build/assets/CreateEmploye-DEGQjzso.js"
+    "/build/assets/CreateEmploye-D7hGUQJE.js"
   ],
   "resources/js/Pages/EmployePages/EditEmploye.jsx": [
-    "/build/assets/EditEmploye-DEf1s19u.js"
+    "/build/assets/EditEmploye-DPcn-okx.js"
   ],
   "resources/js/Pages/EmployePages/IndexEmploye.jsx": [
-    "/build/assets/IndexEmploye-CGEqUNSE.js"
+    "/build/assets/IndexEmploye-BJKtvToq.js"
   ],
   "resources/js/Pages/EmployePages/ShowEmploye.jsx": [
-    "/build/assets/ShowEmploye-B7f7IC3E.js"
+    "/build/assets/ShowEmploye-CO6gGlua.js"
   ],
   "resources/js/Pages/Profile/Edit.jsx": [
-    "/build/assets/Edit-Bag30K74.js"
+    "/build/assets/Edit-C3y3aF_p.js"
   ],
   "resources/js/Pages/Profile/Partials/DeleteUserForm.jsx": [
     "/build/assets/DeleteUserForm-ChEnN-Yb.js"

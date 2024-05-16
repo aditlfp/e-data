@@ -23,7 +23,7 @@ class EmployeRequest extends FormRequest
     {
         return [
             'user_id' => ['nullable'],
-            'name' => ['required'],
+            'name' => ['required', 'unique:employes,name'],
             'ttl' => ['nullable'],
             'nik' => ['nullable'],
             'no_kk' => ['required'],

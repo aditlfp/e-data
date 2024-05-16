@@ -27,7 +27,6 @@ function EditEmploye(props) {
     user_id: props.employe.user_id,
     name: props.employe.name,
     ttl: props.employe.ttl,
-    nik: props.employe.nik ? props.employe.nik : "",
     no_kk: props.employe.no_kk,
     no_ktp: props.employe.no_ktp,
     client_id: props.employe.client_id,
@@ -49,7 +48,7 @@ function EditEmploye(props) {
   });
 
   const updatedJenisBpjs = Object.keys(jenisBpjs).reduce((acc, key) => {
-    acc[key] = data.jenis_bpjs.includes(key);
+    acc[key] = data.jenis_bpjs?.includes(key);
     return acc;
   }, {});
 
@@ -66,7 +65,6 @@ function EditEmploye(props) {
       user_id: data.user_id,
       name: data.name,
       ttl: data.ttl,
-      nik: data.nik,
       no_kk: data.no_kk,
       no_ktp: data.no_ktp,
       client_id: data.client_id,

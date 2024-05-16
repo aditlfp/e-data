@@ -70,9 +70,17 @@ function IndexEmploye(props) {
   };
   const confirmDelete = (id) => {
     destroy(route(`employes.destroy`, id), {
-      onSuccess: () => toast.warning("Berhasil Menghapus Data Karyawan!", {
-        theme: "colored"
-      })
+      onSuccess: () => {
+        toast.warning("Berhasil Menghapus Data Karyawan!", {
+          theme: "colored"
+        });
+        get(route("employes.index"), {
+          replace: true,
+          // Replace the current page
+          preserveScroll: true
+          // Preserve the current scroll position
+        });
+      }
     });
     setModal(!modal);
   };
@@ -122,7 +130,7 @@ function IndexEmploye(props) {
         }
       )
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "overflow-scroll sm:overflow-hidden max-h-[50svh]", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra  table-xs my-5", children: [
+    /* @__PURE__ */ jsx("div", { className: "overflow-hidden", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra  table-xs my-5", children: [
       /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
         /* @__PURE__ */ jsxs("th", { className: "border-x-[1px] border-orange-300 flex", children: [
           sortOrder == false ? /* @__PURE__ */ jsx(

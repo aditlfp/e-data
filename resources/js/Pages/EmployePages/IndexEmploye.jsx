@@ -47,8 +47,10 @@ function IndexEmploye(props) {
   };
 
   // Filter employees based on search query
-  const filteredEmployees = props.employe.data.filter((employee) =>
-    employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredEmployees = props.employe.data.filter(
+    (employee) =>
+      employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.no_ktp.includes(searchQuery)
   );
 
   // Get current employees to display

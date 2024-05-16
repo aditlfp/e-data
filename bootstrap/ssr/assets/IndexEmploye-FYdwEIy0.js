@@ -32,7 +32,7 @@ function IndexEmploye(props) {
     setModal(!modal);
   };
   const filteredEmployees = props.employe.data.filter(
-    (employee) => employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+    (employee) => employee.name.toLowerCase().includes(searchQuery.toLowerCase()) || employee.no_ktp.includes(searchQuery)
   );
   const offset = currentPage * employeesPerPage;
   const currentEmployees = filteredEmployees.slice(

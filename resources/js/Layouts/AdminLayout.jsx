@@ -89,7 +89,7 @@ function AdminLayout({ children, overflow }) {
           </motion.div>
         </AnimatePresence>
         <div
-          className={`w-full p-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`}
+          className={`w-full p-5 py-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`}
         >
           <ToastContainer
             position="top-center"

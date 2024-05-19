@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SlipGajiController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/create-career/{id}', [CareerController::class, 'createCareer'])->name('create.career');
     Route::post('/store-career', [CareerController::class, 'storeCareer'])->name('store.career');
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::resource('/slip-gaji', SlipGajiController::class);
+    Route::get('/slip-gaji/create/{id}', [SlipGajiController::class, 'createSlip'])->name('createSlip');
 });
 
 

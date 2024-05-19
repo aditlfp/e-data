@@ -2,6 +2,7 @@ import { Link, useForm } from "@inertiajs/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BiChevronsRight, BiSolidLockOpenAlt } from "react-icons/bi";
+import { BiExtension } from "react-icons/bi/index.esm";
 
 function Sidebar({ link, value, children, open }) {
   const { post } = useForm({});
@@ -22,6 +23,13 @@ function Sidebar({ link, value, children, open }) {
           >
             <div className="text-lg">{children}</div>
             {value}
+          </Link>
+          <Link
+            href={route("slip-gaji.index")}
+            className="bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-center text-xs sm:text-sm cursor-pointer"
+          >
+            <div className="text-lg">{<BiExtension />}</div>
+            Slip Gaji
           </Link>
           <button
             type="button"

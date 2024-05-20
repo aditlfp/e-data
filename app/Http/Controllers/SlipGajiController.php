@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\SlipGaji;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SlipGajiRequest;
+use App\Models\Absensi;
 use App\Models\Client;
 use App\Models\Divisi;
 use App\Models\Employe;
+use App\Models\Kerjasama;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class SlipGajiController extends Controller
@@ -18,10 +23,16 @@ class SlipGajiController extends Controller
      */
     public function index()
     {
-        $employe = Employe::all();
-        $slip = SlipGaji::all();
-        $mitra = Client::all();
-        return Inertia::render('SlipGajiPages/IndexSlip', compact('employe', 'slip', 'mitra'));
+        // $employe = Employe::all();
+        $currentMonth = date('Y-m');
+        // dd($currentMonth);
+        $employe = User::on('mysql2connection')->with('latestSlip')->get();
+        $slip = $employe->pluck('latestSlip')->filter();
+
+
+        $mitra = Kerjasama::on('mysql2connection')->with('client')->get();
+        $divisi = Divisi::on('mysql2connection')->get();
+        return Inertia::render('SlipGajiPages/IndexSlip', compact('currentMonth', 'employe', 'slip', 'mitra', 'divisi'));
     }
 
     /**
@@ -31,11 +42,15 @@ class SlipGajiController extends Controller
     {
         $mitra = $request->mitra;
         $bulan = $request->bulan;
+        $bulanFormat = Carbon::createFromFormat('Y-m', $request->bulan);
+        $client = Kerjasama::on('mysql2connection')->with('client')->first();
         $employe = Employe::all();
-        $divisi = Divisi::on('mysql2connection');
-        $user = User::on('mysql2connection')->where('kerjasama_id', $mitra)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
-        // dd($user, $divisi);
-        return Inertia::render('SlipGajiPages/CreateSlip', compact('employe', 'user', 'bulan'));
+        $divisi = Divisi::on('mysql2connection')->get();
+        $user = User::on('mysql2connection')->with('divisi')->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
+        
+        $absensi = Absensi::on('mysql2connection')->where('kerjasama_id', $mitra)->whereYear('tanggal_absen', $bulanFormat->year)->whereMonth('tanggal_absen', $bulanFormat->month)->get();
+        
+        return Inertia::render('SlipGajiPages/CreateSlip', compact('employe', 'user', 'bulan', 'divisi', 'absensi', 'mitra', 'client'));
     }
 
     /**
@@ -43,24 +58,22 @@ class SlipGajiController extends Controller
      */
     public function store(Request $request)
     {
-        $slips = new SlipGaji();
-
-        // dd($request->users);
         foreach ($request->users as $userData) {
             // Process each user's data and save it accordingly
             if ($userData['gaji_pokok'] != null) {
                 SlipGaji::create([
                     'user_id' => $userData['user_id'],
-                    'bulan_tahun' => '05-2024',
-                    'status' => 'oke',
+                    'bulan_tahun' => $userData['bulan_tahun'],
+                    'status' => 'true',
                     'gaji_pokok' => $userData['gaji_pokok'],
                     'gaji_lembur' => $userData['gaji_lembur'],
                     'tj_jabatan' => $userData['tj_jabatan'],
                     'tj_kehadiran' => $userData['tj_kehadiran'],
                     'tj_kinerja' => $userData['tj_kinerja'],
-                    'bpjs_kesehatan' => $userData['bpjs_kesehatan'],
-                    'bpjs_ketenaga' => $userData['bpjs_ketenaga'],
-                    'qurban' => $userData['qurban'],
+                    'bpjs' => $userData['bpjs'],
+                    'pinjaman' => $userData['pinjaman'],
+                    'absen' => $userData['absen'],
+                    'mk' => $userData['mk'],
                     'lain_lain' => $userData['lain_lain'],
                 ]);
             }

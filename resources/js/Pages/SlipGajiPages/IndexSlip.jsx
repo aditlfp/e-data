@@ -8,7 +8,7 @@ export default function IndexSlip(props) {
     mitra: "0",
     bulan: "",
   });
-
+  const slipsArray = Object.values(props.slip);
   const create = (e) => {
     e.preventDefault();
     get(route("slip-gaji.create"));
@@ -30,7 +30,7 @@ export default function IndexSlip(props) {
         <div>
           <form onSubmit={create} className="flex items-center gap-2">
             <select
-              className="select select-sm select-bordered text-xs w-1/6"
+              className="select select-sm select-bordered rounded-sm text-xs w-1/6"
               onChange={(e) => setData("mitra", e.target.value)}
             >
               <option value="0" key="0">
@@ -38,13 +38,13 @@ export default function IndexSlip(props) {
               </option>
               {props.mitra.map((mit, i) => (
                 <option value={mit.id} key={i}>
-                  {mit.name}
+                  {mit.client.name}
                 </option>
               ))}
             </select>
             <input
               type="month"
-              className="input input-sm input-bordered"
+              className="input input-sm input-bordered rounded-sm"
               onChange={(e) => setData("bulan", e.target.value)}
             />
             <button
@@ -59,13 +59,14 @@ export default function IndexSlip(props) {
           <table className="table table-zebra  table-xs my-5">
             <thead>
               <tr className="bg-orange-600 text-white capitalize">
-                <th className="border-x-[1px] border-orange-300">Karyawan</th>
+                <th className="border-x-[1px] border-orange-300">Nama</th>
+                <th className="border-x-[1px] border-orange-300">Formasi</th>
                 <th className="border-x-[1px] border-orange-300">Status</th>
                 <th className="border-x-[1px] border-orange-300">
                   Terakhir Gajian
                 </th>
                 <th className="border-x-[1px] border-orange-300">
-                  Status Slip Gaji
+                  Status Slip Gaji ( Bulan Ini )
                 </th>
                 {props.auth.user.role_id == 2 && (
                   <th className="border-x-[1px] border-orange-300">Aksi</th>
@@ -75,11 +76,55 @@ export default function IndexSlip(props) {
             <tbody>
               {props.employe.map((us, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
-                  <td className="border-[1px] border-orange-300">{us.name}</td>
-                  <td className="border-[1px] border-orange-300">aktif</td>
-                  <td className="border-[1px] border-orange-300">ntahlah</td>
-                  <td className="border-[1px] border-orange-300">null</td>
-                  <td className="border-[1px] border-orange-300"></td>
+                  <td className="border-[1px] border-orange-300">
+                    {us.nama_lengkap}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {props.divisi?.map((dev, i) => {
+                      // GET Devisi On DB2_CONNECTION
+                      return (
+                        <span key={i}>
+                          {us.devisi_id == dev.id && dev.name}
+                        </span>
+                      );
+                    })}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {us.temp_ban == "false" ? (
+                      <span className="text-white rounded-sm badge badge-success badge-sm">
+                        Active
+                      </span>
+                    ) : (
+                      <span className="text-red-900 rounded-sm badge badge-error badge-sm">
+                        Temp Ban
+                      </span>
+                    )}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {slipsArray.map((s, i) => {
+                      return us.id == s.user_id && s.bulan_tahun;
+                    })}
+                  </td>
+                  <td className="border-[1px] border-orange-300">
+                    {slipsArray.map((s, i) => {
+                      if (
+                        us.id == s.user_id &&
+                        s.bulan_tahun == props.currentMonth
+                      ) {
+                        return (
+                          <div className="w-full flex items-center justify-center">
+                            <span
+                              key={i}
+                              className="badge badge-sm badge-info rounded-sm text-sky-950"
+                            >
+                              Sudah Dibuat
+                            </span>
+                          </div>
+                        );
+                      }
+                    })}
+                  </td>
+                  <td className="border-[1px] border-orange-300">Edit</td>
                 </tr>
               ))}
             </tbody>

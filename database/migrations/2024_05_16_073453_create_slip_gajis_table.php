@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('slip_gajis', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class);
+            $table->string('mk');
             $table->string('bulan_tahun');
             $table->string('status');
             $table->string('gaji_pokok');
@@ -23,9 +24,9 @@ return new class extends Migration
             $table->string('tj_jabatan');
             $table->string('tj_kehadiran');
             $table->string('tj_kinerja');
-            $table->string('bpjs_kesehatan');
-            $table->string('bpjs_ketenaga');
-            $table->string('qurban');
+            $table->string('bpjs');
+            $table->string('pinjaman')->nullable();
+            $table->string('absen')->nullable();
             $table->string('lain_lain');
             $table->timestamps();
         });

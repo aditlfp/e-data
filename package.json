@@ -21,6 +21,7 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
     "lodash": "^4.17.21",
     "react-icons": "^4.12.0",

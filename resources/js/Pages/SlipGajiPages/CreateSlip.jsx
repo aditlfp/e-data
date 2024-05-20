@@ -2,23 +2,34 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import Desain from "../../../../public/image/desain_slip.jpg";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
+import TimeDiffcomponent from "@/Components/TimeDiffcomponent";
 export default function CreateSlip(props) {
-  // console.log(props.user);
+  console.log(props);
   const { data, setData, post, get, processing, errors, reset } = useForm({
     users: props.user.map((us) => ({
       user_name: us.nama_lengkap,
       user_id: us.id,
+      bulan_tahun: props.bulan,
       gaji_pokok: "",
       gaji_lembur: "",
       tj_jabatan: "",
       tj_kehadiran: "",
       tj_kinerja: "",
-      bpjs_kesehatan: "",
-      bpjs_ketenaga: "",
-      qurban: "",
+      bpjs: "",
+      pinjaman: "",
       lain_lain: "",
+      mk: "",
     })),
   });
+
+  // function handleChange(e) {
+  //   const key = e.target.id;
+  //   const value = e.target.value;
+  //   setData((values) => ({
+  //     ...values.users,
+  //     [key]: value,
+  //   }));
+  // }
 
   const handleChange = (index, field, value) => {
     const newUsers = [...data.users];
@@ -38,7 +49,9 @@ export default function CreateSlip(props) {
         <div className="flex flex-col  gap-2 my-4 items-start">
           <div>
             <p className="font-bold text-lg">Tambah Slip Gaji</p>
-            <p className="font-bold text-base">Mitra: </p>
+            <p className="font-bold text-base">
+              Mitra: {props.client.client.name}
+            </p>
             <p className="font-bold text-base">Bulan: {props.bulan}</p>
           </div>
           <div className="flex justify-start mt-1">
@@ -80,39 +93,42 @@ export default function CreateSlip(props) {
                     Kehadiran
                   </th>
                   <th className="border-x-[1px] border-orange-300">Kinerja</th>
-                  <th className="border-x-[1px] border-orange-300">
-                    BPJS <br /> Kesehatan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">
-                    BPJS <br /> Ketenagakerjaan
-                  </th>
-                  <th className="border-x-[1px] border-orange-300">Qurban</th>
+                  <th className="border-x-[1px] border-orange-300">BPJS</th>
+                  <th className="border-x-[1px] border-orange-300">Pinjaman</th>
+                  <th className="border-x-[1px] border-orange-300">Absen</th>
                   <th className="border-x-[1px] border-orange-300">
                     Lain-lain
                   </th>
                 </tr>
               </thead>
               <tbody className="text-[10px]">
-                {data.users.map((user, index) => {
+                {props.user.map((us, index) => {
                   return (
                     <tr key={index} className="border-[1px] border-orange-300 ">
                       <td className="border-[1px] border-orange-300">
-                        {user.user_name}
+                        {us.nama_lengkap}
                       </td>
                       <td className="border-[1px] border-orange-300">
-                        divisi jabatan
+                        {props.divisi?.map((dev, i) => {
+                          return (
+                            <span key={i}>
+                              {us.devisi_id == dev.id && dev.name}
+                            </span>
+                          );
+                        })}
                       </td>
-                      <td className="border-[1px] border-orange-300">MK</td>
+                      {/* MK */}
 
                       {[
+                        "mk",
                         "gaji_pokok",
                         "gaji_lembur",
                         "tj_jabatan",
                         "tj_kehadiran",
                         "tj_kinerja",
-                        "bpjs_kesehatan",
-                        "bpjs_ketenaga",
-                        "qurban",
+                        "bpjs",
+                        "pinjaman",
+                        "absen",
                         "lain_lain",
                       ].map((field) => (
                         <td
@@ -120,13 +136,19 @@ export default function CreateSlip(props) {
                           className="border-[1px] border-orange-300 min-w-[95px]"
                         >
                           <input
+                            id={us[field]}
                             type="text"
                             className="input input-xs input-bordered w-full"
-                            value={user[field]}
+                            value={us[field]}
                             onChange={(e) =>
                               handleChange(index, field, e.target.value)
                             }
                           />
+                          {errors[field] && (
+                            <span className="text-red-500">
+                              {errors[field]}
+                            </span>
+                          )}
                         </td>
                       ))}
                     </tr>

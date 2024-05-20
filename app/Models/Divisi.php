@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class Divisi extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql2connection';
+
+    protected $table = 'data_auth.divisis';
 
     public function Jabatan()
     {

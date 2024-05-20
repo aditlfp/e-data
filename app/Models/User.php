@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $connection = 'mysql2connection';
+
+    // protected $table = 'data_auth.users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,6 +52,11 @@ class User extends Authenticatable
     }
     public function Divisi()
     {
-        return $this->belongsTo(Divisi::class);
+        return $this->setConnection('mysql2connection')->belongsTo(Divisi::class);
+    }
+
+    public function latestSlip()
+    {
+        return $this->setConnection("mysql")->hasOne(SlipGaji::class)->latestOfMany();
     }
 }

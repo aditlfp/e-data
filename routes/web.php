@@ -42,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('/slip-gaji', SlipGajiController::class);
     Route::get('/slip-gaji/create/{id}', [SlipGajiController::class, 'createSlip'])->name('createSlip');
+    Route::get('/slip-gaji/ubah/{id}', [SlipGajiController::class, 'editSlip'])->name('editSlip');
 });
 
 

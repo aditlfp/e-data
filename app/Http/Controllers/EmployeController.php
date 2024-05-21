@@ -20,8 +20,9 @@ class EmployeController extends Controller
     {
         
         $employes = DB::table('employes')->get();
+        $clients = Client::all();
         $employe = EmployeResource::collection($employes);
-        return Inertia::render('EmployePages/IndexEmploye', compact('employe'));
+        return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients'));
     }
 
     public function create()

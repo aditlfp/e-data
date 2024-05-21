@@ -28,6 +28,7 @@ function IndexEmploye(props) {
     id: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 10;
 
@@ -47,19 +48,28 @@ function IndexEmploye(props) {
   };
 
   // Filter employees based on search query
-  const filteredEmployees = props.employe.data.filter(
-    (employee) =>
+  // Combine both filters into one
+  const combinedFilteredEmployees = props.employe.data.filter((employee) => {
+    const matchesSearchQuery =
       employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.no_ktp.includes(searchQuery)
-  );
+      employee.no_ktp.includes(searchQuery);
+
+    const matchesFilterSelect =
+      filterSelect.toLowerCase() === "all" ||
+      employee.client.name.toLowerCase().includes(filterSelect.toLowerCase());
+    return matchesSearchQuery && matchesFilterSelect;
+  });
 
   // Get current employees to display
   const offset = currentPage * employeesPerPage;
-  const currentEmployees = filteredEmployees.slice(
+  const currentEmployees = combinedFilteredEmployees.slice(
     offset,
     offset + employeesPerPage
   );
-  const pageCount = Math.ceil(filteredEmployees.length / employeesPerPage);
+
+  const pageCount = Math.ceil(
+    combinedFilteredEmployees.length / employeesPerPage
+  );
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -130,6 +140,25 @@ function IndexEmploye(props) {
       <Head title="Employe - Home" />
       <HeadNavigation title={"Employe - Home"} />
       <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
+        {/* emplo.client.name */}
+        <div>
+          <select
+            defaultValue={0}
+            required
+            onChange={(e) => setFilter(e.target.value)}
+            className="select w-32 select-bordered select-sm text-sm rounded-sm"
+          >
+            <option value={0} disabled>
+              Filter Mitra
+            </option>
+            <option value="All">Semua</option>
+            {props?.clients?.map((client, index) => (
+              <option key={index} value={client.name}>
+                {client.name}
+              </option>
+            ))}
+          </select>
+        </div>
         <div>
           <input
             type="text"

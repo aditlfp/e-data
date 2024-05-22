@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import Desain from "../../../../public/image/desain_slip.jpg";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
@@ -9,21 +9,31 @@ import { toast } from "react-toastify";
 export default function CreateSlip(props) {
   console.log(props);
   const { data, setData, post, get, processing, errors, reset } = useForm({
-    users: props.user.map((us) => ({
-      nama_lengkap: us.nama_lengkap,
-      devisi_id: us.devisi_id,
-      user_id: us.id,
+    users: props.slip.map((slip) => ({
+      nama_lengkap: slip.user.nama_lengkap,
+      devisi_id: slip.user.devisi_id,
+      id: slip.id,
+      user_id: slip.user.id,
       bulan_tahun: props.bulan,
-      gaji_pokok: "",
-      gaji_lembur: "",
-      tj_jabatan: "",
-      tj_kehadiran: "",
-      tj_kinerja: "",
-      bpjs: "",
-      pinjaman: "",
-      lain_lain: "",
-      mk: "",
-      total: 0,
+      gaji_pokok: slip.gaji_pokok,
+      gaji_lembur: slip.gaji_lembur,
+      tj_jabatan: slip.tj_jabatan,
+      tj_kehadiran: slip.tj_kehadiran,
+      tj_kinerja: slip.tj_kinerja,
+      bpjs: slip.bpjs,
+      pinjaman: slip.pinjaman,
+      lain_lain: slip.lain_lain,
+      mk: slip.mk,
+      absen: slip.absen,
+      total:
+        (parseFloat(slip.gaji_pokok) || 0) +
+        (parseFloat(slip.gaji_lembur) || 0) +
+        (parseFloat(slip.tj_jabatan) || 0) +
+        (parseFloat(slip.tj_kehadiran) || 0) +
+        (parseFloat(slip.tj_kinerja) || 0) -
+        (parseFloat(slip.bpjs) || 0) -
+        (parseFloat(slip.pinjaman) || 0) -
+        (parseFloat(slip.lain_lain) || 0),
     })),
   });
 
@@ -69,16 +79,17 @@ export default function CreateSlip(props) {
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("slip-gaji.store"), {
+    // patch(route("slip-gaji.update", props.mitra));
+    router.post(route("slip-gaji.update", props.mitra), {
+      _method: "PATCH",
+      users: data.users,
       onSuccess: () =>
         toast.success("Berhasil Menambahkan Data !", {
           theme: "colored",
         }),
     });
   };
-  const btnSubmit = (e) => {
-    submit();
-  };
+
   return (
     <>
       <AdminLayout>

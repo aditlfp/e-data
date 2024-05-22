@@ -27,7 +27,8 @@ class EmployeController extends Controller
 
     public function create()
     {
-        $users = User::all();
+        $employe = Employe::all();
+        $users = User::whereNotIn('nama_lengkap', $employe->pluck('name'))->get();
         $clients = Client::all();
         return Inertia::render('EmployePages/CreateEmploye', compact('users', 'clients'));
     }

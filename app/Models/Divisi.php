@@ -8,7 +8,7 @@ class Divisi extends Model
 {
     protected $connection = 'mysql2connection';
 
-    protected $table = 'data_auth.divisis';
+    protected $table = 'sacpocom_absensi.divisis';
 
     public function Jabatan()
     {

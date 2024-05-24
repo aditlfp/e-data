@@ -41,7 +41,7 @@ class SlipGajiController extends Controller
         $mitra = $request->mitra;
         $bulan = $request->bulan;
         $bulanFormat = Carbon::createFromFormat('Y-m', $request->bulan);
-        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('client_id', $mitra)->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
         
@@ -88,14 +88,6 @@ class SlipGajiController extends Controller
 
         // dd($request->all(), $slip);
         return redirect()->route('slip-gaji.index')->with('success', 'Data saved successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(SlipGaji $slipGaji)
-    {
-        //
     }
 
     

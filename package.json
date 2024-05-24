@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@arismun/format-rupiah": "^3.0.0",
+    "@react-pdf/renderer": "^3.4.4",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.1.7",
     "lodash": "^4.17.21",

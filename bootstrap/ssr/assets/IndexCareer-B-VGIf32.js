@@ -1,10 +1,10 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
+import { A as AdminLayout } from "./AdminLayout-BBNDZYJL.js";
 import { useForm, Head } from "@inertiajs/react";
 import "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { BiSolidCog, BiSolidDownload } from "react-icons/bi/index.esm.js";
-import "./Sidebar-BZBlB_YE.js";
+import "./Sidebar-CW9JvTre.js";
 import "framer-motion";
 import "react-toastify";
 function IndexCareer(props) {

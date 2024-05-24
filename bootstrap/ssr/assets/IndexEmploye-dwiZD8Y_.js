@@ -1,26 +1,37 @@
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
+import { A as AdminLayout } from "./AdminLayout-BBNDZYJL.js";
 import { useForm, Head } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { N as NoImage } from "./no-image-lUO9SVn2.js";
-import { BiSortUp, BiSortDown, BiSolidCog, BiSolidTrash, BiSolidFileFind, BiSolidExtension } from "react-icons/bi/index.esm.js";
+import { BiSolidDownload, BiSortUp, BiSortDown, BiSolidCog, BiSolidTrash, BiSolidFileFind, BiSolidExtension } from "react-icons/bi/index.esm.js";
 import Modal from "./Modal-DmMYx0rx.js";
 import { toast } from "react-toastify";
 import "lodash";
 import ReactPaginate from "react-paginate";
-import "./Sidebar-BZBlB_YE.js";
+import "@react-pdf/renderer";
+import "./MyDocument-Dwe1BdOJ.js";
+import "./Sidebar-CW9JvTre.js";
 import "framer-motion";
 function IndexEmploye(props) {
+  var _a;
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   useState("");
   const [searchResults, setSearchResults] = useState(props.employe.data);
-  const { delete: destroy, get } = useForm({
-    id: ""
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get,
+    post
+  } = useForm({
+    id: "",
+    name: ""
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 10;
   const handleDelete = (id) => {
@@ -31,15 +42,22 @@ function IndexEmploye(props) {
   const closeModal = () => {
     setModal(!modal);
   };
-  const filteredEmployees = props.employe.data.filter(
-    (employee) => employee.name.toLowerCase().includes(searchQuery.toLowerCase()) || employee.no_ktp.includes(searchQuery)
-  );
+  const combinedFilteredEmployees = props.employe.data.filter((employee) => {
+    const matchesSearchQuery = employee.name.toLowerCase().includes(searchQuery.toLowerCase()) || employee.no_ktp.includes(searchQuery);
+    const matchesFilterSelect = filterSelect.toLowerCase() === "all" || employee.client.name.toLowerCase().includes(filterSelect.toLowerCase());
+    return matchesSearchQuery && matchesFilterSelect;
+  });
   const offset = currentPage * employeesPerPage;
-  const currentEmployees = filteredEmployees.slice(
+  const currentEmployees = combinedFilteredEmployees.slice(
     offset,
     offset + employeesPerPage
   );
-  const pageCount = Math.ceil(filteredEmployees.length / employeesPerPage);
+  const handleDownload = () => {
+    get(route("download.employe", data));
+  };
+  const pageCount = Math.ceil(
+    combinedFilteredEmployees.length / employeesPerPage
+  );
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
@@ -88,6 +106,32 @@ function IndexEmploye(props) {
     /* @__PURE__ */ jsx(Head, { title: "Employe - Home" }),
     /* @__PURE__ */ jsx(HeadNavigation, { title: "Employe - Home" }),
     /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center", children: [
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsxs(
+        "select",
+        {
+          defaultValue: 0,
+          required: true,
+          onChange: (e) => {
+            setFilter(e.target.value);
+            setData("name", e.target.value);
+          },
+          className: "select w-32 select-bordered select-sm text-sm rounded-sm",
+          children: [
+            /* @__PURE__ */ jsx("option", { value: 0, disabled: true, children: "Filter Mitra" }),
+            /* @__PURE__ */ jsx("option", { value: "All", children: "Semua" }),
+            (_a = props == null ? void 0 : props.clients) == null ? void 0 : _a.map((client, index) => /* @__PURE__ */ jsx("option", { value: client.name, children: client.name }, index))
+          ]
+        }
+      ) }),
+      /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
+        "button",
+        {
+          type: "button",
+          onClick: handleDownload,
+          className: "btn btn-sm rounded-sm bg-green-600 text-green-900 hover:bg-green-500 hover:text-green-800",
+          children: /* @__PURE__ */ jsx(BiSolidDownload, { className: "text-xl" })
+        }
+      ) }),
       /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
         "input",
         {

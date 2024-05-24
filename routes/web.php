@@ -6,6 +6,7 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlipGajiController;
+use App\Models\Employe;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/export-employe/{data}', function(Employe $employe) {
+        return Inertia::render('EmployePages/PrintEmploye', $employe);
+    })->name('employe.export');
     Route::resource('/employes', EmployeController::class);
     Route::resource('/careers', CareerController::class)->only(['index', 'show', 'edit', 'update', 'destroy']);
     Route::get('/create-career/{id}', [CareerController::class, 'createCareer'])->name('create.career');
@@ -43,6 +47,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('/slip-gaji', SlipGajiController::class);
     Route::get('/slip-gaji/create/{id}', [SlipGajiController::class, 'createSlip'])->name('createSlip');
     Route::get('/slip-gaji/ubah/{id}', [SlipGajiController::class, 'editSlip'])->name('editSlip');
+    Route::get('/employe/download', [EmployeController::class, 'download'])->name('download.employe');
 });
 
 

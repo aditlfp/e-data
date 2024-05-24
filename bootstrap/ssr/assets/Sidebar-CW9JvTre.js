@@ -1,7 +1,7 @@
 import { jsx, Fragment, jsxs } from "react/jsx-runtime";
 import { useForm, Link } from "@inertiajs/react";
 import "react";
-import { BiSolidLockOpenAlt } from "react-icons/bi/index.esm.js";
+import { BiExtension, BiSolidLockOpenAlt } from "react-icons/bi/index.esm.js";
 function Sidebar({ link, value, children, open }) {
   const { post } = useForm({});
   const signOut = () => {
@@ -17,6 +17,17 @@ function Sidebar({ link, value, children, open }) {
         children: [
           /* @__PURE__ */ jsx("div", { className: "text-lg", children }),
           value
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxs(
+      Link,
+      {
+        href: route("slip-gaji.index"),
+        className: "bg-orange-300 flex hover:text-gray-100 hover:bg-orange-400 transition-all items-center gap-x-4 font-bold ease-in-out duration-150 my-10 py-2 px-3 rounded-sm justify-center text-xs sm:text-sm cursor-pointer",
+        children: [
+          /* @__PURE__ */ jsx("div", { className: "text-lg", children: /* @__PURE__ */ jsx(BiExtension, {}) }),
+          "Slip Gaji"
         ]
       }
     ),

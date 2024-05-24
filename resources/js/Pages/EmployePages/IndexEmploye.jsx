@@ -11,12 +11,14 @@ import {
   BiSolidUserBadge,
   BiSortDown,
   BiSortUp,
+  BiSolidDownload,
 } from "react-icons/bi";
 import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
 import Paginate from "@/Components/Paginate";
 import _ from "lodash";
 import ReactPaginate from "react-paginate";
+import PrintEmploye from "./PrintEmploye";
 
 function IndexEmploye(props) {
   const [sortOrder, setSortOrder] = useState(false);
@@ -24,8 +26,15 @@ function IndexEmploye(props) {
   const [dataModal, setDataModal] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState(props.employe.data);
-  const { delete: destroy, get } = useForm({
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get,
+    post,
+  } = useForm({
     id: "",
+    name: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
@@ -66,6 +75,10 @@ function IndexEmploye(props) {
     offset,
     offset + employeesPerPage
   );
+
+  const handleDownload = () => {
+    get(route("download.employe", data));
+  };
 
   const pageCount = Math.ceil(
     combinedFilteredEmployees.length / employeesPerPage
@@ -110,15 +123,6 @@ function IndexEmploye(props) {
     setSortOrder(!sortOrder);
   };
 
-  // const toggleSortOrder = () => {
-  //   setSortOrder(!sortOrder);
-  //   const sortedByNikAsc = [...searchResults].sort((a, b) => a.nik - b.nik);
-  //   const sortedByNikDesc = [...searchResults].sort((a, b) => b.nik - a.nik);
-  //   setSearchResults(sortOrder ? sortedByNikAsc : sortedByNikDesc);
-  // };
-
-  // Sort by NIK in descending order
-
   const createEmploye = () => {
     get(route("employes.create"));
   };
@@ -145,7 +149,10 @@ function IndexEmploye(props) {
           <select
             defaultValue={0}
             required
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => {
+              setFilter(e.target.value);
+              setData("name", e.target.value);
+            }}
             className="select w-32 select-bordered select-sm text-sm rounded-sm"
           >
             <option value={0} disabled>
@@ -158,6 +165,15 @@ function IndexEmploye(props) {
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="btn btn-sm rounded-sm bg-green-600 text-green-900 hover:bg-green-500 hover:text-green-800"
+          >
+            <BiSolidDownload className="text-xl" />
+          </button>
         </div>
         <div>
           <input

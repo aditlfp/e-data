@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
 use App\Http\Requests\EmployeRequest;
 use App\Http\Resources\EmployeResource;
 use App\Models\Career;
 use App\Models\Client;
 use App\Models\Employe;
+use App\Models\Kerjasama;
 use App\Models\User;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -184,5 +187,20 @@ class EmployeController extends Controller
         $employe = Employe::findOrFail($id);
         $employe->delete();
         return redirect()->back()->with(['messege' => 'Berhasil Hapus Data !']);
+    }
+
+    public function download(Request $request)
+    {
+        if($request->name != 'All')
+        {
+            $client = Client::on('mysql2connection')->where('name', $request->name)->first();
+            $employe = Employe::with('client')->where('client_id', $client->id)->get();
+        }
+        elseif($request->name == 'All')  {
+            $employe = Employe::with('client')->get();
+        } 
+        
+        return Inertia::render('EmployePages/PrintEmploye', compact('employe'));
+
     }
 }

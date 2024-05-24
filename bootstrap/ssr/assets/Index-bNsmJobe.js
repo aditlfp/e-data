@@ -1,7 +1,7 @@
 import { jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-B1z_bIYh.js";
+import { A as AdminLayout } from "./AdminLayout-BBNDZYJL.js";
 import "react";
-import "./Sidebar-BZBlB_YE.js";
+import "./Sidebar-CW9JvTre.js";
 import "@inertiajs/react";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";

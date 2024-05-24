@@ -1,6 +1,6 @@
 import { jsx, Fragment, jsxs } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar-BZBlB_YE.js";
+import Sidebar from "./Sidebar-CW9JvTre.js";
 import { AnimatePresence, motion } from "framer-motion";
 import { BiExtension, BiChevronsLeft } from "react-icons/bi/index.esm.js";
 import { ToastContainer } from "react-toastify";
@@ -98,7 +98,7 @@ function AdminLayout({ children, overflow }) {
           /* @__PURE__ */ jsxs(
             "div",
             {
-              className: `w-full p-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`,
+              className: `w-full p-5 py-10 min-h-screen sm:ml-48 overflow-hidden sm:overflow-auto`,
               children: [
                 /* @__PURE__ */ jsx(
                   ToastContainer,

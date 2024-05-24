@@ -23,10 +23,10 @@ jobs:
       with:
         node-version: '18.19.0'
 
-    - name: Install dependencies and build assets
-      run: |
-        npm install
-        npm run build
+    # - name: Install dependencies and build assets
+    #   run: |
+    #     npm install
+    #     npm run build
 
     - name: Compress files
       run: zip -r main.zip .

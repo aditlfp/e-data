@@ -15,6 +15,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Imports\SlipGajiImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class SlipGajiController extends Controller
 {
@@ -26,8 +29,8 @@ class SlipGajiController extends Controller
         // $employe = Employe::all();
         $currentMonth = date('Y-m');
         $employe = User::on('mysql2connection')->with('latestSlip')->get();
-        $slip = $employe->pluck('latestSlip')->filter();
-
+        $slip = $employe->pluck('latestSlip')->where('bulan_tahun', $currentMonth)->filter();
+        // dd(SlipGaji::whereMonth('bulan_tahun', $currentMonth)->get());
         $mitra = Kerjasama::on('mysql2connection')->with('client')->get();
         $divisi = Divisi::on('mysql2connection')->get();
         return Inertia::render('SlipGajiPages/IndexSlip', compact('currentMonth', 'employe', 'slip', 'mitra', 'divisi'));
@@ -48,7 +51,7 @@ class SlipGajiController extends Controller
         $slip = SlipGaji::where('bulan_tahun', $bulan)->get();
         
        $user = User::on('mysql2connection')
-                ->with('divisi')
+                ->with('devisi')
                 ->where('kerjasama_id', $client->id)
                 ->orderBy('kerjasama_id', 'asc')
                 ->whereIn('nama_lengkap', $employe->pluck('name')->toArray())
@@ -65,12 +68,16 @@ class SlipGajiController extends Controller
      */
     public function store(Request $request)
     {
+
         foreach ($request->users as $userData) {
             // Process each user's data and save it accordingly
+            // dd($userData);
             if ($userData['gaji_pokok'] != null) {
                 SlipGaji::create([
                     'user_id' => $userData['user_id'],
                     'bulan_tahun' => $userData['bulan_tahun'],
+                    'karyawan' => $userData['nama_lengkap'],
+                    'formasi' => $userData['formasi'],
                     'status' => 'true',
                     'gaji_pokok' => $userData['gaji_pokok'],
                     'gaji_lembur' => $userData['gaji_lembur'],
@@ -122,6 +129,8 @@ class SlipGajiController extends Controller
                 $slip = [
                     'user_id' => $userData['user_id'],
                     'bulan_tahun' => $userData['bulan_tahun'],
+                    'karyawan' => $userData['karyawan'],
+                    'formasi' => $userData['formasi'],
                     'status' => 'true',
                     'gaji_pokok' => $userData['gaji_pokok'],
                     'gaji_lembur' => $userData['gaji_lembur'],
@@ -138,6 +147,41 @@ class SlipGajiController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+    public function import(Request $request)
+    {
+
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx,csv',
+        ]);
+
+        // dd($request->file('file'));
+        $file = $request->file('file');
+
+    
+        if($request->hasFile('file'))
+        {
+            Excel::import(new SlipGajiImport, $file);
+            
+        }else{
+            dd("ERROR");
+        }
+
+        return redirect()->back()->with('messege', 'Successfully To Import Slip Gaji From Excell !');
+
+    }
+
+    public function downloadTemplate()
+    {
+        $path = storage_path("app/excel_template/template-excel.xlsx");
+
+        if (!file_exists($path)) {
+            abort(404, 'File not found.');
+        }
+
+        return response()->download($path);
+        
     }
 
     /**

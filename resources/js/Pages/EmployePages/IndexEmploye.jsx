@@ -196,6 +196,7 @@ function IndexEmploye(props) {
         <table className="table table-zebra  table-xs my-5">
           <thead>
             <tr className="bg-orange-600 text-white capitalize">
+              <th className="border-x-[1px] border-orange-300">No</th>
               <th className="border-x-[1px] border-orange-300">Foto Profile</th>
               <th className="border-x-[1px] border-orange-300 flex">
                 {sortOrder == false ? (
@@ -224,6 +225,9 @@ function IndexEmploye(props) {
             {currentEmployees.length > 0 ? (
               currentEmployees.map((emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
+                  <td className="border-[1px] border-orange-300">
+                    {index + 1}
+                  </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.img ? (
                       <img src={`/storage/images/${emplo.img}`} width={100} />

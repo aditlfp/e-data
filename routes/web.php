@@ -48,6 +48,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/slip-gaji/create/{id}', [SlipGajiController::class, 'createSlip'])->name('createSlip');
     Route::get('/slip-gaji/ubah/{id}', [SlipGajiController::class, 'editSlip'])->name('editSlip');
     Route::get('/employe/download', [EmployeController::class, 'download'])->name('download.employe');
+    Route::post('/slipgaji/import', [SlipGajiController::class, 'import'])->name('importe.slipe');
+    Route::get('/slipgaji/download-template', [SlipGajiController::class, 'downloadTemplate'])->name('download.template');
 });
 
 

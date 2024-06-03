@@ -12,6 +12,7 @@ export default function CreateSlip(props) {
     users: props.user.map((us) => ({
       nama_lengkap: us.nama_lengkap,
       devisi_id: us.devisi_id,
+      formasi: us.devisi.name, 
       user_id: us.id,
       bulan_tahun: props.bulan,
       gaji_pokok: "",
@@ -145,19 +146,16 @@ export default function CreateSlip(props) {
               </thead>
               <tbody className="text-[10px]">
                 {data.users.map((us, index) => {
+                  console.log(us)
                   return (
                     <tr key={index} className="border-[1px] border-orange-300 ">
                       <td className="border-[1px] border-orange-300">
                         {us.nama_lengkap}
                       </td>
                       <td className="border-[1px] border-orange-300">
-                        {props.divisi?.map((dev, i) => {
-                          return (
-                            <span key={i}>
-                              {us.devisi_id == dev.id && dev.name}
-                            </span>
-                          );
-                        })}
+                        <span>
+                          {us.formasi}
+                        </span>
                       </td>
                       {/* MK */}
 

@@ -1,15 +1,24 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaFileUpload } from "react-icons/fa";
+import { toast } from "react-toastify";
+import axios from 'axios';
+import { FileDownload } from 'js-file-download';
+
 
 export default function IndexSlip(props) {
-  // console.log(props);
+  const fileDownload = FileDownload;  
   const { data, setData, post, get, processing, errors, reset } = useForm({
     mitra: "0",
     bulan: "",
     route: "",
+    file: ""
   });
+  const { flash } = usePage().props
+  // console.log(flash)
+  const [file, setFile] = useState(null);
   const slipsArray = Object.values(props.slip);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredEmployees, setFilteredEmployees] = useState(props.employe);
@@ -43,12 +52,35 @@ export default function IndexSlip(props) {
       get(route("editSlip", data.mitra));
     }
   };
+
+
+
+   const handleSubmit = (e) => {
+     e.preventDefault();
+    post("slipgaji/import",data.file, {
+      onSuccess: () =>
+        toast.success("Berhasil Menambahkan Data !", {
+          theme: "colored",
+        }),
+    });
+  };
+
+  const download = async () => {
+   await axios.get(route('download.template'), {
+      responseType: 'blob',
+   }).then((res) => 
+   {
+      fileDownload(res.data)
+   })
+
+  }
   return (
     <>
       <AdminLayout>
         <Head title="Slip Gaji - Home" />
         <HeadNavigation title={"Slip Gaji - Home"} />
         <div className="flex flex-col sm:flex-row justify-end gap-2 my-4 items-start sm:items-center">
+          
           <div>
             <input
               id="search_input"
@@ -60,6 +92,20 @@ export default function IndexSlip(props) {
             />
           </div>
         </div>
+        <form onSubmit={handleSubmit} enctype="multipart/form-data" className="flex">
+            <div className="form-group flex items-end gap-x-1">
+            <span className="flex flex-col">
+                  <label htmlFor="file" className="label">Excel File: </label>
+                  <input type="file" id="file" className="file-input rounded-sm file-input-bordered file-input-sm" 
+                  onChange={(e) => setData("file", e.target.files[0])} />
+            </span>
+              <span className="flex gap-x-1">
+                  <button type="submit" className="btn btn-sm btn-success rounded-sm"><FaFileUpload className="text-green-950"/></button>
+                  <a href="slipgaji/download-template " download className="btn btn-sm rounded-sm  bg-orange-500 font-semibold text-sm hover:text-gray-200 uppercase text-orange-900 hover:bg-orange-700 border-none text-white">download template</a>
+              </span>
+              </div>
+                {errors.file && <span className="text-red-500">{errors.file}</span>}
+        </form>
         <div className="flex gap-2  w-fit">
           <form onSubmit={create} className="flex items-center gap-2">
             <div>
@@ -129,10 +175,23 @@ export default function IndexSlip(props) {
             </div>
           </form>
         </div>
+        {/*alert*/}
+        {flash.messege && (
+          <div role="alert" className="alert bg-green-400/90 border-none mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current text-green-800 shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span className="text-green-800 font-medium">{ flash.messege }</span>
+          </div>
+        )}
+        
+        {/*end alert*/}
         <div className="overflow-y-auto h-[365px] my-5">
+
           <table className="table table-zebra table-xs w-full">
             <thead className="sticky top-0">
               <tr className="bg-orange-600 text-white capitalize">
+                <th className="border-x-[1px] border-orange-300 sticky top-0">
+                  No
+                </th>
                 <th className="border-x-[1px] border-orange-300 sticky top-0">
                   Nama
                 </th>
@@ -154,61 +213,66 @@ export default function IndexSlip(props) {
               className=""
               style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}
             >
-              {filteredEmployees.map((us, index) => (
-                <tr key={index} className="border-[1px] border-orange-300 ">
-                  <td className="border-[1px] border-orange-300">
-                    {us.nama_lengkap}
-                  </td>
-                  <td className="border-[1px] border-orange-300">
-                    {props.divisi?.map((dev, i) => {
-                      // GET Devisi On DB2_CONNECTION
-                      return (
-                        <span key={i}>
-                          {us.devisi_id == dev.id && dev.name}
-                        </span>
-                      );
-                    })}
-                  </td>
-                  <td className="border-[1px] border-orange-300">
-                    {us.temp_ban == "false" ? (
-                      <span className="text-white rounded-sm badge badge-success badge-sm">
-                        Active
-                      </span>
-                    ) : (
-                      <span className="text-red-900 rounded-sm badge badge-error badge-sm">
-                        Temp Ban
-                      </span>
-                    )}
-                  </td>
-                  <td className="border-[1px] border-orange-300">
-                    {slipsArray.map((s, i) => {
-                      return us.id == s.user_id && s.bulan_tahun;
-                    })}
-                  </td>
-                  <td className="border-[1px] border-orange-300">
-                    {slipsArray.map((s, i) => {
-                      if (
-                        us.id == s.user_id &&
-                        s.bulan_tahun == props.currentMonth
-                      ) {
+              {filteredEmployees.map((us, index) => {
+                return (
+                  <tr key={index} className="border-[1px] border-orange-300 ">
+                    <td className="border-[1px] border-orange-300">
+                      {index + 1}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {us.nama_lengkap}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {props.divisi?.map((dev, i) => {
+                        // GET Devisi On DB2_CONNECTION
                         return (
-                          <div
-                            key={i}
-                            className="w-full flex items-center justify-center"
-                          >
-                            <span
-                              key={i}
-                              className="badge badge-sm badge-info rounded-sm text-sky-950"
-                            >
-                              Sudah Dibuat
-                            </span>
-                          </div>
+                          <span key={i}>
+                            {us.devisi_id == dev.id && dev.name}
+                          </span>
                         );
-                      }
-                    })}
-                  </td>
-                </tr>
-              ))}
+                      })}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {us.temp_ban == "false" ? (
+                        <span className="text-white rounded-sm badge badge-success badge-sm">
+                          Active
+                        </span>
+                      ) : (
+                        <span className="text-red-900 rounded-sm badge badge-error badge-sm">
+                          Temp Ban
+                        </span>
+                      )}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {slipsArray.map((s, i) => {
+                        return us.id == s.user_id && s.bulan_tahun;
+                      })}
+                    </td>
+                    <td className="border-[1px] border-orange-300">
+                      {slipsArray.map((s, i) => {
+                        if (
+                          us.id == s.user_id &&
+                          s.bulan_tahun == props.currentMonth
+                        ) {
+                          return (
+                            <div
+                              key={i}
+                              className="w-full flex items-center justify-center"
+                            >
+                              <span
+                                key={i}
+                                className="badge badge-sm badge-info rounded-sm text-sky-950"
+                              >
+                                Sudah Dibuat
+                              </span>
+                            </div>
+                          );
+                        }
+                      })}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

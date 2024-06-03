@@ -50,7 +50,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    public function Divisi()
+    public function Devisi()
     {
         return $this->setConnection('mysql2connection')->belongsTo(Divisi::class);
     }

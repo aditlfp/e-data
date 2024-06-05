@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
-    backgroundColor: "#E4E4E4",
+    backgroundColor: "white",
     padding: 5,
     fontSize: 5,
   },
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    backgroundColor: "#EEE",
+    backgroundColor: "white",
     fontSize: 5,
   },
   tableColHeaderNo: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
-    backgroundColor: "#EEE",
+    backgroundColor: "white",
     fontSize: 5,
   },
   tableCol: {
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyDocument = ({ employe }) => (
-  <Document>
+const MyDocument = ( {props} ) => {
+  return (
+      <Document>
     <Page size="A4" style={styles.page} orientation="landscape">
       <View style={styles.section}>
         <View style={styles.table}>
@@ -112,7 +113,7 @@ const MyDocument = ({ employe }) => (
               </Text>
             </View>
           </View>
-          {employe?.map((emp, i) => (
+          {props?.employe?.map((emp, i) => (
             <View style={styles.tableRow} key={i}>
               <View style={styles.tableColNo}>
                 <Text style={styles.tableCell}>{i + 1}</Text>
@@ -136,7 +137,7 @@ const MyDocument = ({ employe }) => (
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableBpjs}>
-                  {emp.jenis_bpjs.length > 0 ? emp.jenis_bpjs.join(", ") : "~"}
+                  {emp.jenis_bpjs?.length > 0 ? emp.jenis_bpjs.join(", ") : "~"}
                 </Text>
               </View>
               <View style={styles.tableCol}>
@@ -155,6 +156,8 @@ const MyDocument = ({ employe }) => (
       </View>
     </Page>
   </Document>
-);
+
+  )
+};
 
 export default MyDocument;

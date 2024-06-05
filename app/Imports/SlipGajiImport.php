@@ -11,9 +11,12 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 
-class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  WithCalculatedFormulas
+class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  WithCalculatedFormulas, WithEvents, WithValidation
 {
+    use RegistersEventListeners;
     /**
     * @param array $row
     *
@@ -22,18 +25,23 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
 
     public function model(array $row)
     {
-        
        // Calculate the total if it's a formula
         $month = date('Y-m');
         $models = SlipGaji::where('bulan_tahun', $month)->get();
         $users = User::on('mysql2connection')->where('nama_lengkap', $row['karyawan'])->first();
-                if($row['bulan_dan_tahun'] != null && $users != null)
+                if($row['bulan_tahun'] != null && $users != null)
                 {
-                    $thisFormat = Carbon::createFromFormat('m-Y', $row['bulan_dan_tahun']);
+                    // dd(Carbon::now())
+                  $bulan_tahun = $row['bulan_tahun'];
+
+                    // Check if the format is '05-2024' and convert to 'm-Y'
+                    if (preg_match('/^\d{2}-\d{4}$/', $bulan_tahun)) {
+                        $bulan_tahun = Carbon::createFromFormat('m-Y', $bulan_tahun)->format('Y-m');
+                    }
 
                     return new SlipGaji([
                         'user_id'       => $users->id,
-                        'bulan_tahun'   => $thisFormat->format('Y-m'),
+                        'bulan_tahun'   => $bulan_tahun,
                         'karyawan'      => $row['karyawan'],
                         'formasi'       => $row['formasi'],
                         'mk'            => (int) $row['mk'],
@@ -77,5 +85,30 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
     public function batchSize(): int
     {
         return 100;
+    }
+
+    public function headingRow(): int
+    {
+        return 2; // Because the actual headings start from row 2
+    }
+
+    public function mappedCells(): array
+    {
+        return [
+            'bulan_tahun' => 'A3',
+            'karyawan' => 'B3',
+            'formasi' => 'C3',
+            'mk' => 'D3',
+            'pokok' => 'E3',
+            'lembur' => 'F3',
+            'jabatan' => 'G3',
+            'kehadiran' => 'H3',
+            'kinerja' => 'I3',
+            'bpjs' => 'J3',
+            'pinjaman' => 'K3',
+            'absen'  => 'L3',
+            'lain_lain' => 'M3',
+            'total' => 'N3',
+        ];
     }
 }

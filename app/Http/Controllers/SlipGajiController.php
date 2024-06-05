@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Imports\SlipGajiImport;
+use App\Exports\SlipGajiExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,8 +30,7 @@ class SlipGajiController extends Controller
         // $employe = Employe::all();
         $currentMonth = date('Y-m');
         $employe = User::on('mysql2connection')->with('latestSlip')->get();
-        $slip = $employe->pluck('latestSlip')->where('bulan_tahun', $currentMonth)->filter();
-        // dd(SlipGaji::whereMonth('bulan_tahun', $currentMonth)->get());
+        $slip = SlipGaji::whereIn('user_id', $employe->pluck('id'))->latest()->get();
         $mitra = Kerjasama::on('mysql2connection')->with('client')->get();
         $divisi = Divisi::on('mysql2connection')->get();
         return Inertia::render('SlipGajiPages/IndexSlip', compact('currentMonth', 'employe', 'slip', 'mitra', 'divisi'));
@@ -172,23 +172,25 @@ class SlipGajiController extends Controller
 
     }
 
-    public function downloadTemplate()
+    public function downloadTemplate(Request $request)
     {
-        $path = storage_path("app/excel_template/template-excel.xlsx");
-
-        if (!file_exists($path)) {
-            abort(404, 'File not found.');
-        }
-
-        return response()->download($path);
-        
+        $mitra = $request->mitra;
+        $bulan = $request->bulan;
+        $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
+        $slip = SlipGaji::where('bulan_tahun', $bulan)->get();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('client_id', $mitra)->first();
+        $employe = Employe::pluck('name');
+        return Excel::download(
+            (new SlipGajiExport)
+                ->forWith('devisi')
+                ->forKerjasama($client->id)
+                ->forOrder('asc')
+                ->forWhereIn($employe->toArray())
+                ->forWhereNotIn($slip->pluck('user_id')->toArray())
+                ->withAdditionalParams($bulan),
+            'slip.xlsx'
+        );
+       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(SlipGaji $slipGaji)
-    {
-        //
-    }
 }

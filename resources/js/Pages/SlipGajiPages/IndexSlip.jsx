@@ -5,23 +5,24 @@ import { useEffect, useState } from "react";
 import { FaFileUpload } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axios from 'axios';
-import { FileDownload } from 'js-file-download';
 
 
 export default function IndexSlip(props) {
-  const fileDownload = FileDownload;  
   const { data, setData, post, get, processing, errors, reset } = useForm({
-    mitra: "0",
-    bulan: "",
+    mitra: null,
+    bulan: null,
     route: "",
     file: ""
   });
   const { flash } = usePage().props
   // console.log(flash)
   const [file, setFile] = useState(null);
-  const slipsArray = Object.values(props.slip);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredEmployees, setFilteredEmployees] = useState(props.employe);
+  const [filteredEmployees, setFilteredEmployees] = useState(props.employe); // Assuming it's props.employees, not props.employe
+  const datas = Object.values(props.slip);
+  const slipsArray = filteredEmployees?.map(employee => {
+    return datas.filter(slip => slip?.user_id === employee?.id);
+  });
 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
@@ -65,13 +66,47 @@ export default function IndexSlip(props) {
     });
   };
 
+    // console.log("mitra :",data.mitra == null, "bulan:", data.bulan == null)
+
   const download = async () => {
-   await axios.get(route('download.template'), {
-      responseType: 'blob',
-   }).then((res) => 
-   {
-      fileDownload(res.data)
-   })
+  
+    if(data.mitra == 0 || data.mitra == null && data.bulan == null)
+    {
+        toast.error("Mitra & Bulan Cannot Be Empty !", {
+          theme: "colored",
+        })
+
+    }else{
+      fetch(route('download.template', data), {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob(); // Convert the response to a Blob
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'slip.xlsx'; // Adjust the filename as needed
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });  
+    }
+    
+
 
   }
   return (
@@ -101,7 +136,7 @@ export default function IndexSlip(props) {
             </span>
               <span className="flex gap-x-1">
                   <button type="submit" className="btn btn-sm btn-success rounded-sm"><FaFileUpload className="text-green-950"/></button>
-                  <a href="slipgaji/download-template " download className="btn btn-sm rounded-sm  bg-orange-500 font-semibold text-sm hover:text-gray-200 uppercase text-orange-900 hover:bg-orange-700 border-none text-white">download template</a>
+                  <a onClick={() => download()} className="btn btn-sm rounded-sm  bg-orange-500 font-semibold text-sm hover:text-gray-200 uppercase text-orange-900 hover:bg-orange-700 border-none text-white">download template</a>
               </span>
               </div>
                 {errors.file && <span className="text-red-500">{errors.file}</span>}
@@ -244,9 +279,11 @@ export default function IndexSlip(props) {
                       )}
                     </td>
                     <td className="border-[1px] border-orange-300">
-                      {slipsArray.map((s, i) => {
-                        return us.id == s.user_id && s.bulan_tahun;
-                      })}
+                     {slipsArray.map((s, i) => {
+                      const matchedSlip = s.find(slip => us.id === slip.user_id);
+                      return matchedSlip ? matchedSlip.bulan_tahun : null;
+                    })}
+
                     </td>
                     <td className="border-[1px] border-orange-300">
                       {slipsArray.map((s, i) => {
@@ -269,6 +306,29 @@ export default function IndexSlip(props) {
                           );
                         }
                       })}
+                        {slipsArray.map((s, i) => {
+                          // Check if s is an array before using find
+                          const matchedSlip = s.find(slip => us.id === slip.user_id);
+                          const matchMonth = s.find(slip => slip.bulan_tahun === props.currentMonth);
+
+                          return (
+                            <div
+                              key={i}
+                              className="w-full flex items-center justify-center"
+                            >
+                              {matchedSlip ? (
+                                matchMonth && (
+                                  <span
+                                    key={i}
+                                    className="badge badge-sm badge-info rounded-sm text-sky-950"
+                                  >
+                                    Sudah Dibuat
+                                  </span>
+                                )) : null}
+                            </div>
+                          );
+                        })}
+
                     </td>
                   </tr>
                 );

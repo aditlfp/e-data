@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import "lodash";
 import ReactPaginate from "react-paginate";
 import "@react-pdf/renderer";
-import "./MyDocument-Dwe1BdOJ.js";
+import "./MyDocument-BMbqPOLW.js";
 import "./Sidebar-CW9JvTre.js";
 import "framer-motion";
 function IndexEmploye(props) {
@@ -153,6 +153,7 @@ function IndexEmploye(props) {
     ] }),
     /* @__PURE__ */ jsx("div", { className: "overflow-hidden", children: /* @__PURE__ */ jsxs("table", { className: "table table-zebra  table-xs my-5", children: [
       /* @__PURE__ */ jsx("thead", { children: /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "No" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Foto Profile" }),
         /* @__PURE__ */ jsxs("th", { className: "border-x-[1px] border-orange-300 flex", children: [
           sortOrder == false ? /* @__PURE__ */ jsx(
@@ -176,7 +177,8 @@ function IndexEmploye(props) {
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Mitra" }),
         props.auth.user.role_id == 2 && /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Aksi" })
       ] }) }),
-      /* @__PURE__ */ jsx("tbody", { children: currentEmployees.length > 0 ? currentEmployees.map((emplo, index) => /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300 ", children: [
+      /* @__PURE__ */ jsx("tbody", { children: currentEmployees.length > 0 ? currentEmployees == null ? void 0 : currentEmployees.map((emplo, index) => /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300 ", children: [
+        /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: index + 1 }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.img ? /* @__PURE__ */ jsx("img", { src: `/storage/images/${emplo.img}`, width: 100 }) : /* @__PURE__ */ jsx("img", { src: NoImage, width: 100 }) }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.name }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.ttl }),

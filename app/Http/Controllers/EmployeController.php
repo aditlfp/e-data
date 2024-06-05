@@ -195,6 +195,7 @@ class EmployeController extends Controller
         {
             $client = Client::on('mysql2connection')->where('name', $request->name)->first();
             $employe = Employe::with('client')->where('client_id', $client->id)->get();
+            // dd($employe);
         }
         elseif($request->name == 'All')  {
             $employe = Employe::with('client')->get();

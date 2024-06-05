@@ -16,13 +16,6 @@ function EditEmploye(props) {
     jp: false,
     jkp: false
   });
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setData((data2) => ({
-      ...data2,
-      jenis_bpjs: checked ? [...data2.jenis_bpjs, name] : data2.jenis_bpjs.filter((item) => item !== name)
-    }));
-  };
   const { data, setData, put, processing, errors } = useForm({
     user_id: props.employe.user_id,
     name: props.employe.name,
@@ -42,6 +35,14 @@ function EditEmploye(props) {
     oldFileBpjs: props.employe.file_bpjs_kesehatan ? props.employe.file_bpjs_kesehatan : "",
     oldKetenaga: props.employe.file_bpjs_ketenaga ? props.employe.file_bpjs_ketenaga : ""
   });
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      jenis_bpjs: Array.isArray(prevData.jenis_bpjs) ? checked ? [...prevData.jenis_bpjs, name] : prevData.jenis_bpjs.filter((item) => item !== name) : []
+      // Fallback to empty array if not iterable
+    }));
+  };
   const updatedJenisBpjs = Object.keys(jenisBpjs).reduce((acc, key) => {
     var _a2;
     acc[key] = (_a2 = data.jenis_bpjs) == null ? void 0 : _a2.includes(key);
@@ -71,10 +72,14 @@ function EditEmploye(props) {
       oldimage: data.oldimage,
       oldktp: data.oldktp,
       oldFileBpjs: data.oldFileBpjs,
-      oldKetenaga: data.oldKetenaga,
-      onSuccess: () => toast.success("Berhasil Menambahkan Data !", {
-        theme: "colored"
-      })
+      oldKetenaga: data.oldKetenaga
+    }, {
+      onSuccess: () => {
+        toast.success("Berhasil Mengupdate Data !", {
+          theme: "colored"
+        });
+        window.location.href = route("employes.index");
+      }
     });
   };
   const cancel = (e) => {
@@ -118,20 +123,6 @@ function EditEmploye(props) {
               }
             ),
             errors.ttl && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.ttl })
-          ] }),
-          /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
-            /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan NIK : " }),
-            /* @__PURE__ */ jsx(
-              "input",
-              {
-                name: "nik",
-                value: data.nik,
-                onChange: (e) => setData("nik", e.target.value),
-                placeholder: "NIK",
-                className: "input input-sm rounded-sm input-bordered"
-              }
-            ),
-            errors.nik && /* @__PURE__ */ jsx("span", { className: "text-red-500", children: errors.nik })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "form-control", children: [
             /* @__PURE__ */ jsx("span", { className: "label-text", children: "Masukkan No KK : " }),

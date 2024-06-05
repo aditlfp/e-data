@@ -14,6 +14,7 @@ function CreateSlip(props) {
     users: props.user.map((us) => ({
       nama_lengkap: us.nama_lengkap,
       devisi_id: us.devisi_id,
+      formasi: us.devisi.name,
       user_id: us.id,
       bulan_tahun: props.bulan,
       gaji_pokok: "",
@@ -107,12 +108,10 @@ function CreateSlip(props) {
             ] })
           ] }),
           /* @__PURE__ */ jsx("tbody", { className: "text-[10px]", children: data.users.map((us, index) => {
-            var _a;
+            console.log(us);
             return /* @__PURE__ */ jsxs("tr", { className: "border-[1px] border-orange-300 ", children: [
               /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: us.nama_lengkap }),
-              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: (_a = props.divisi) == null ? void 0 : _a.map((dev, i) => {
-                return /* @__PURE__ */ jsx("span", { children: us.devisi_id == dev.id && dev.name }, i);
-              }) }),
+              /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx("span", { children: us.formasi }) }),
               [
                 "mk",
                 "gaji_pokok",

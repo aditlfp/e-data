@@ -76,6 +76,8 @@ function IndexEmploye(props) {
     offset + employeesPerPage
   );
 
+  // console.log(currentEmployees)
+
   const handleDownload = () => {
     get(route("download.employe", data));
   };
@@ -223,7 +225,7 @@ function IndexEmploye(props) {
           </thead>
           <tbody>
             {currentEmployees.length > 0 ? (
-              currentEmployees.map((emplo, index) => (
+              currentEmployees?.map((emplo, index) => (
                 <tr key={index} className="border-[1px] border-orange-300 ">
                   <td className="border-[1px] border-orange-300">
                     {index + 1}

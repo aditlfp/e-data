@@ -13,16 +13,7 @@ function EditEmploye(props) {
     jkp: false,
   });
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    // For arrays, we need to handle the change manually
-    setData((data) => ({
-      ...data,
-      jenis_bpjs: checked
-        ? [...data.jenis_bpjs, name]
-        : data.jenis_bpjs.filter((item) => item !== name),
-    }));
-  };
+ 
   const { data, setData, put, processing, errors } = useForm({
     user_id: props.employe.user_id,
     name: props.employe.name,
@@ -46,6 +37,18 @@ function EditEmploye(props) {
       ? props.employe.file_bpjs_ketenaga
       : "",
   });
+
+   const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      jenis_bpjs: Array.isArray(prevData.jenis_bpjs)
+        ? (checked
+          ? [...prevData.jenis_bpjs, name]
+          : prevData.jenis_bpjs.filter((item) => item !== name))
+        : [], // Fallback to empty array if not iterable
+    }));
+  };
 
   const updatedJenisBpjs = Object.keys(jenisBpjs).reduce((acc, key) => {
     acc[key] = data.jenis_bpjs?.includes(key);
@@ -79,10 +82,14 @@ function EditEmploye(props) {
       oldktp: data.oldktp,
       oldFileBpjs: data.oldFileBpjs,
       oldKetenaga: data.oldKetenaga,
-      onSuccess: () =>
-        toast.success("Berhasil Menambahkan Data !", {
+    }, {
+      onSuccess: () => {
+        toast.success("Berhasil Mengupdate Data !", {
           theme: "colored",
-        }),
+        });
+        window.location.href = route('employes.index')
+      }
+        
     });
   };
 
@@ -124,17 +131,6 @@ function EditEmploye(props) {
             {errors.ttl && <span className="text-red-500">{errors.ttl}</span>}
           </div>
 
-          <div className="form-control">
-            <span className="label-text">Masukkan NIK : </span>
-            <input
-              name="nik"
-              value={data.nik}
-              onChange={(e) => setData("nik", e.target.value)}
-              placeholder="NIK"
-              className="input input-sm rounded-sm input-bordered"
-            />
-            {errors.nik && <span className="text-red-500">{errors.nik}</span>}
-          </div>
 
           <div className="form-control">
             <span className="label-text">Masukkan No KK : </span>

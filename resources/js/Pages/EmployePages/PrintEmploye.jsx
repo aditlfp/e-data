@@ -9,7 +9,7 @@ function PrintEmploye(props) {
       <Head title="Export - Employes" />
       <div className="w-screen h-screen">
         <PDFViewer width="100%" height="100%">
-          <MyDocument employe={props?.employe} />
+          <MyDocument props={props} />
         </PDFViewer>
       </div>
     </>

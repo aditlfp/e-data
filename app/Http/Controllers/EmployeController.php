@@ -22,7 +22,7 @@ class EmployeController extends Controller
     public function index()
     {
         
-        $employes = DB::table('employes')->get();
+        $employes = Employe::with('client')->get();
         $clients = Client::all();
         $employe = EmployeResource::collection($employes);
         return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients'));

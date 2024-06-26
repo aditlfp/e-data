@@ -22,6 +22,9 @@
   "resources/js/Components/Modal.jsx": [
     "/build/assets/DeleteUserForm-ChEnN-Yb.js"
   ],
+  "resources/js/Components/NoImageComponent.jsx": [
+    "/build/assets/NoImageComponent-Dusf2B3Q.js"
+  ],
   "resources/js/Components/PrimaryButton.jsx": [
     "/build/assets/PrimaryButton-BVytxmEe.js"
   ],
@@ -95,7 +98,7 @@
     "/build/assets/EditEmploye-C62fYR7M.js"
   ],
   "resources/js/Pages/EmployePages/IndexEmploye.jsx": [
-    "/build/assets/IndexEmploye-LYclxHRU.js"
+    "/build/assets/IndexEmploye-6FEH3ogw.js"
   ],
   "resources/js/Pages/EmployePages/PrintEmploye.jsx": [
     "/build/assets/PrintEmploye-BG_6r5J1.js"

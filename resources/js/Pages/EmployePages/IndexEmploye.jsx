@@ -1,8 +1,8 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback, lazy, Suspense } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
-import NoImage from "../../../../public/image/no-image.jpg";
+const NoImageComponent  = lazy(() => import("../../Components/NoImageComponent"))
 import {
   BiSolidCog,
   BiSolidExtension,
@@ -15,81 +15,78 @@ import {
 } from "react-icons/bi";
 import Modal from "../Admin/Component/Modal";
 import { toast } from "react-toastify";
-import Paginate from "@/Components/Paginate";
-import _ from "lodash";
 import ReactPaginate from "react-paginate";
-import PrintEmploye from "./PrintEmploye";
+import debounce from "lodash/debounce";
 
-function IndexEmploye(props) {
+function IndexEmploye({ employe, clients, auth }) {
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState(props.employe.data);
-  const {
-    data,
-    setData,
-    delete: destroy,
-    get,
-    post,
-  } = useForm({
-    id: "",
-    name: "",
-  });
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const employeesPerPage = 10;
 
+  // Initialize useForm from Inertia.js
+  const {
+    data,
+    setData,
+    delete: destroy,
+    get,
+  } = useForm({
+    id: "",
+    name: "",
+  });
+
+  // Handle delete modal visibility and setting data
   const handleDelete = (id) => {
     setModal(true);
-    const employeData = props.employe.data.find((emp) => emp.id === id);
+    const employeData = employe.data.find((emp) => emp.id === id);
     setDataModal(employeData);
-    // setDataModal(id);
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
+  // Toggle modal visibility
   const closeModal = () => {
     setModal(!modal);
   };
 
-  // Filter employees based on search query
-  // Combine both filters into one
-  const combinedFilteredEmployees = props.employe.data.filter((employee) => {
-    const matchesSearchQuery =
-      employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.no_ktp.includes(searchQuery);
+  // Filter employees based on search query and filter selection
+  const combinedFilteredEmployees = useMemo(() => {
+    return employe.data.filter((employee) => {
+      const matchesSearchQuery =
+        employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        employee.no_ktp.includes(searchQuery);
 
-    const matchesFilterSelect =
-      filterSelect.toLowerCase() === "all" ||
-      employee.client.name.toLowerCase().includes(filterSelect.toLowerCase());
-    return matchesSearchQuery && matchesFilterSelect;
-  });
+      const matchesFilterSelect =
+        filterSelect.toLowerCase() === "all" ||
+        employee.client.name.toLowerCase().includes(filterSelect.toLowerCase());
 
-  // Get current employees to display
-  const offset = currentPage * employeesPerPage;
-  const currentEmployees = combinedFilteredEmployees.slice(
-    offset,
-    offset + employeesPerPage
-  );
+      return matchesSearchQuery && matchesFilterSelect;
+    });
+  }, [searchQuery, filterSelect, employe.data]);
 
-  // console.log(currentEmployees)
+  // Paginate filtered employees
+  const currentEmployees = useMemo(() => {
+    const offset = currentPage * employeesPerPage;
+    return combinedFilteredEmployees.slice(offset, offset + employeesPerPage);
+  }, [combinedFilteredEmployees, currentPage, employeesPerPage]);
 
+  // Handle file download
   const handleDownload = () => {
     get(route("download.employe", data));
   };
 
-  const pageCount = Math.ceil(
-    combinedFilteredEmployees.length / employeesPerPage
-  );
+  // Calculate total pages for pagination
+  const pageCount = useMemo(() => {
+    return Math.ceil(combinedFilteredEmployees.length / employeesPerPage);
+  }, [combinedFilteredEmployees.length, employeesPerPage]);
 
+  // Handle page click for pagination
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
   };
 
+  // Confirm delete and show a toast notification on success
   const confirmDelete = (id) => {
     destroy(route(`employes.destroy`, id), {
       onSuccess: () => {
@@ -99,8 +96,8 @@ function IndexEmploye(props) {
 
         setTimeout(() => {
           get(route("employes.index"), {
-            replace: true, // Replace the current page
-            preserveScroll: true, // Preserve the current scroll position
+            replace: true,
+            preserveScroll: true,
           });
         }, 2000);
       },
@@ -108,38 +105,91 @@ function IndexEmploye(props) {
     setModal(!modal);
   };
 
-  const sortSearchResults = () => {
-    const sortedResults = [...searchResults];
+  // Sort search results based on sortOrder
+  const sortSearchResults = useCallback(() => {
+    const sortedResults = [...combinedFilteredEmployees];
     sortOrder
       ? sortedResults.sort((a, b) => a.name.localeCompare(b.name))
       : sortedResults.sort((a, b) => b.name.localeCompare(a.name));
 
-    setSearchResults(sortedResults);
-  };
+    return sortedResults;
+  }, [combinedFilteredEmployees, sortOrder]);
 
   useEffect(() => {
     sortSearchResults();
-  }, [sortOrder]);
+  }, [sortOrder, sortSearchResults]);
 
+  // Toggle sort order
   const toggleSortOrder = () => {
     setSortOrder(!sortOrder);
   };
 
+  // Redirect to create employee page
   const createEmploye = () => {
     get(route("employes.create"));
   };
 
+  // Redirect to show employee page
   const showEmploye = (id) => {
     get(route("employes.show", id));
   };
 
+  // Redirect to edit employee page
   const editEmploye = (id) => {
     get(route("employes.edit", id));
   };
 
+  // Redirect to create career page
   const createCareer = (id) => {
     get(route("careers.show", id));
   };
+
+  // Debounce search input to improve performance
+  const debouncedSearch = useMemo(() => debounce(setSearchQuery, 300), []);
+
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
+
+    // Check if image exists
+    const checkImageExists = async (img) => {
+      try {
+        const response = await fetch(`/storage/images/${img}`);
+        if (response.ok) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        return false;
+      }
+    };
+  
+    const EmployeeImage = ({ img }) => {
+      const [imgSrc, setImgSrc] = useState(null);
+  
+      useEffect(() => {
+        const verifyImage = async () => {
+          if (img) {
+            const exists = await checkImageExists(img);
+            setImgSrc(exists ? `/storage/images/${img}` : null);
+          }
+        };
+        verifyImage();
+      }, [img]);
+  
+      return (
+        <Suspense fallback={<div>Loading...</div>}>
+          {imgSrc ? (
+            <img src={imgSrc} width={100} loading="lazy" />
+          ) : (
+            <NoImageComponent width={100} loading="lazy" />
+          )}
+        </Suspense>
+      );
+    };
 
   return (
     <AdminLayout overflow={modal ? "overflow-hidden" : "overflow-auto"}>
@@ -161,7 +211,7 @@ function IndexEmploye(props) {
               Filter Mitra
             </option>
             <option value="All">Semua</option>
-            {props?.clients?.map((client, index) => (
+            {clients?.map((client, index) => (
               <option key={index} value={client.name}>
                 {client.name}
               </option>
@@ -218,7 +268,7 @@ function IndexEmploye(props) {
               <th className="border-x-[1px] border-orange-300">No. KK</th>
               <th className="border-x-[1px] border-orange-300">No. KTP</th>
               <th className="border-x-[1px] border-orange-300">Mitra</th>
-              {props.auth.user.role_id == 2 && (
+              {auth?.user.role_id == 2 && (
                 <th className="border-x-[1px] border-orange-300">Aksi</th>
               )}
             </tr>
@@ -231,11 +281,7 @@ function IndexEmploye(props) {
                     {index + 1}
                   </td>
                   <td className="border-[1px] border-orange-300">
-                    {emplo.img ? (
-                      <img src={`/storage/images/${emplo.img}`} width={100} />
-                    ) : (
-                      <img src={NoImage} width={100} />
-                    )}
+                    <EmployeeImage img={emplo.img} />
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.name}
@@ -252,7 +298,7 @@ function IndexEmploye(props) {
                   <td className="border-[1px] border-orange-300">
                     {emplo.client.name}
                   </td>
-                  {props.auth.user.role_id == 2 && (
+                  {auth?.user.role_id == 2 && (
                     <td className="border-[1px] border-orange-300">
                       <div className="flex justify-center gap-x-1 items-center">
                         <div className="flex flex-col gap-y-1">

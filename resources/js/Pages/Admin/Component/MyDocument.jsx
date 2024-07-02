@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
 });
 
 const MyDocument = ( {props} ) => {
+
+  const getJabatanOnEmploye = (employee) => {
+    const user = props?.users.find(us => us.nama_lengkap === employee.name);
+    return user && user.jabatan ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
+  };
+
   return (
       <Document>
     <Page size="A4" style={styles.page} orientation="landscape">
@@ -88,6 +94,9 @@ const MyDocument = ( {props} ) => {
             </View>
             <View style={styles.tableColHeader}>
               <Text style={styles.tableCellHeader}>Name</Text>
+            </View>
+            <View style={styles.tableColHeader}>
+              <Text style={styles.tableCellHeader}>Posisi</Text>
             </View>
             <View style={styles.tableColHeader}>
               <Text style={styles.tableCellHeader}>TTL</Text>
@@ -120,6 +129,9 @@ const MyDocument = ( {props} ) => {
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{emp.name}</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{getJabatanOnEmploye(emp)}</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{emp.ttl}</Text>

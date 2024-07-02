@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Crypt;
 
 function UploadImage($request, $NameFile)
 {
@@ -45,5 +46,16 @@ function UploadSK($request, $NamaPDF)
         
 
         return $rename;
+    }
+}
+
+function decryptField($field)
+{
+    try {
+        // Attempt to decrypt the field
+        return Crypt::decryptString($field);
+    } catch (\Exception $e) {
+        // If decryption fails, assume the field is not encrypted and use it as is
+        return $field;
     }
 }

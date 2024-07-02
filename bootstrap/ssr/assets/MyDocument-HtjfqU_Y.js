@@ -77,10 +77,15 @@ const styles = StyleSheet.create({
 });
 const MyDocument = ({ props }) => {
   var _a;
+  const getJabatanOnEmploye = (employee) => {
+    const user = props == null ? void 0 : props.users.find((us) => us.nama_lengkap === employee.name);
+    return user && user.jabatan ? user.jabatan.name_jabatan : "Data NotFound In Absensi";
+  };
   return /* @__PURE__ */ jsx(Document, { children: /* @__PURE__ */ jsx(Page, { size: "A4", style: styles.page, orientation: "landscape", children: /* @__PURE__ */ jsx(View, { style: styles.section, children: /* @__PURE__ */ jsxs(View, { style: styles.table, children: [
     /* @__PURE__ */ jsxs(View, { style: styles.tableRow, children: [
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeaderNo, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "No" }) }),
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "Name" }) }),
+      /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "Posisi" }) }),
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "TTL" }) }),
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "No. KTP" }) }),
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "No. KK" }) }),
@@ -94,6 +99,7 @@ const MyDocument = ({ props }) => {
       return /* @__PURE__ */ jsxs(View, { style: styles.tableRow, children: [
         /* @__PURE__ */ jsx(View, { style: styles.tableColNo, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: i + 1 }) }),
         /* @__PURE__ */ jsx(View, { style: styles.tableCol, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: emp.name }) }),
+        /* @__PURE__ */ jsx(View, { style: styles.tableCol, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: getJabatanOnEmploye(emp) }) }),
         /* @__PURE__ */ jsx(View, { style: styles.tableCol, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: emp.ttl }) }),
         /* @__PURE__ */ jsx(View, { style: styles.tableCol, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: emp.no_ktp }) }),
         /* @__PURE__ */ jsx(View, { style: styles.tableCol, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: emp.no_kk }) }),

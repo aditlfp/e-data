@@ -2,7 +2,7 @@ import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Head } from "@inertiajs/react";
-import MyDocument from "./MyDocument-BMbqPOLW.js";
+import MyDocument from "./MyDocument-HtjfqU_Y.js";
 function PrintEmploye(props) {
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title: "Export - Employes" }),

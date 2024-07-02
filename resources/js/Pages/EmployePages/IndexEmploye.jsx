@@ -18,14 +18,15 @@ import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import debounce from "lodash/debounce";
 
-function IndexEmploye({ employe, clients, auth }) {
+function IndexEmploye({ employe, clients, auth, users }) {
+  // console.log(employe);
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const employeesPerPage = 10;
+  const employeesPerPage = 25;
 
   // Initialize useForm from Inertia.js
   const {
@@ -50,6 +51,8 @@ function IndexEmploye({ employe, clients, auth }) {
     setModal(!modal);
   };
 
+ 
+
   // Filter employees based on search query and filter selection
   const combinedFilteredEmployees = useMemo(() => {
     return employe.data.filter((employee) => {
@@ -70,6 +73,12 @@ function IndexEmploye({ employe, clients, auth }) {
     const offset = currentPage * employeesPerPage;
     return combinedFilteredEmployees.slice(offset, offset + employeesPerPage);
   }, [combinedFilteredEmployees, currentPage, employeesPerPage]);
+
+  // console.log(users);
+  const getJabatanOnEmploye = (employee) => {
+    const user = users.find(us => us.nama_lengkap === employee.name);
+    return user && user.jabatan ? user.jabatan.name_jabatan : 'Data NotFound In Absensi';
+  };
 
   // Handle file download
   const handleDownload = () => {
@@ -264,6 +273,7 @@ function IndexEmploye({ employe, clients, auth }) {
                 )}
                 Nama
               </th>
+              <th className="border-x-[1px] border-orange-300">Posisi</th>
               <th className="border-x-[1px] border-orange-300">TTL</th>
               <th className="border-x-[1px] border-orange-300">No. KK</th>
               <th className="border-x-[1px] border-orange-300">No. KTP</th>
@@ -285,6 +295,9 @@ function IndexEmploye({ employe, clients, auth }) {
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.name}
+                  </td>
+                  <td className={`border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? 'text-red-500 font-semibold' : ''}`}>
+                    {getJabatanOnEmploye(emplo)}
                   </td>
                   <td className="border-[1px] border-orange-300">
                     {emplo.ttl}
@@ -382,11 +395,11 @@ function IndexEmploye({ employe, clients, auth }) {
         breakLabel={"..."}
         pageCount={pageCount}
         marginPagesDisplayed={0}
-        pageRangeDisplayed={4}
+        pageRangeDisplayed={5}
         onPageChange={handlePageClick}
         // containerClassName={"pagination"}
         activeClassName={"active"}
-        renderOnZeroPageCount={0}
+        renderOnZeroPageCount={""}
       />
       {modal && (
         <Modal>

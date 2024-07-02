@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Crypt;
 
 class EmployeController extends Controller
 {
@@ -24,8 +25,25 @@ class EmployeController extends Controller
         
         $employes = Employe::with('client')->get();
         $clients = Client::all();
+        $users = User::with('jabatan')->whereIn('nama_lengkap', $employes->pluck('name'))->get();
+        // Decrypt necessary fields for each employee if they are encrypted
+
+        // dd($decryptedEmployes[0]);
+
         $employe = EmployeResource::collection($employes);
-        return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients'));
+
+        return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients', 'users'));
+    }
+
+    private function decryptField($field)
+    {
+        try {
+            // Attempt to decrypt the field
+            return Crypt::decryptString($field);
+        } catch (\Exception $e) {
+            // If decryption fails, assume the field is not encrypted and use it as is
+            return $field;
+        }
     }
 
     public function create()
@@ -46,8 +64,8 @@ class EmployeController extends Controller
             'name' => $request->name,
             'ttl' => $request->ttl,
             'nik' => $request->nik,
-            'no_kk' => $request->no_kk,
-            'no_ktp' => $request->no_ktp,
+            'no_kk' => Crypt::encryptString($request->no_kk),
+            'no_ktp' => Crypt::encryptString($request->no_ktp),
             'client_id' => $request->client_id,
             'jenis_bpjs' => $request->jenis_bpjs,
             'no_bpjs_kesehatan' => $request->no_bpjs_kesehatan,
@@ -107,8 +125,8 @@ class EmployeController extends Controller
             'name' => $request->name,
             'ttl' => $request->ttl,
             'nik' => $request->nik,
-            'no_kk' => $request->no_kk,
-            'no_ktp' => $request->no_ktp,
+            'no_kk' => Crypt::encryptString($request->no_kk),
+            'no_ktp' => Crypt::encryptString($request->no_ktp),
             'client_id' => $request->client_id,
             'img' => $request->img,
             'img_ktp_dpn' => $request->img_ktp_dpn,
@@ -177,7 +195,9 @@ class EmployeController extends Controller
     public function show($id)
     {
         $employe = Employe::findOrFail($id);
-        $career = Career::where('employe_id', $employe->id)->first();
+        $users = User::where('nama_lengkap', $employe->name)->first();
+        dd($users);
+        $career = Career::with('jabatan')->where('employe_id', $employe->id)->first();
 
         return Inertia::render('EmployePages/ShowEmploye', compact('employe', 'career'));
     }
@@ -195,13 +215,17 @@ class EmployeController extends Controller
         {
             $client = Client::on('mysql2connection')->where('name', $request->name)->first();
             $employe = Employe::with('client')->where('client_id', $client->id)->get();
+            $users = User::with('jabatan')->whereIn('nama_lengkap', $employe->pluck('name'))->get();
+
             // dd($employe);
         }
         elseif($request->name == 'All')  {
             $employe = Employe::with('client')->get();
+            $users = User::with('jabatan')->whereIn('nama_lengkap', $employe->pluck('name'))->get();
+
         } 
         
-        return Inertia::render('EmployePages/PrintEmploye', compact('employe'));
+        return Inertia::render('EmployePages/PrintEmploye', compact('employe', 'users'));
 
     }
 }

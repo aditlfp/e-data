@@ -11,14 +11,14 @@ import debounce from "lodash/debounce.js";
 import "./Sidebar-CW9JvTre.js";
 import "framer-motion";
 const NoImageComponent = lazy(() => import("./NoImageComponent-Dusf2B3Q.js"));
-function IndexEmploye({ employe, clients, auth }) {
+function IndexEmploye({ employe, clients, auth, users }) {
   const [sortOrder, setSortOrder] = useState(false);
   const [modal, setModal] = useState(false);
   const [dataModal, setDataModal] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSelect, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const employeesPerPage = 10;
+  const employeesPerPage = 25;
   const {
     data,
     setData,
@@ -47,6 +47,10 @@ function IndexEmploye({ employe, clients, auth }) {
     const offset = currentPage * employeesPerPage;
     return combinedFilteredEmployees.slice(offset, offset + employeesPerPage);
   }, [combinedFilteredEmployees, currentPage, employeesPerPage]);
+  const getJabatanOnEmploye = (employee) => {
+    const user = users.find((us) => us.nama_lengkap === employee.name);
+    return user && user.jabatan ? user.jabatan.name_jabatan : "Data NotFound In Absensi";
+  };
   const handleDownload = () => {
     get(route("download.employe", data));
   };
@@ -195,6 +199,7 @@ function IndexEmploye({ employe, clients, auth }) {
           ),
           "Nama"
         ] }),
+        /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Posisi" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "TTL" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "No. KK" }),
         /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "No. KTP" }),
@@ -205,6 +210,7 @@ function IndexEmploye({ employe, clients, auth }) {
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: index + 1 }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: /* @__PURE__ */ jsx(EmployeeImage, { img: emplo.img }) }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.name }),
+        /* @__PURE__ */ jsx("td", { className: `border-[1px] border-orange-300 ${getJabatanOnEmploye(emplo) === "Data NotFound In Absensi" ? "text-red-500 font-semibold" : ""}`, children: getJabatanOnEmploye(emplo) }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.ttl }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_kk }),
         /* @__PURE__ */ jsx("td", { className: "border-[1px] border-orange-300", children: emplo.no_ktp }),
@@ -290,10 +296,10 @@ function IndexEmploye({ employe, clients, auth }) {
         breakLabel: "...",
         pageCount,
         marginPagesDisplayed: 0,
-        pageRangeDisplayed: 4,
+        pageRangeDisplayed: 5,
         onPageChange: handlePageClick,
         activeClassName: "active",
-        renderOnZeroPageCount: 0
+        renderOnZeroPageCount: ""
       }
     ),
     modal && /* @__PURE__ */ jsx(Modal, { children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col", children: [

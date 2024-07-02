@@ -80,7 +80,7 @@ function ShowEmploye(props) {
                   /* @__PURE__ */ jsxs("td", { children: [
                     ":",
                     " ",
-                    props.employe.user_id ? props.employe.user.nama_lengkap : props.employe.name
+                    props.employe.user_id ? props.employe.user.nama_lengkap : props.employe.user.jabatan.name_jabatan
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [

@@ -92,7 +92,7 @@ function ShowEmploye(props) {
                             :{" "}
                             {props.employe.user_id
                               ? props.employe.user.nama_lengkap
-                              : props.employe.name}
+                              : props.employe.user.jabatan.name_jabatan}
                           </td>
                         </tr>
                         <tr>

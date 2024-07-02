@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->setConnection("mysql")->hasOne(SlipGaji::class)->latestOfMany();
     }
+
+    public function Jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
 }

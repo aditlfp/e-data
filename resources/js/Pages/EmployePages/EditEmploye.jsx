@@ -1,5 +1,5 @@
 import AdminLayout from "@/Layouts/AdminLayout";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import { Head, router, useForm } from "@inertiajs/react";
 import { toast } from "react-toastify";

@@ -84,6 +84,7 @@ class SlipGajiController extends Controller
                     'tj_jabatan' => $userData['tj_jabatan'],
                     'tj_kehadiran' => $userData['tj_kehadiran'],
                     'tj_kinerja' => $userData['tj_kinerja'],
+                    'tj_lain' => $userData['tj_lain'],
                     'bpjs' => $userData['bpjs'],
                     'pinjaman' => $userData['pinjaman'],
                     'absen' => $userData['absen'],
@@ -105,11 +106,11 @@ class SlipGajiController extends Controller
         $bulan = $request->bulan;
 
         
-        $bulanFormat = Carbon::createFromFormat('Y-m', $request->bulan);
+        $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
         $client = Kerjasama::on('mysql2connection')->with('client')->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
-        $user = User::on('mysql2connection')->with('divisi')->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
+        $user = User::on('mysql2connection')->with('devisi')->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
         
         $absensi = Absensi::on('mysql2connection')->where('kerjasama_id', $mitra)->whereYear('tanggal_absen', $bulanFormat->year)->whereMonth('tanggal_absen', $bulanFormat->month)->get();
         $slip = SlipGaji::with(['user'])->where('bulan_tahun', $bulan)->get();
@@ -137,6 +138,7 @@ class SlipGajiController extends Controller
                     'tj_jabatan' => $userData['tj_jabatan'],
                     'tj_kehadiran' => $userData['tj_kehadiran'],
                     'tj_kinerja' => $userData['tj_kinerja'],
+                    'tj_lain' => $userData['tj_lain'],
                     'bpjs' => $userData['bpjs'],
                     'pinjaman' => $userData['pinjaman'],
                     'absen' => $userData['absen'],
@@ -178,7 +180,7 @@ class SlipGajiController extends Controller
         $bulan = $request->bulan;
         $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
         $slip = SlipGaji::where('bulan_tahun', $bulan)->get();
-        $client = Kerjasama::on('mysql2connection')->with('client')->where('client_id', $mitra)->first();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
         $employe = Employe::pluck('name');
         return Excel::download(
             (new SlipGajiExport)
@@ -191,6 +193,12 @@ class SlipGajiController extends Controller
             'slip.xlsx'
         );
        
+    }
+
+    public function destroy($id)
+    {
+        SlipGaji::findOrFail($id)->delete();
+        return redirect()->back()->with(['messege' => 'Berhasil Hapus Data !']);
     }
 
 }

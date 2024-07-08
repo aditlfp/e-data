@@ -26,11 +26,12 @@ return new class extends Migration
             $table->string('tj_jabatan')->nullable();
             $table->string('tj_kehadiran')->nullable();
             $table->string('tj_kinerja')->nullable();
+            $table->string('tj_lain')->nullable();
             $table->string('bpjs')->nullable();
             $table->string('pinjaman')->nullable();
             $table->string('absen')->nullable();
             $table->string('lain_lain')->nullable();
-            $table->string('total')->nullable()
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }

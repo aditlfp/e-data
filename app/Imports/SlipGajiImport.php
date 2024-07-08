@@ -51,6 +51,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
                         'tj_jabatan'    => (int) $row['jabatan'],
                         'tj_kehadiran'  => (int) $row['kehadiran'],
                         'tj_kinerja'    => (int) $row['kinerja'],
+                        'tj_lain'       => (int) $row['lain_lain'],
                         'bpjs'          => (int) $row['bpjs'],
                         'pinjaman'      => (int) $row['pinjaman'],
                         'absen'         => (int) $row['absen'],
@@ -75,6 +76,7 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
                 'tj_jabatan' => ['nullable'],
                 'tj_kehadiran' => ['nullable'],
                 'tj_kinerja' => ['nullable'],
+                'tj_lain' => ['nullable'],
                 'bpjs' => ['nullable'],
                 'pinjaman' => ['nullable'],
                 'absen' => ['nullable'],
@@ -104,11 +106,12 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
             'jabatan' => 'G3',
             'kehadiran' => 'H3',
             'kinerja' => 'I3',
-            'bpjs' => 'J3',
-            'pinjaman' => 'K3',
-            'absen'  => 'L3',
-            'lain_lain' => 'M3',
-            'total' => 'N3',
+            'lain_lain' => 'J3',
+            'bpjs' => 'K3',
+            'pinjaman' => 'L3',
+            'absen'  => 'M3',
+            'lain_lain' => 'N3',
+            'total' => 'O3',
         ];
     }
 }

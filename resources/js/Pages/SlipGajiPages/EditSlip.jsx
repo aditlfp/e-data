@@ -1,14 +1,11 @@
-import { Head, Link, router, useForm } from "@inertiajs/react";
-import Desain from "../../../../public/image/desain_slip.jpg";
+import { Head, Link, router, useForm, useRemember } from "@inertiajs/react";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
-import TimeDiffcomponent from "@/Components/TimeDiffcomponent";
-import { useEffect, useState } from "react";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
+import { MdDeleteForever } from "react-icons/md";
 export default function CreateSlip(props) {
-  console.log(props);
-  const { data, setData, post, get, processing, errors, reset } = useForm({
+  const { data, setData, post, get, processing, errors, reset, delete: destroy } = useForm({
     users: props.slip.map((slip) => ({
       nama_lengkap: slip.user.nama_lengkap,
       devisi_id: slip.user.devisi_id,
@@ -20,6 +17,7 @@ export default function CreateSlip(props) {
       tj_jabatan: slip.tj_jabatan,
       tj_kehadiran: slip.tj_kehadiran,
       tj_kinerja: slip.tj_kinerja,
+      tj_lain: slip.tj_lain,
       bpjs: slip.bpjs,
       pinjaman: slip.pinjaman,
       lain_lain: slip.lain_lain,
@@ -30,21 +28,16 @@ export default function CreateSlip(props) {
         (parseFloat(slip.gaji_lembur) || 0) +
         (parseFloat(slip.tj_jabatan) || 0) +
         (parseFloat(slip.tj_kehadiran) || 0) +
-        (parseFloat(slip.tj_kinerja) || 0) -
+        (parseFloat(slip.tj_kinerja) || 0) +
+        (parseFloat(slip.tj_lain) || 0) -
         (parseFloat(slip.bpjs) || 0) -
         (parseFloat(slip.pinjaman) || 0) -
         (parseFloat(slip.lain_lain) || 0),
-    })),
+      })),
   });
 
-  // function handleChange(e) {
-  //   const key = e.target.id;
-  //   const value = e.target.value;
-  //   setData((values) => ({
-  //     ...values.users,
-  //     [key]: value,
-  //   }));
-  // }
+  console.log(data.users);
+
 
   const calculateTotal = (user) => {
     const {
@@ -53,6 +46,7 @@ export default function CreateSlip(props) {
       tj_jabatan,
       tj_kehadiran,
       tj_kinerja,
+      tj_lain,
       bpjs,
       pinjaman,
       lain_lain,
@@ -63,7 +57,8 @@ export default function CreateSlip(props) {
       (parseFloat(gaji_lembur) || 0) +
       (parseFloat(tj_jabatan) || 0) +
       (parseFloat(tj_kehadiran) || 0) +
-      (parseFloat(tj_kinerja) || 0) -
+      (parseFloat(tj_kinerja) || 0) +
+      (parseFloat(tj_lain) || 0) -
       (parseFloat(bpjs) || 0) -
       (parseFloat(pinjaman) || 0) -
       (parseFloat(lain_lain) || 0)
@@ -90,6 +85,16 @@ export default function CreateSlip(props) {
     });
   };
 
+   const confirmDelete = (id) => {
+    router.delete(route(`slip-gaji.destroy`, id), { 
+      onSuccess: () => {
+        toast.warning("Berhasil Menghapus Data Slip!", {
+          theme: "colored",
+        });
+        window.location.reload();
+      },
+    });
+  };
   return (
     <>
       <AdminLayout>
@@ -118,13 +123,14 @@ export default function CreateSlip(props) {
             <table className="table table-zebra table-xs my-5 text-center">
               <thead className="text-[10px]">
                 <tr className="bg-orange-600 text-white capitalize">
+                  <th className="border-x-[1px] border-orange-300" rowSpan={2}>Action</th>
                   <th className="border-x-[1px] border-orange-300" colSpan={3}>
                     Data Karyawan
                   </th>
                   <th className="border-x-[1px] border-orange-300" colSpan={2}>
                     Gaji
                   </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={3}>
+                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
                     Tunjangan
                   </th>
                   <th className="border-x-[1px] border-orange-300" colSpan={4}>
@@ -134,7 +140,7 @@ export default function CreateSlip(props) {
                     Total
                   </th>
                 </tr>
-                <tr className="bg-orange-600 text-white capitalize">
+                <tr className="bg-orange-600 text-white capitalize"> 
                   <th className="border-x-[1px] border-orange-300">Karyawan</th>
                   <th className="border-x-[1px] border-orange-300">Formasi</th>
                   <th className="border-x-[1px] border-orange-300">MK</th>
@@ -145,6 +151,7 @@ export default function CreateSlip(props) {
                     Kehadiran
                   </th>
                   <th className="border-x-[1px] border-orange-300">Kinerja</th>
+                  <th className="border-x-[1px] border-orange-300">Lain Lain</th>
                   <th className="border-x-[1px] border-orange-300">BPJS</th>
                   <th className="border-x-[1px] border-orange-300">Pinjaman</th>
                   <th className="border-x-[1px] border-orange-300">Absen</th>
@@ -158,6 +165,15 @@ export default function CreateSlip(props) {
                 {data.users.map((us, index) => {
                   return (
                     <tr key={index} className="border-[1px] border-orange-300 ">
+                      <td>
+                      <button
+                        type="button"
+                        className="btn btn-error btn-sm rounded-sm text-white hover:text-red-900 hover:bg-red-600 hover:bg-opacity-20 hover:border-0"
+                        onClick={() => confirmDelete(us.id)}
+                      >
+                        <MdDeleteForever className="text-xl"/>
+                      </button>
+                      </td>
                       <td className="border-[1px] border-orange-300">
                         {us.nama_lengkap}
                       </td>
@@ -179,6 +195,7 @@ export default function CreateSlip(props) {
                         "tj_jabatan",
                         "tj_kehadiran",
                         "tj_kinerja",
+                        "tj_lain",
                         "bpjs",
                         "pinjaman",
                         "absen",

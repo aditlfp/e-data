@@ -23,7 +23,7 @@ class EmployeController extends Controller
     public function index()
     {
         
-        $employes = Employe::with('client')->get();
+        $employes = Employe::with('client')->latest()->get();
         $clients = Client::all();
         $users = User::with('jabatan')->whereIn('nama_lengkap', $employes->pluck('name'))->get();
         // Decrypt necessary fields for each employee if they are encrypted

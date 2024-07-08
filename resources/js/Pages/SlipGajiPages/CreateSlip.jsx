@@ -1,9 +1,6 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import Desain from "../../../../public/image/desain_slip.jpg";
 import HeadNavigation from "../Admin/Component/HeadNavigation";
 import AdminLayout from "@/Layouts/AdminLayout";
-import TimeDiffcomponent from "@/Components/TimeDiffcomponent";
-import { useEffect, useState } from "react";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
 export default function CreateSlip(props) {
@@ -20,6 +17,7 @@ export default function CreateSlip(props) {
       tj_jabatan: "",
       tj_kehadiran: "",
       tj_kinerja: "",
+      tj_lain: "",
       bpjs: "",
       pinjaman: "",
       lain_lain: "",
@@ -44,6 +42,7 @@ export default function CreateSlip(props) {
       tj_jabatan,
       tj_kehadiran,
       tj_kinerja,
+      tj_lain,
       bpjs,
       pinjaman,
       lain_lain,
@@ -54,7 +53,8 @@ export default function CreateSlip(props) {
       (parseFloat(gaji_lembur) || 0) +
       (parseFloat(tj_jabatan) || 0) +
       (parseFloat(tj_kehadiran) || 0) +
-      (parseFloat(tj_kinerja) || 0) -
+      (parseFloat(tj_kinerja) || 0) +
+      (parseFloat(tj_lain) || 0) -
       (parseFloat(bpjs) || 0) -
       (parseFloat(pinjaman) || 0) -
       (parseFloat(lain_lain) || 0)
@@ -114,7 +114,7 @@ export default function CreateSlip(props) {
                   <th className="border-x-[1px] border-orange-300" colSpan={2}>
                     Gaji
                   </th>
-                  <th className="border-x-[1px] border-orange-300" colSpan={3}>
+                  <th className="border-x-[1px] border-orange-300" colSpan={4}>
                     Tunjangan
                   </th>
                   <th className="border-x-[1px] border-orange-300" colSpan={4}>
@@ -135,6 +135,7 @@ export default function CreateSlip(props) {
                     Kehadiran
                   </th>
                   <th className="border-x-[1px] border-orange-300">Kinerja</th>
+                  <th className="border-x-[1px] border-orange-300">Lain Lain</th>
                   <th className="border-x-[1px] border-orange-300">BPJS</th>
                   <th className="border-x-[1px] border-orange-300">Pinjaman</th>
                   <th className="border-x-[1px] border-orange-300">Absen</th>
@@ -166,6 +167,7 @@ export default function CreateSlip(props) {
                         "tj_jabatan",
                         "tj_kehadiran",
                         "tj_kinerja",
+                        "tj_lain",
                         "bpjs",
                         "pinjaman",
                         "absen",

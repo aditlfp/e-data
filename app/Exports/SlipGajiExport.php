@@ -96,6 +96,7 @@ class SlipGajiExport implements FromCollection, WithHeadings, WithMapping, WithE
             'jabatan',
             'kehadiran',
             'kinerja',
+            'lain_lain',
             'bpjs',
             'pinjaman',
             'absen',
@@ -118,16 +119,14 @@ class SlipGajiExport implements FromCollection, WithHeadings, WithMapping, WithE
 
                 $sheet->mergeCells('E1:F1');
 
-                $sheet->mergeCells('G1:I1');
+                $sheet->mergeCells('G1:J1');
 
-                $sheet->mergeCells('G1:I1');
-
-                $sheet->mergeCells('J1:M1');
+                $sheet->mergeCells('K1:N1');
 
                 $sheet->setCellValue('B1', 'Data Karyawan');
                 $sheet->setCellValue('E1', 'Gaji');
                 $sheet->setCellValue('G1', 'Tunjangan');
-                $sheet->setCellValue('J1', 'Potongan');
+                $sheet->setCellValue('K1', 'Potongan');
 
                 // Set styles for the headers
                 $sheet->getStyle('A1:M1')->applyFromArray([

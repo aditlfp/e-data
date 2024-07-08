@@ -80,7 +80,7 @@ function ShowEmploye(props) {
                   /* @__PURE__ */ jsxs("td", { children: [
                     ":",
                     " ",
-                    props.employe.user_id ? props.employe.user.nama_lengkap : props.employe.user.jabatan.name_jabatan
+                    props.employe.user_id ? props.employe.user.nama_lengkap : props.users.jabatan.name_jabatan
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [
@@ -95,7 +95,7 @@ function ShowEmploye(props) {
                   /* @__PURE__ */ jsxs("td", { children: [
                     ":",
                     " ",
-                    props.employe.no_kk ? props.employe.no_kk : "kosong"
+                    props.employe.no_kk ? props.no_kk : "kosong"
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [
@@ -103,7 +103,7 @@ function ShowEmploye(props) {
                   /* @__PURE__ */ jsxs("td", { children: [
                     ":",
                     " ",
-                    props.employe.no_ktp ? props.employe.no_ktp : "kosong"
+                    props.employe.no_ktp ? props.no_ktp : "kosong"
                   ] })
                 ] }),
                 /* @__PURE__ */ jsxs("tr", { children: [

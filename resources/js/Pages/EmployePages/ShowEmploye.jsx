@@ -92,7 +92,7 @@ function ShowEmploye(props) {
                             :{" "}
                             {props.employe.user_id
                               ? props.employe.user.nama_lengkap
-                              : props.employe.user.jabatan.name_jabatan}
+                              : props.users.jabatan.name_jabatan}
                           </td>
                         </tr>
                         <tr>
@@ -104,9 +104,10 @@ function ShowEmploye(props) {
                         <tr>
                           <td className="font-medium">No. KK</td>
                           <td>
+                            
                             :{" "}
                             {props.employe.no_kk
-                              ? props.employe.no_kk
+                              ? props.no_kk
                               : "kosong"}
                           </td>
                         </tr>
@@ -115,7 +116,7 @@ function ShowEmploye(props) {
                           <td>
                             :{" "}
                             {props.employe.no_ktp
-                              ? props.employe.no_ktp
+                              ? props.no_ktp
                               : "kosong"}
                           </td>
                         </tr>

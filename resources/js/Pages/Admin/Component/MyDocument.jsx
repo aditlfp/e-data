@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { data } from "autoprefixer";
 
 const styles = StyleSheet.create({
   page: {
@@ -122,7 +123,7 @@ const MyDocument = ( {props} ) => {
               </Text>
             </View>
           </View>
-          {props?.employe?.map((emp, i) => (
+          {props?.employe?.data.map((emp, i) => (
             <View style={styles.tableRow} key={i}>
               <View style={styles.tableColNo}>
                 <Text style={styles.tableCell}>{i + 1}</Text>

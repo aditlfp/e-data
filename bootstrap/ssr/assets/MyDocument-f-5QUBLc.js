@@ -1,5 +1,6 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { StyleSheet, Document, Page, View, Text } from "@react-pdf/renderer";
+import "autoprefixer";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
@@ -94,7 +95,7 @@ const MyDocument = ({ props }) => {
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "NO. BPJS Kesehatan" }) }),
       /* @__PURE__ */ jsx(View, { style: styles.tableColHeader, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCellHeader, children: "NO. BPJS Ketenaga Kerjaan" }) })
     ] }),
-    (_a = props == null ? void 0 : props.employe) == null ? void 0 : _a.map((emp, i) => {
+    (_a = props == null ? void 0 : props.employe) == null ? void 0 : _a.data.map((emp, i) => {
       var _a2;
       return /* @__PURE__ */ jsxs(View, { style: styles.tableRow, children: [
         /* @__PURE__ */ jsx(View, { style: styles.tableColNo, children: /* @__PURE__ */ jsx(Text, { style: styles.tableCell, children: i + 1 }) }),

@@ -35,17 +35,6 @@ class EmployeController extends Controller
         return Inertia::render('EmployePages/IndexEmploye', compact('employe', 'clients', 'users'));
     }
 
-    private function decryptField($field)
-    {
-        try {
-            // Attempt to decrypt the field
-            return Crypt::decryptString($field);
-        } catch (\Exception $e) {
-            // If decryption fails, assume the field is not encrypted and use it as is
-            return $field;
-        }
-    }
-
     public function create()
     {
         $employe = Employe::all();
@@ -110,9 +99,11 @@ class EmployeController extends Controller
     }
     public function edit($id)
     {
-        $employe = Employe::findOrFail($id);
+        $employe = Employe::with('user')->findOrFail($id);
+        $no_kk = decryptField($employe->no_kk);
+        $no_ktp = decryptField($employe->no_ktp);
         $clients = Client::all();
-        return Inertia::render('EmployePages/EditEmploye', compact('employe', 'clients'));
+        return Inertia::render('EmployePages/EditEmploye', compact('employe', 'clients', 'no_kk', 'no_ktp'));
         
     }
 
@@ -194,12 +185,15 @@ class EmployeController extends Controller
 
     public function show($id)
     {
-        $employe = Employe::findOrFail($id);
-        $users = User::where('nama_lengkap', $employe->name)->first();
-        dd($users);
-        $career = Career::with('jabatan')->where('employe_id', $employe->id)->first();
+        $employe = Employe::with('user')->findOrFail($id);
+        // $employe = EmployeResource::collection($employes);
+        $no_kk = decryptField($employe->no_kk);
+        $no_ktp = decryptField($employe->no_ktp);
+        $users = User::with('jabatan')->where('nama_lengkap', $employe->name)->first();
+        // dd($users);
+        $career = Career::where('employe_id', $employe->id)->first();
 
-        return Inertia::render('EmployePages/ShowEmploye', compact('employe', 'career'));
+        return Inertia::render('EmployePages/ShowEmploye', compact('employe', 'career', 'users', 'no_kk', 'no_ktp'));
     }
 
     public function destroy($id)
@@ -214,16 +208,19 @@ class EmployeController extends Controller
         if($request->name != 'All')
         {
             $client = Client::on('mysql2connection')->where('name', $request->name)->first();
-            $employe = Employe::with('client')->where('client_id', $client->id)->get();
-            $users = User::with('jabatan')->whereIn('nama_lengkap', $employe->pluck('name'))->get();
+            $employes = Employe::with('client')->where('client_id', $client->id)->get();
+            $users = User::with('jabatan')->whereIn('nama_lengkap', $employes->pluck('name'))->get();
 
             // dd($employe);
         }
         elseif($request->name == 'All')  {
-            $employe = Employe::with('client')->get();
-            $users = User::with('jabatan')->whereIn('nama_lengkap', $employe->pluck('name'))->get();
+            $employes = Employe::with('client')->get();
+            $users = User::with('jabatan')->whereIn('nama_lengkap', $employes->pluck('name'))->get();
 
         } 
+
+        $employe = EmployeResource::collection($employes);
+
         
         return Inertia::render('EmployePages/PrintEmploye', compact('employe', 'users'));
 

@@ -154,7 +154,7 @@ export default function IndexSlip(props) {
                 </option>
                 {props.mitra.map((mit, i) => (
                   <option value={mit.id} key={i}>
-                    {mit.client.name}
+                    {mit?.client?.name}
                   </option>
                 ))}
               </select>

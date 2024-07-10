@@ -131,7 +131,10 @@ function IndexSlip(props) {
               required: true,
               children: [
                 /* @__PURE__ */ jsx("option", { value: "0", children: "~ Mitra ~" }, "0"),
-                props.mitra.map((mit, i) => /* @__PURE__ */ jsx("option", { value: mit.id, children: mit.client.name }, i))
+                props.mitra.map((mit, i) => {
+                  var _a;
+                  return /* @__PURE__ */ jsx("option", { value: mit.id, children: (_a = mit == null ? void 0 : mit.client) == null ? void 0 : _a.name }, i);
+                })
               ]
             }
           )

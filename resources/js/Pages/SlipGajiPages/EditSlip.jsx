@@ -58,9 +58,9 @@ export default function CreateSlip(props) {
       (parseFloat(tj_jabatan) || 0) +
       (parseFloat(tj_kehadiran) || 0) +
       (parseFloat(tj_kinerja) || 0) +
-      (parseFloat(tj_lain) || 0) -
-      (parseFloat(bpjs) || 0) -
-      (parseFloat(pinjaman) || 0) -
+      (parseFloat(tj_lain) || 0) +
+      (parseFloat(bpjs) || 0) +
+      (parseFloat(pinjaman) || 0) +
       (parseFloat(lain_lain) || 0)
     ).toFixed(2);
   };

@@ -2,9 +2,9 @@ import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useForm, Head, Link } from "@inertiajs/react";
 import HeadNavigation from "./HeadNavigation-C5ShT8hy.js";
 import { A as AdminLayout } from "./AdminLayout-BBNDZYJL.js";
-import "react";
 import { FormatRupiah } from "@arismun/format-rupiah";
 import { toast } from "react-toastify";
+import "react";
 import "./Sidebar-CW9JvTre.js";
 import "react-icons/bi/index.esm.js";
 import "framer-motion";
@@ -22,6 +22,7 @@ function CreateSlip(props) {
       tj_jabatan: "",
       tj_kehadiran: "",
       tj_kinerja: "",
+      tj_lain: "",
       bpjs: "",
       pinjaman: "",
       lain_lain: "",
@@ -36,11 +37,12 @@ function CreateSlip(props) {
       tj_jabatan,
       tj_kehadiran,
       tj_kinerja,
+      tj_lain,
       bpjs,
       pinjaman,
       lain_lain
     } = user;
-    return ((parseFloat(gaji_pokok) || 0) + (parseFloat(gaji_lembur) || 0) + (parseFloat(tj_jabatan) || 0) + (parseFloat(tj_kehadiran) || 0) + (parseFloat(tj_kinerja) || 0) - (parseFloat(bpjs) || 0) - (parseFloat(pinjaman) || 0) - (parseFloat(lain_lain) || 0)).toFixed(2);
+    return ((parseFloat(gaji_pokok) || 0) + (parseFloat(gaji_lembur) || 0) + (parseFloat(tj_jabatan) || 0) + (parseFloat(tj_kehadiran) || 0) + (parseFloat(tj_kinerja) || 0) + (parseFloat(tj_lain) || 0) + (parseFloat(bpjs) || 0) + (parseFloat(pinjaman) || 0) + (parseFloat(lain_lain) || 0)).toFixed(2);
   };
   const handleChange = (index, field, value) => {
     const newUsers = [...data.users];
@@ -87,7 +89,7 @@ function CreateSlip(props) {
             /* @__PURE__ */ jsxs("tr", { className: "bg-orange-600 text-white capitalize", children: [
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 3, children: "Data Karyawan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 2, children: "Gaji" }),
-              /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 3, children: "Tunjangan" }),
+              /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 4, children: "Tunjangan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 4, children: "Potongan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", colSpan: 1, children: "Total" })
             ] }),
@@ -100,6 +102,7 @@ function CreateSlip(props) {
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Jabatan" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Kehadiran" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Kinerja" }),
+              /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Lain Lain" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "BPJS" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Pinjaman" }),
               /* @__PURE__ */ jsx("th", { className: "border-x-[1px] border-orange-300", children: "Absen" }),
@@ -119,6 +122,7 @@ function CreateSlip(props) {
                 "tj_jabatan",
                 "tj_kehadiran",
                 "tj_kinerja",
+                "tj_lain",
                 "bpjs",
                 "pinjaman",
                 "absen",

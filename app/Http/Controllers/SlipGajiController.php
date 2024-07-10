@@ -44,7 +44,7 @@ class SlipGajiController extends Controller
         $mitra = $request->mitra;
         $bulan = $request->bulan;
         $bulanFormat = Carbon::createFromFormat('Y-m', $request->bulan);
-        $client = Kerjasama::on('mysql2connection')->with('client')->where('client_id', $mitra)->first();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $mitra)->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
         
@@ -105,15 +105,15 @@ class SlipGajiController extends Controller
         $mitra = $request->mitra;
         $bulan = $request->bulan;
 
-        
+        // dd($bulan);
         $bulanFormat = Carbon::createFromFormat('Y-m', $bulan);
-        $client = Kerjasama::on('mysql2connection')->with('client')->first();
+        $client = Kerjasama::on('mysql2connection')->with('client')->where('id', $id)->first();
         $employe = Employe::all();
         $divisi = Divisi::on('mysql2connection')->get();
-        $user = User::on('mysql2connection')->with('devisi')->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
+        $user = User::on('mysql2connection')->with(['devisi', 'kerjasama'])->where('kerjasama_id', $client->id)->orderBy('kerjasama_id', 'asc')->wherein('nama_lengkap', $employe->pluck('name'))->get();
         
         $absensi = Absensi::on('mysql2connection')->where('kerjasama_id', $mitra)->whereYear('tanggal_absen', $bulanFormat->year)->whereMonth('tanggal_absen', $bulanFormat->month)->get();
-        $slip = SlipGaji::with(['user'])->where('bulan_tahun', $bulan)->get();
+        $slip = SlipGaji::with(['user'])->where('bulan_tahun', $bulan)->wherein('karyawan', $user->pluck('nama_lengkap'))->get();
         // dd($slip);
         
         return Inertia::render('SlipGajiPages/EditSlip', compact('employe', 'user', 'bulan', 'divisi', 'absensi', 'mitra', 'client', 'slip'));

@@ -26,6 +26,9 @@ class SlipGajiImport implements ToModel, WithHeadingRow, WithBatchInserts,  With
     public function model(array $row)
     {
        // Calculate the total if it's a formula
+        if ($row['pokok'] === null) {
+            return null;
+        }
         $month = date('Y-m');
         $models = SlipGaji::where('bulan_tahun', $month)->get();
         $users = User::on('mysql2connection')->where('nama_lengkap', $row['karyawan'])->first();

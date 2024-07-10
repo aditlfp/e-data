@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Jabatan::class);
     }
+
+    public function Kerjasama()
+    {
+        return $this->setConnection("mysql2connection")->belongsTo(Kerjasama::class);
+    }
 }

@@ -54,15 +54,14 @@ export default function IndexSlip(props) {
     }
   };
 
-
-
    const handleSubmit = (e) => {
-     e.preventDefault();
     post("slipgaji/import",data.file, {
-      onSuccess: () =>
+      onSuccess: () => {
         toast.success("Berhasil Menambahkan Data !", {
           theme: "colored",
         }),
+        window.location.reload();
+      },
     });
   };
 

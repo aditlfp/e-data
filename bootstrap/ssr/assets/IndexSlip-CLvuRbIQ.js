@@ -44,11 +44,12 @@ function IndexSlip(props) {
     }
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
     post("slipgaji/import", data.file, {
-      onSuccess: () => toast.success("Berhasil Menambahkan Data !", {
-        theme: "colored"
-      })
+      onSuccess: () => {
+        toast.success("Berhasil Menambahkan Data !", {
+          theme: "colored"
+        }), window.location.reload();
+      }
     });
   };
   const download = async () => {
